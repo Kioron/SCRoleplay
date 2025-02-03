@@ -1,0 +1,230 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #222;
+  color: #fff;
+}
+.header .nav-toggle {
+  display: none;
+}
+.header .nav {
+  display: flex;
+  gap: 1rem;
+}
+.header .nav .nav-btn {
+  background: none;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.header .nav .nav-btn:hover {
+  background: rgba(59, 59, 59, 0.5843137255);
+  color: #909090;
+}
+@media only screen and (max-width: 1250px) {
+  .header .nav-toggle {
+    display: flex;
+    z-index: 9999;
+    background-color: transparent;
+    transition: 0.3s;
+  }
+  .header .nav-toggle:hover {
+    background-color: rgba(59, 59, 59, 0.5843137255);
+  }
+  .header .nav {
+    display: flex;
+    position: absolute;
+    top: 5em;
+    z-index: 1000;
+    flex-direction: column;
+    padding-left: 4em;
+    padding-right: 4em;
+    padding-top: 2em;
+    padding-bottom: 2em;
+    background: #222;
+    transform: translateX(-120%);
+    transition: transform 350ms ease-out;
+  }
+  .header .nav.aria-expanded {
+    transform: translateX(-20%);
+  }
+}
+.header .title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.header .auth-buttons .login-btn {
+  display: flex;
+  background: rgba(255, 255, 255, 0.0431372549);
+  color: #e1e0e0;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 28px;
+  transition: 0.3s;
+}
+.header .auth-buttons .login-btn:hover {
+  background: #222;
+  color: #909090;
+}
+
+.main {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+.main .intro {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.main .intro .title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+.main .intro .description {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+.main .intro .discord-btn {
+  background: #5865f2;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.main .intro .discord-btn:hover {
+  background: #4752c4;
+}
+.main .space {
+  min-height: 0.5rem;
+  min-width: 90%;
+  max-width: 90%;
+  background-color: #333;
+  margin-bottom: 2rem;
+  border-radius: 28px;
+  margin-left: 5%;
+}
+.main .news {
+  margin-bottom: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.main .news .section-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+.main .news .news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+@media (min-width: 768px) {
+  .main .news .news-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.main .news .news-grid .news-item {
+  background: #fff;
+  min-height: 10rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+.main .news .news-grid .news-item .news-heading {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+.main .staff {
+  margin-bottom: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.main .staff .section-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+.main .staff .staff-list,
+.main .staff .factions {
+  list-style: none;
+  margin-bottom: 1rem;
+}
+.main .staff .staff-list li,
+.main .staff .factions li {
+  background: #fff;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+.main .comments {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.main .comments .section-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+.main .comments .comment-box {
+  width: 100%;
+  height: 100px;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  resize: none;
+}
+.main .comments .publish-btn {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.main .comments .publish-btn:hover {
+  background: #0056b3;
+}
+.main .comments .comment-list .comment {
+  background: #fff;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+.main .comments .comment-list .comment p {
+  margin-bottom: 0.5rem;
+}
+
+.footer {
+  text-align: center;
+  padding: 1rem;
+  background: #222;
+  color: #fff;
+}/*# sourceMappingURL=style.css.map */
