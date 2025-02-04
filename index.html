@@ -4,18 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home page RP server</title>
-  <link rel="stylesheet" href="/stylesheets/style.css">
+  <link rel="stylesheet" href="/SCRoleplay/stylesheets/style.css">
   <script src="scripts/navbar.js" defer></script>
 </head>
 <body>
   <header class="header">
     <div class="nav-toggle">
-      <img src="/images/Menu.png" alt="Menu Icon" class="menu-icon" width="50" height="50" nav-toggle>
+      <img src="images/Menu.png" alt="Menu Icon" class="menu-icon" width="50" height="50" nav-toggle>
     </div>
     <nav class="nav">
-      <button href="index.html" class="nav-btn">Home</button>
-      <button href="/SCRoleplay/html/PoliceDepartment.html" class="nav-btn">Factions</button>
-      <button href="/SCRoleplay/html/Shop.html" class="nav-btn">Shop</button>
+      <a href="index.html" class="nav-btn">Home</a>
+      <button class="nav-btn dropdown-toggle">Factions</button>
+      <div class="dropdown-content">
+        <a href="/SCRoleplay/html/PoliceDepartment.html">Police Department</a>
+        <a href="/SCRoleplay/html/Mechanics.html">Mechanics</a>
+        <a href="/SCRoleplay/html/EMS.html">Medical Department</a>
+      </div>
+      <a href="html/Shop.html" class="nav-btn">Shop</a>
       <button class="nav-btn">Contact</button>
     </nav>
     <div class="title">SUMMERCITY WEBSITE</div>
