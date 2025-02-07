@@ -5,22 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home page RP server</title>
   <link rel="stylesheet" href="/stylesheets/style.css">
-  <script src="/scripts/navbar.js" defer></script>
+  <script src="/scripts/Script.js" defer></script>
 </head>
 <body>
+
   <header class="header">
     <div class="nav-toggle">
       <img src="/images/Menu.png" alt="Menu Icon" class="menu-icon" width="50" height="50" nav-toggle>
     </div>
     <nav class="nav">
-      <button class="nav-btn">Home</button>
-      <button class="nav-btn">Factions</button>
-      <button class="nav-btn">Shop</button>
-      <button class="nav-btn">Contact</button>
+      <a href="/index.html" class="nav-btn">Home</a>
+      <div class="nav-btn dropdown-toggle">Factions</div>
+      <div class="dropdown-content">
+        <a href="PoliceDepartment.html">Police Department</a>
+        <a href="Mechanics.html">Mechanics</a>
+        <a href="EMS.html">Medical Department</a>
+      </div>
+      <a href="Shop.html" class="nav-btn">Shop</a>
+      <div class="nav-btn">Contact</div>
     </nav>
     <div class="title">SUMMERCITY WEBSITE</div>
     <div class="auth-buttons">
-      <button class="login-btn">Login</button>
+      <div class="login-btn">Login</div>
     </div>
   </header>
 

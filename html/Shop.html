@@ -5,27 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home page RP server</title>
   <link rel="stylesheet" href="/stylesheets/style.css">
-  <script src="/scripts/navbar.js" defer></script>
+  <script src="/scripts/Script.js" defer></script>
 </head>
 <body>
+  
   <header class="header">
     <div class="nav-toggle">
       <img src="/images/Menu.png" alt="Menu Icon" class="menu-icon" width="50" height="50" nav-toggle>
     </div>
     <nav class="nav">
-      <button class="nav-btn"><a href="/index.html">Home</a></button>
-      <button class="nav-btn dropdown-toggle">Factions</button>
+      <a href="/index.html" class="nav-btn">Home</a>
+      <div class="nav-btn dropdown-toggle">Factions</div>
       <div class="dropdown-content">
-        <a href="/html/PoliceDepartment.html">Police Department</a>
-        <a href="/html/Mechanics.html">Mechanics</a>
-        <a href="/html/EMS.html">Medical Department</a>
+        <a href="PoliceDepartment.html">Police Department</a>
+        <a href="Mechanics.html">Mechanics</a>
+        <a href="EMS.html">Medical Department</a>
       </div>
-      <button class="nav-btn"><a href="/html/Shop.html">Shop</a></button>
-      <button class="nav-btn">Contact</button>
+      <a href="" class="nav-btn">Shop</a>
+      <div class="nav-btn">Contact</div>
     </nav>
     <div class="title">SUMMERCITY WEBSITE</div>
     <div class="auth-buttons">
-      <button class="login-btn">Login</button>
+      <div class="login-btn">Login</div>
     </div>
   </header>
 
@@ -40,32 +41,38 @@
 
     <div class="space"></div>
 
-    <section class="news">
-      <h2 class="section-title">Type of donations and rewards</h2>
-      <div class="news-grid">
-        <article class="news-item">
-          <h3 class="news-heading">Slot</h3>
-          <p class="news-content">Gives access to free slot on the server</p>
+    <section class="shop">
+      <h2 class="shop-title">Type of donations and rewards</h2>
+      <div class="shop-grid">
+        <article class="shop-item">
+          <h3 class="shop-heading">Slot</h3>
+          <p class="shop-content">Gives access to free slot on the server</p>
+          <a class="buy-button" href="">Buy now</a>
         </article>
-        <article class="news-item">
-          <h3 class="news-heading">Patron</h3>
-          <p class="news-content">Gives access to free slot on the server</p>
+        <article class="shop-item">
+          <h3 class="shop-heading">Patron</h3>
+          <p class="shop-content">Gives access to free slot on the server<br>Gives access to special chat for supporters</p>
+          <a class="buy-button" href="">Buy now</a>
         </article>
-        <article class="news-item">
-          <h3 class="news-heading">VIP</h3>
-          <p class="news-content">Gives access to free slot on the server</p>
+        <article class="shop-item">
+          <h3 class="shop-heading">VIP</h3>
+          <p class="shop-content">Gives access to free slot on the server</p>
+          <a class="buy-button" href="">Buy now</a>
         </article>
-        <article class="news-item">
-          <h3 class="news-heading">Donator</h3>
-          <p class="news-content">Gives access to free slot on the server</p>
+        <article class="shop-item">
+          <h3 class="shop-heading">Donator</h3>
+          <p class="shop-content">Gives access to free slot on the server<br>Gives access to special chat for supporters<br>Can buy limited cars</p>
+          <a class="buy-button" href="">Buy now</a>
         </article>
-        <article class="news-item">
-          <h3 class="news-heading">Sponsor</h3>
-          <p class="news-content">Gives access to free slot on the server</p>
+        <article class="shop-item">
+          <h3 class="shop-heading">Sponsor</h3>
+          <p class="shop-content">Gives access to free slot on the server</p>
+          <a class="buy-button" href="">Buy now</a>
         </article>
-        <article class="news-item">
-          <h3 class="news-heading">Funder</h3>
-          <p class="news-content">Gives access to free slot on the server</p>
+        <article class="shop-item">
+          <h3 class="shop-heading">Funder</h3>
+          <p class="shop-content">Gives access to free slot on the server</p>
+          <a class="buy-button" href="">Buy now</a>
         </article>
       </div>
     </section>

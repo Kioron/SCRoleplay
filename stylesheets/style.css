@@ -25,6 +25,7 @@ body {
 .header .nav {
   display: flex;
   gap: 1rem;
+  position: relative;
 }
 .header .nav .nav-btn {
   background: none;
@@ -51,33 +52,41 @@ body {
   border: none;
 }
 .header .nav .dropdown-content {
-  display: none;
-  top: 4em;
-  left: 4em;
   position: absolute;
-  background-color: #222;
-  min-width: 160px;
+  left: 0;
+  top: calc(100% + 0.2rem);
+  border: 2px solid #7bc1bc;
+  background-color: #fff;
+  min-width: 15em;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
+  z-index: -1;
+  box-shadow: 2px 2px 5px hsla(0, 0%, 0%, 0.8);
+  transform: translateY(-10px);
+  pointer-events: none;
+  opacity: 0;
+  transition: 350ms ease-out;
 }
 .header .nav .dropdown-content a {
-  color: #fff;
+  color: #222;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
   transition: 450ms ease-out;
 }
 .header .nav .dropdown-content a:hover {
-  background-color: rgba(59, 59, 59, 0.5843137255);
-  color: #909090;
+  background-color: #cecece;
+  color: #ffffff;
 }
 .header .nav .show {
-  display: block;
+  z-index: 1;
+  opacity: 1;
+  transform: translateY(0px);
+  pointer-events: auto;
 }
 @media only screen and (max-width: 1250px) {
   .header .nav-toggle {
     display: flex;
-    z-index: 9999;
+    z-index: 2;
     background-color: transparent;
     transition: 0.3s;
     cursor: pointer;
@@ -86,23 +95,56 @@ body {
     background-color: rgba(59, 59, 59, 0.5843137255);
   }
   .header .nav {
-    visibility: hidden;
+    opacity: 0;
     display: flex;
     position: absolute;
+    left: 0;
     top: 5em;
     z-index: 1000;
     flex-direction: column;
-    padding-left: 4em;
-    padding-right: 4em;
-    padding-top: 2em;
-    padding-bottom: 2em;
+    margin-left: 2em;
+    padding: 2em;
     background: #222;
+    pointer-events: none;
     transform: translateX(-120%);
-    transition: transform 350ms ease-out;
+    transition: 350ms ease-out;
+  }
+  .header .nav .dropdown-content {
+    position: absolute;
+    left: 100%;
+    top: 10%;
+    border: 2px solid #7bc1bc;
+    background-color: #fff;
+    min-width: 15em;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: -1;
+    box-shadow: 2px 2px 5px hsla(0, 0%, 0%, 0.8);
+    transform: translateX(-10px);
+    pointer-events: none;
+    opacity: 0;
+    transition: 350ms ease-out;
+  }
+  .header .nav .dropdown-content a {
+    color: #222;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: 450ms ease-out;
+  }
+  .header .nav .dropdown-content a:hover {
+    background-color: #cecece;
+    color: #ffffff;
+  }
+  .header .nav .show {
+    z-index: 1;
+    opacity: 1;
+    transform: translateX(0px);
+    pointer-events: auto;
   }
   .header .nav.aria-expanded {
-    visibility: visible;
-    transform: translateX(-20%);
+    opacity: 1;
+    pointer-events: all;
+    transform: translateX(-22%);
   }
 }
 .header .title {
@@ -195,6 +237,56 @@ body {
 .main .news .news-grid .news-item .news-heading {
   font-size: 1.25rem;
   margin-bottom: 0.5rem;
+}
+.main .shop {
+  margin-bottom: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.main .shop .shop-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+.main .shop .shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+@media (min-width: 768px) {
+  .main .shop .shop-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.main .shop .shop-grid .shop-item {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  min-height: 10rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+.main .shop .shop-grid .shop-item .shop-heading {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+.main .shop .shop-grid .shop-item .shop-content {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+.main .shop .shop-grid .shop-item .buy-button {
+  background: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 28px;
+  align-self: flex-end;
+  transition: 0.3s;
+}
+.main .shop .shop-grid .shop-item .buy-button:hover {
+  background: #0056b3;
 }
 .main .staff {
   margin-bottom: 2rem;
