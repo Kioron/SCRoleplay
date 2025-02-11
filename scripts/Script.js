@@ -2,6 +2,8 @@ const nav = document.querySelector('.nav');
 const navToggle = document.querySelector('.nav-toggle');
 const dropdownToggle = document.querySelector('.dropdown-toggle');
 const dropdownContent = document.querySelector('.dropdown-content');
+const dropdownLogin = document.querySelector('.dropdown-login');
+const loginToggle = document.querySelector('.auth-buttons');
 
 navToggle.addEventListener('click', () => {
     nav.classList.toggle('aria-expanded');
@@ -9,6 +11,10 @@ navToggle.addEventListener('click', () => {
 
 dropdownToggle.addEventListener('click', () => {
     dropdownContent.classList.toggle('show');
+});
+
+loginToggle.addEventListener('click', () => {
+    dropdownLogin.classList.toggle('show');
 });
 
 window.addEventListener('click', (event) => {

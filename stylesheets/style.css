@@ -154,7 +154,7 @@ body {
   font-size: 1.5rem;
   font-weight: bold;
 }
-.header .auth-buttons .login-btn {
+.header .auth-buttons {
   display: flex;
   background: rgba(255, 255, 255, 0.0431372549);
   color: #e1e0e0;
@@ -164,9 +164,30 @@ body {
   border-radius: 28px;
   transition: 0.3s;
 }
-.header .auth-buttons .login-btn:hover {
+.header .auth-buttons:hover {
   background: #222;
   color: #909090;
+}
+.header .auth-buttons .dropdown-login {
+  position: absolute;
+  right: 0;
+  top: 4rem;
+  border: 2px solid #7bc1bc;
+  background-color: #fff;
+  min-width: 15em;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: -1;
+  box-shadow: 2px 2px 5px hsla(0, 0%, 0%, 0.8);
+  transform: translateY(-10px);
+  pointer-events: none;
+  opacity: 0;
+  transition: 350ms ease-out;
+}
+.header .auth-buttons .show {
+  z-index: 1;
+  opacity: 1;
+  transform: translateX(0px);
+  pointer-events: auto;
 }
 
 .main {
