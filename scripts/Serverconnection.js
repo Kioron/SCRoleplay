@@ -10,8 +10,6 @@ app.use(express.json())
 
 app.use(cors());
 
-const users = []
-
 const connection = mysql.createConnection({
     host: 'b5dip6jker9pcnf3utnu-mysql.services.clever-cloud.com',
     user: 'us4g92sotpxxbk9o',
@@ -44,16 +42,18 @@ const connection = mysql.createConnection({
           UserName: req.body.UserName,
           Password: hashedPassword,
           UserEmail: req.body.UserEmail,
-          Role: req.body.Role
       };
       connection.query('INSERT INTO UserManagementtbl SET ?', user, (err, result) => {
           if (err) {
+            console.error('Error inserting user:', err);
               res.status(500).send(err);
           } else {
+            console.log('User created successfully:', result);
               res.status(201).send('User created successfully');
           }
       });
   } catch (err) {
+    console.error('Error registering user:', err);
       res.status(500).send(err);
   }
 });
@@ -62,6 +62,7 @@ const connection = mysql.createConnection({
     const { UserName, Password } = req.body;
     connection.query('SELECT * FROM UserManagementtbl WHERE UserName = ?', [UserName], async (err, results) => {
       if (err) {
+          console.error('Error fetching user:', err);
           res.status(500).send(err);
       } else if (results.length === 0) {
           res.status(400).send('Cannot find user');
@@ -69,8 +70,10 @@ const connection = mysql.createConnection({
           const user = results[0];
           try {
               if (await bcrypt.compare(Password, user.Password)) {
+                  console.log('Login successful for user:', UserName);
                   res.send('Success');
               } else {
+                  console.log('Login failed for user:', UserName);
                   res.send('Not Allowed');
               }
           } catch (err) {

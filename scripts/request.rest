@@ -8,8 +8,7 @@ Content-Type: application/json
 {
     "UserName": "Ryan",
     "Password": "password",
-    "UserEmail": "example@example.ac.uk",
-    "Role": "Member"
+    "UserEmail": "example@example.ac.uk"
 }
 
 ###
@@ -18,6 +17,6 @@ POST http://localhost:3000/users/login
 Content-Type: application/json
 
 {
-    "UserName": "Ryan",
+    "UserName": "Kyle",
     "Password": "password"
 }

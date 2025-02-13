@@ -27,12 +27,15 @@
     <div class="auth-buttons">
       <div class="login-btn">Login</div>
       <div class="dropdown-login">
+        <form id="loginForm">
         <div class="login-wrapper">
-          <input class="login-username" type="text" placeholder ="Your Name" login-username>
+          <input class="login-username" id="loginUserName" type="text" placeholder ="Your Name" required>
         </div>
         <div class="login-wrapper">
-          <input class="login-password" type="password" placeholder ="Enter password" login-password>
+          <input class="login-password" id="loginPassword" type="password" placeholder ="Enter password" required>
         </div>
+        <button type="submit">Login</button>
+        </form>
         <div class="register-btn">
           <a href="html/RegistrationPage.html">No account? Register here!</a>
         </div>
