@@ -11,21 +11,30 @@ const registerForm = document.getElementById('registerForm');
 const loginForm = document.getElementById('loginForm');
 
 //dropdowns
-navToggle.addEventListener('click', () => {
-    nav.classList.toggle('aria-expanded');
-});
+if (navToggle) {
+    navToggle.addEventListener('click', () => {
+        nav.classList.toggle('aria-expanded');
+    });
+}
 
-dropdownToggle.addEventListener('click', () => {
-    dropdownContent.classList.toggle('show');
-});
+if (dropdownToggle) {
+    dropdownToggle.addEventListener('click', () => {
+        dropdownContent.classList.toggle('show');
+    });
+}
 
-loginToggle.addEventListener('click', () => {
-    dropdownLogin.classList.toggle('show');
-});
+if (loginToggle) {
+    loginToggle.addEventListener('click', () => {
+        dropdownLogin.classList.toggle('show');
+    });
+}   
 
-dropdownLogin.addEventListener('click', (event) => {
-    event.stopPropagation();
-});
+if (dropdownLogin) {
+    dropdownLogin.addEventListener('click', (event) => {
+        event.stopPropagation();
+    });
+}
+
 
 window.addEventListener('click', (event) => {
     if (!event.target.matches('.dropdown-toggle')) {
@@ -41,61 +50,65 @@ window.addEventListener('click', (event) => {
 });
 
 //registration-loginScript
-registerForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-
-    const userName = document.getElementById('registerUserName').value;
-    const userEmail = document.getElementById('registerUserEmail').value;
-    const password = document.getElementById('registerPassword').value;
-
-    console.log('Registering user:', { userName, userEmail, password });
-
-    const response = await fetch('http://localhost:3000/users', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            UserName: userName,
-            UserEmail: userEmail,
-            Password: password
-        })
-    });
-
-    if (response.ok) {
-        alert('User registered successfully');
-    } else {
-        alert('Error registering user');
-    }
-});
-
-loginForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-
-    const userName = document.getElementById('loginUserName').value;
-    const password = document.getElementById('loginPassword').value;
-
-    console.log('Logging in user:', { userName, password });
-
-    const response = await fetch('http://localhost:3000/users/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            UserName: userName,
-            Password: password
-        })
-    });
-
-    if (response.ok) {
-        const result = await response.text();
-        if (result === 'Success') {
-            alert('Login successful');
+if (registerForm) {
+    registerForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+    
+        const userName = document.getElementById('registerUserName').value;
+        const userEmail = document.getElementById('registerUserEmail').value;
+        const password = document.getElementById('registerPassword').value;
+    
+        console.log('Registering user:', { userName, userEmail, password });
+    
+        const response = await fetch('http://localhost:3000/users', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                UserName: userName,
+                UserEmail: userEmail,
+                Password: password
+            })
+        });
+    
+        if (response.ok) {
+            alert('User registered successfully');
         } else {
-            alert('Login failed');
+            alert('Error registering user');
         }
-    } else {
-        alert('Error logging in');
-    }
-});
+    });
+}
+
+if (loginForm) {
+    loginForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+    
+        const userName = document.getElementById('loginUserName').value;
+        const password = document.getElementById('loginPassword').value;
+    
+        console.log('Logging in user:', { userName, password });
+    
+        const response = await fetch('http://localhost:3000/users/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                UserName: userName,
+                Password: password
+            })
+        });
+    
+        if (response.ok) {
+            const result = await response.text();
+            if (result === 'Success') {
+                alert('Login successful');
+            } else {
+                alert('Login failed');
+            }
+        } else {
+            alert('Error logging in');
+        }
+    });
+}
