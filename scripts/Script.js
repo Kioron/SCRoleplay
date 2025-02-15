@@ -60,7 +60,7 @@ if (registerForm) {
     
         console.log('Registering user:', { userName, userEmail, password });
     
-        const response = await fetch('http://localhost:3000/users', {
+        const response = await fetch('https://scapi-nine.vercel.app/users', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -89,7 +89,7 @@ if (loginForm) {
     
         console.log('Logging in user:', { userName, password });
     
-        const response = await fetch('http://localhost:3000/users/login', {
+        const response = await fetch('https://scapi-nine.vercel.app/users/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
