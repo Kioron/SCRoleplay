@@ -46,56 +46,19 @@
 
     <section class="news">
       <h2 class="section-title">News Section</h2>
-      <div class="news-grid">
-        <article class="news-item">
-          <h3 class="news-heading">Heading</h3>
-          <p class="news-content">News content goes here.</p>
-        </article>
-        <article class="news-item">
-          <h3 class="news-heading">Heading</h3>
-          <p class="news-content">News content goes here.</p>
-        </article>
-        <article class="news-item">
-          <h3 class="news-heading">Heading</h3>
-          <p class="news-content">News content goes here.</p>
-        </article>
-        <article class="news-item">
-          <h3 class="news-heading">Heading</h3>
-          <p class="news-content">News content goes here.</p>
-        </article>
-        <article class="news-item">
-          <h3 class="news-heading">Heading</h3>
-          <p class="news-content">News content goes here.</p>
-        </article>
-        <article class="news-item">
-          <h3 class="news-heading">Heading</h3>
-          <p class="news-content">News content goes here.</p>
-        </article>
-        <article class="news-item">
-          <h3 class="news-heading">Heading</h3>
-          <p class="news-content">News content goes here.</p>
-        </article>
-        <article class="news-item">
-          <h3 class="news-heading">Heading</h3>
-          <p class="news-content">News content goes here.</p>
-        </article>
-        <article class="news-item">
-          <h3 class="news-heading">Heading</h3>
-          <p class="news-content">News content goes here.</p>
-        </article>
+      <div class="news-grid" news-police-grid>
+        <template news-police-template>
+          <article class="news-item">
+            <h3 class="news-heading" news-police-heading></h3>
+            <p class="news-content" news-police-description></p>
+          </article>
+        </template>
       </div>
     </section>
 
     <div class="space"></div>
 
     <section class="staff">
-      <h2 class="section-title">Staff Members</h2>
-      <ul class="staff-list">
-        <li>Staff Discord Name and Rank</li>
-        <li>Staff Discord Name and Rank</li>
-        <li>Staff Discord Name and Rank</li>
-        <li>Staff Discord Name and Rank</li>
-      </ul>
       <h3 class="sub-title">Faction Leaders:</h3>
       <ul class="factions">
         <li>Police Department - Discord Name</li>
@@ -110,17 +73,15 @@
       <h2 class="section-title">Comment Section</h2>
       <textarea class="comment-box" placeholder="Write a comment here"></textarea>
       <button class="publish-btn">Publish</button>
-      <div class="comment-list">
-        <div class="comment">
-          <p><strong>Username</strong>, Date Published</p>
-          <p>Comment content goes here.</p>
-        </div>
-        <div class="comment">
-          <p><strong>Username</strong>, Date Published</p>
-          <p>Comment content goes here.</p>
-        </div>
+      <div class="comment-list" comments-police-container>
+        <template comments-police-template>
+          <div class="comment">
+            <p comments-police-username><strong></strong></p> 
+            <p comments-police-date></p>
+            <p comments-police-description></p>
+          </div>
+        </template>
       </div>
-    </section>
   </main>
 
   <footer class="footer">

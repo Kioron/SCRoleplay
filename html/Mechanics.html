@@ -46,43 +46,13 @@
 
     <section class="news">
       <h2 class="section-title">News Section</h2>
-      <div class="news-grid">
-        <article class="news-item">
-          <h3 class="news-heading">Heading</h3>
-          <p class="news-content">News content goes here.</p>
-        </article>
-        <article class="news-item">
-          <h3 class="news-heading">Heading</h3>
-          <p class="news-content">News content goes here.</p>
-        </article>
-        <article class="news-item">
-          <h3 class="news-heading">Heading</h3>
-          <p class="news-content">News content goes here.</p>
-        </article>
-        <article class="news-item">
-          <h3 class="news-heading">Heading</h3>
-          <p class="news-content">News content goes here.</p>
-        </article>
-        <article class="news-item">
-          <h3 class="news-heading">Heading</h3>
-          <p class="news-content">News content goes here.</p>
-        </article>
-        <article class="news-item">
-          <h3 class="news-heading">Heading</h3>
-          <p class="news-content">News content goes here.</p>
-        </article>
-        <article class="news-item">
-          <h3 class="news-heading">Heading</h3>
-          <p class="news-content">News content goes here.</p>
-        </article>
-        <article class="news-item">
-          <h3 class="news-heading">Heading</h3>
-          <p class="news-content">News content goes here.</p>
-        </article>
-        <article class="news-item">
-          <h3 class="news-heading">Heading</h3>
-          <p class="news-content">News content goes here.</p>
-        </article>
+      <div class="news-grid" news-mechanics-grid>
+        <template news-mechanics-template>
+          <article class="news-item">
+            <h3 class="news-heading" news-mechanics-heading></h3>
+            <p class="news-content" news-mechanics-description></p>
+          </article>
+        </template>
       </div>
     </section>
 
@@ -110,15 +80,14 @@
       <h2 class="section-title">Comment Section</h2>
       <textarea class="comment-box" placeholder="Write a comment here"></textarea>
       <button class="publish-btn">Publish</button>
-      <div class="comment-list">
-        <div class="comment">
-          <p><strong>Username</strong>, Date Published</p>
-          <p>Comment content goes here.</p>
-        </div>
-        <div class="comment">
-          <p><strong>Username</strong>, Date Published</p>
-          <p>Comment content goes here.</p>
-        </div>
+      <div class="comment-list" comments-mechanics-container>
+        <template comments-mechanics-template>
+          <div class="comment">
+            <p comments-mechanics-username><strong></strong></p> 
+            <p comments-mechanics-date></p>
+            <p comments-mechanics-description></p>
+          </div>
+        </template>
       </div>
     </section>
   </main>
