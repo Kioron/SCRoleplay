@@ -1,5 +1,4 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const mysql = require('mysql2/promise');
 const bcrypt = require('bcrypt');
@@ -47,44 +46,26 @@ app.post('/users', async (req, res) => {
     }
 });
 
-const jwtSecret = '4a20ab747d6e0e2afa9a5486ddc279d8d61b4dbd399c9c49ac24d1958082633799478a43d9b74c84f4f610fd8f7855126417cfa809d06d718c4a4d9f80063110';
-
 app.post('/users/login', async (req, res) => {
     const { UserName, Password } = req.body;
     try {
         const [results] = await pool.query('SELECT * FROM UserManagementtbl WHERE UserName = ?', [UserName]);
         if (results.length === 0) {
-            res.status(400).json('Cannot find user');
+            res.status(400).send('Cannot find user');
         } else {
             const user = results[0];
             if (await bcrypt.compare(Password, user.Password)) {
-                const token = jwt.sign({ id: user.id, username: user.Username }, jwtSecret, { expiresIn: '1h'});
-                console.log('Login successful, sending token:', token);
-                res.json({ token });
+                console.log('Login successful for user:', UserName);
+                res.send('Success');
             } else {
-                res.status(401).json('Not Allowed');
+                console.log('Login failed for user:', UserName);
+                res.send('Not Allowed');
             }
         }
     } catch (err) {
         console.error('Error logging in:', err);
-        res.status(500).json(err);
+        res.status(500).send(err);
     }
-});
-
-//token verification middleware
-const verifyToken = (req, res, next) => {
-    const token = req.headers['authorization']?.split(' ')[1];
-    if (!token) return res.status(403).send('Token is required');
-
-    jwt.verify(token, jwtSecret, (err, decoded) => {
-        if (err) return res.status(401).send('Invalid token');
-        req.user = decoded;
-        next();
-    });
-};
-
-app.get('/protected-route', verifyToken, (req, res) => {
-    res.send('This is a protected route');
 });
 
 //home-get-post

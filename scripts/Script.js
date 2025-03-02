@@ -5,22 +5,35 @@ const dropdownToggle = document.querySelector('.dropdown-toggle');
 const dropdownContent = document.querySelector('.dropdown-content');
 //login-dropdown
 const dropdownLogin = document.querySelector('.dropdown-login');
-const loginToggle = document.querySelector('.auth-buttons');
+const loginToggle = document.querySelector('.auth-wrapper');
+//news-form
+const togglenewsForm = document.getElementById('togglenewsForm');
+const newsForm = document.getElementById('newsForm');
+const overlay = document.querySelector('.overlay');
+const cancelNewsButton = document.getElementById('cancel-news');
 //register-loginForms
 const registerForm = document.getElementById('registerForm');
 const loginForm = document.getElementById('loginForm');
+const loginButton = document.getElementById('login-button');
+//userdetails-logout
+const logoutButton = document.getElementById('logoutButton');
+const userNameDisplay = document.getElementById('userNameDisplay');
 //news
 const NewsMainGrid = document.querySelector("[news-main-grid]");
 const NewsMainTemplate = document.querySelector("[news-main-template]");
+const NewsMainForm = document.getElementById('newsMainForm');
 
 const NewsPoliceGrid = document.querySelector("[news-police-grid]");
 const NewsPoliceTemplate = document.querySelector("[news-police-template]");
+const NewsPoliceForm = document.getElementById('newspoliceForm');
 
 const NewsEMSGrid = document.querySelector("[news-ems-grid]");
 const NewsEMSTemplate = document.querySelector("[news-ems-template]");
+const NewsEMSForm = document.getElementById('newsemsForm');
 
 const NewsMechanicsGrid = document.querySelector("[news-mechanics-grid]");
 const NewsMechanicsTemplate = document.querySelector("[news-mechanics-template]");
+const NewsMechanicsForm = document.getElementById('newsmechanicsForm');
 //comments
 const CommentsMainContainer = document.querySelector("[comments-main-container]");
 const CommentsMainTemplate = document.querySelector("[comments-main-template]");
@@ -37,25 +50,21 @@ const CommentsMechanicsContainer = document.querySelector("[comments-mechanics-c
 const CommentsMechanicsTemplate = document.querySelector("[comments-mechanics-template]");
 
 //announcements
-const AnnouncementsPoliceContainer = document.querySelector('announcements-police-container')
-const AnnouncementsPoliceTemplate = document.querySelector('announcements-police-template');
-const AnnouncementsPoliceDate = document.querySelector('announcements-police-date');
-const AnnouncementsPoliceDescription = document.querySelector('announcements-police-description');
+const AnnouncementsPoliceContainer = document.querySelector("[announcements-police-container]");
+const AnnouncementsPoliceTemplate = document.querySelector("[announcements-police-template]");
 
-const AnnouncementsEMSContainer = document.querySelector('announcements-ems-container')
-const AnnouncementsEMSTemplate = document.querySelector('announcements-ems-template');
-const AnnouncementsEMSDate = document.querySelector('announcements-ems-date');
-const AnnouncementsEMSDescription = document.querySelector('announcements-ems-description');
 
-const AnnouncementsMechanicsContainer = document.querySelector('announcements-ems-container')
-const AnnouncementsMechanicsTemplate = document.querySelector('announcements-ems-template');
-const AnnouncementsMechanicsDate = document.querySelector('announcements-ems-date');
-const AnnouncementsMechanicsDescription = document.querySelector('announcements-ems-description');
+const AnnouncementsEMSContainer = document.querySelector("[announcements-ems-container]");
+const AnnouncementsEMSTemplate = document.querySelector("[announcements-ems-template]");
+
+const AnnouncementsMechanicsContainer = document.querySelector("[announcements-mechanics-container]");
+const AnnouncementsMechanicsTemplate = document.querySelector("[announcements-mechanics-template]");
 
 //dropdowns
 if (navToggle) {
     navToggle.addEventListener('click', () => {
         nav.classList.toggle('aria-expanded');
+        navToggle.blur();
     });
 }
 
@@ -77,6 +86,34 @@ if (dropdownLogin) {
     });
 }
 
+if (togglenewsForm) {
+        togglenewsForm.addEventListener('click', () => {
+        newsForm.classList.toggle('active');
+        overlay.classList.toggle('active');
+    });
+}
+
+if (overlay) {
+        overlay.addEventListener('click', () => {
+        newsForm.classList.remove('active');
+        overlay.classList.remove('active');
+    });
+}
+
+if (cancelNewsButton) {
+  cancelNewsButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    newsForm.classList.remove('active');
+    overlay.classList.remove('active');
+  });
+}
+
+
+if (newsForm) {
+        newsForm.addEventListener('click', (event) => {
+        event.stopPropagation();
+    });
+}
 
 window.addEventListener('click', (event) => {
     if (!event.target.matches('.dropdown-toggle')) {
@@ -84,7 +121,7 @@ window.addEventListener('click', (event) => {
             dropdownContent.classList.remove('show');
         }
     }
-    if (!event.target.closest('.auth-buttons') && !event.target.closest('.dropdown-login')) {
+    if (!event.target.closest('.auth-wrapper') && !event.target.closest('.dropdown-login')) {
         if (dropdownLogin.classList.contains('show')) {
             dropdownLogin.classList.remove('show');
         }
@@ -102,11 +139,13 @@ fetch('https://scapi-nine.vercel.app/homenewstbl')
         const newsmainElement = newsmainlist.firstElementChild;
         const heading = newsmainElement.querySelector("[news-main-heading]");
         const description = newsmainElement.querySelector("[news-main-description]");
+        const date = newsmainElement.querySelector("[news-main-date]");
         if (heading && description) {
             heading.textContent = newsmain.Title;
             description.textContent = newsmain.Content;
+            date.textContent = "Date Published: " + new Date(newsmain.created_at).toISOString().split('T')[0];
             NewsMainGrid.append(newsmainElement);
-            return { heading: newsmain.Title, description: newsmain.Content, element: newsmainElement };
+            return { heading: newsmain.Title, description: newsmain.Content, date: newsmain.created_at, element: newsmainElement };
           } else {
             console.error('Error creating news:', newsmain);
             return null;
@@ -125,11 +164,13 @@ if (NewsPoliceTemplate && NewsPoliceGrid) {
             const newspoliceElement = newspolicelist.firstElementChild;
             const heading = newspoliceElement.querySelector("[news-police-heading]");
             const description = newspoliceElement.querySelector("[news-police-description]");
+            const date = newspoliceElement.querySelector("[news-police-date]");
             if (heading && description) {
                 heading.textContent = newspolice.Title;
                 description.textContent = newspolice.Content;
+                date.textContent = "Date Published: " + new Date(newspolice.created_at).toISOString().split('T')[0];
                 NewsPoliceGrid.append(newspoliceElement);
-                return { heading: newspolice.Title, description: newspolice.Content, element: newspoliceElement };
+                return { heading: newspolice.Title, description: newspolice.Content, date: newspolice.created_at, element: newspoliceElement };
               } else {
                 console.error('Error creating news:', newspolice);
                 return null;
@@ -148,11 +189,13 @@ if (NewsEMSTemplate && NewsEMSGrid) {
             const newsemsElement = newsemslist.firstElementChild;
             const heading = newsemsElement.querySelector("[news-ems-heading]");
             const description = newsemsElement.querySelector("[news-ems-description]");
+            const date = newsemsElement.querySelector("[news-ems-date]");
             if (heading && description) {
                 heading.textContent = newsems.Title;
                 description.textContent = newsems.Content;
+                date.textContent = "Date Published: " + new Date(newsems.created_at).toISOString().split('T')[0];
                 NewsEMSGrid.append(newsemsElement);
-                return { heading: newsems.Title, description: newsems.Content, element: newsemsElement };
+                return { heading: newsems.Title, description: newsems.Content, date: newsems.created_at, element: newsemsElement };
               } else {
                 console.error('Error creating news:', newsems);
                 return null;
@@ -171,11 +214,13 @@ if (NewsMechanicsTemplate && NewsMechanicsGrid) {
             const newsmechanicsElement = newsmechanicslist.firstElementChild;
             const heading = newsmechanicsElement.querySelector("[news-mechanics-heading]");
             const description = newsmechanicsElement.querySelector("[news-mechanics-description]");
+            const date = newsmechanicsElement.querySelector("[news-mechanics-date]");
             if (heading && description) {
                 heading.textContent = newsmechanics.Title;
                 description.textContent = newsmechanics.Content;
+                date.textContent = "Date Published: " + new Date(newsmechanics.created_at).toISOString().split('T')[0];
                 NewsMechanicsGrid.append(newsmechanicsElement);
-                return { heading: newsmechanics.Title, description: newsmechanics.Content, element: newsmechanicsElement };
+                return { heading: newsmechanics.Title, description: newsmechanics.Content, date: newsmechanics.created_at, element: newsmechanicsElement };
               } else {
                 console.error('Error creating news:', newsmechanics);
                 return null;
@@ -279,7 +324,75 @@ if (CommentsMechanicsTemplate && CommentsMechanicsContainer) {
       .catch((error) => console.error('Error fetching comments:', error));
     }
 
-//registration-loginScript
+//announcements-police
+if (AnnouncementsPoliceTemplate && AnnouncementsPoliceContainer) {
+ fetch('https://scapi-nine.vercel.app/policeannouncementtbl')
+  .then ((response) => response.json())
+  .then ((data) => {
+    announcementspolicesearch = data.map(announcementspolice => {
+        const announcementspolicelist = AnnouncementsPoliceTemplate.content.cloneNode(true);
+        const announcementspoliceElement = announcementspolicelist.firstElementChild;
+        const heading = announcementspoliceElement.querySelector("[announcements-police-heading]");
+        const description = announcementspoliceElement.querySelector("[announcements-police-description]");
+        if (heading && description) {
+            heading.textContent = announcementspolice.Title;
+            description.textContent = announcementspolice.Content;
+            AnnouncementsPoliceContainer.append(announcementspoliceElement);
+            return { heading: announcementspolice.Title, description: announcementspolice.Content, element: announcementspoliceElement };
+          } else {
+            console.error('Error creating announcements:', announcementspolice);
+            return null;
+          }
+          });
+ })
+}
+
+//announcements-ems
+if (AnnouncementsEMSTemplate && AnnouncementsEMSContainer) {
+  fetch('https://scapi-nine.vercel.app/emsannouncementtbl')
+    .then((response) => response.json())
+    .then((data) => {
+      announcementsemssearch = data.map(announcementsems => {
+            const announcementsemslist = AnnouncementsEMSTemplate.content.cloneNode(true);
+            const announcementsemsElement = announcementsemslist.firstElementChild;
+            const heading = announcementsemsElement.querySelector("[announcements-ems-heading]");
+            const description = announcementsemsElement.querySelector("[announcements-ems-description]");
+            if (heading && description) {
+                heading.textContent = announcementsems.Title;
+                description.textContent = announcementsems.Content;
+                AnnouncementsEMSContainer.append(announcementsemsElement);
+                return { heading: announcementsems.Title, description: announcementsems.Content, element: announcementsemsElement };
+              } else {
+                console.error('Error creating announcements:', announcementsems);
+                return null;
+              }
+              });
+    })
+}
+
+//announcements-mechanics
+if (AnnouncementsMechanicsTemplate && AnnouncementsMechanicsContainer) {
+  fetch('https://scapi-nine.vercel.app/mechanicsannouncementtbl')
+    .then((response) => response.json())
+    .then((data) => {
+      announcementsmechanicssearch = data.map(announcementsmechanics => {
+            const announcementsmechanicslist = AnnouncementsMechanicsTemplate.content.cloneNode(true);
+            const announcementsmechanicsElement = announcementsmechanicslist.firstElementChild;
+            const heading = announcementsmechanicsElement.querySelector("[announcements-mechanics-heading]");
+            const description = announcementsmechanicsElement.querySelector("[announcements-mechanics-description]");
+            if (heading && description) {
+                heading.textContent = announcementsmechanics.Title;
+                description.textContent = announcementsmechanics.Content;
+                AnnouncementsMechanicsContainer.append(announcementsmechanicsElement);
+                return { heading: announcementsmechanics.Title, description: announcementsmechanics.Content, element: announcementsmechanicsElement };
+              } else {
+                console.error('Error creating announcements:', announcementsmechanics);
+                return null;
+              }
+              });
+    })
+}
+//registration
 if (registerForm) {
     registerForm.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -287,8 +400,6 @@ if (registerForm) {
         const userName = document.getElementById('registerUserName').value;
         const userEmail = document.getElementById('registerUserEmail').value;
         const password = document.getElementById('registerPassword').value;
-    
-        console.log('Registering user:', { userName, userEmail, password });
     
         const response = await fetch('https://scapi-nine.vercel.app/users', {
             method: 'POST',
@@ -304,10 +415,36 @@ if (registerForm) {
     
         if (response.ok) {
             alert('User registered successfully');
+            location.reload();
         } else {
             alert('Error registering user');
         }
     });
+}
+
+//login
+const token = localStorage.getItem('token');
+const userName = localStorage.getItem('userName');
+
+if (token && userName) {
+  loginForm.style.display = 'none';
+  loginButton.style.display = 'none';
+  logoutButton.style.display = 'block';
+  userNameDisplay.textContent = "Current Account: " + userName;
+
+  fetch('https://scapi-nine.vercel.app/protected-route', {
+    method: 'GET',
+    headers: {
+        'Authorization': `Bearer ${token}`
+    }
+  })
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+} else {
+  loginForm.style.display = 'block';
+  logoutButton.style.display = 'none';
+  userNameDisplay.textContent = '';
 }
 
 if (loginForm) {
@@ -316,8 +453,6 @@ if (loginForm) {
     
         const userName = document.getElementById('loginUserName').value;
         const password = document.getElementById('loginPassword').value;
-    
-        console.log('Logging in user:', { userName, password });
     
         const response = await fetch('https://scapi-nine.vercel.app/users/login', {
             method: 'POST',
@@ -331,15 +466,103 @@ if (loginForm) {
         });
     
         if (response.ok) {
-            const result = await response.text();
-            if (result === 'Success') {
-                alert('Login successful');
-            } else {
-                alert('Login failed');
-            }
+          try {
+              const result = await response.json();
+              localStorage.setItem('token', result.token);
+              localStorage.setItem('userName', userName);
+              alert('Login successful');
+              location.reload();
+          } catch (error) {
+              console.error('Error parsing JSON:', error);
+              alert('Error logging in');
+          }
+      } else {
+          alert('Error logging in');
+      }
+    });
+}
+// //end-of-registration/login
+
+//logout
+if (logoutButton) {
+  logoutButton.addEventListener('click', () => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('userName');
+      alert('Logged out successfully');
+      location.reload();
+  });
+}
+//end-of-logout
+
+//news-input
+if (NewsMainForm) {
+    NewsMainForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+    
+        const heading = document.getElementById('newsmainHeading').value;
+        const content = document.getElementById('newsmainContent').value;
+    
+        const response = await fetch('https://scapi-nine.vercel.app/homenewstbl', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                Title: heading,
+                Content: content
+            })
+        });
+    
+        if (response.ok) {
+            alert('News created successfully');
+            location.reload();
         } else {
-            alert('Error logging in');
+            alert('Error creating news');
         }
     });
 }
-//end-of-registration/login
+
+if (NewsPoliceForm) {
+
+}
+
+if (NewsEMSForm) {
+
+}
+
+if (NewsMechanicsForm) {
+
+}
+//end-of-news-input
+
+//comments-input
+// if (newscommentsForm) {
+//     newscommentsForm.addEventListener('submit', async (event) => {
+//         event.preventDefault();
+    
+//         const userName = document.getElementById('newscommentsUserName').value;
+//         const content = document.getElementById('newscommentsContent').value;
+    
+//         const response = await fetch('https://scapi-nine.vercel.app/homecommenttbl', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify({
+//                 UserName: userName,
+//                 Content: content
+//             })
+//         });
+    
+//         if (response.ok) {
+//             alert('Comment created successfully');
+//         } else {
+//             alert('Error creating comment');
+//         }
+//     });
+// }
+//end-of-comments-input
+
+//announcements-input
+
+//end-of-announcements-input

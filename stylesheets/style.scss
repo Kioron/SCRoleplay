@@ -37,6 +37,11 @@
         transition: 0.3s;
         text-decoration: none;
         font-size: 13px;
+
+        &:focus {
+          background: #3b3b3b95;
+          color: #909090;
+        }
   
         &:hover{
           background: #3b3b3b95;
@@ -47,6 +52,7 @@
           border: none;
           }
         }
+
         a{
           text-decoration:none;
           color:#fff;
@@ -165,9 +171,17 @@
       transform: translateX(-50%);
       font-size: 1.5rem;
       font-weight: bold;
+
+      @media only screen and (max-width: 555px) {
+        font-size: 1rem;
+    }
     }
   
-    .auth-buttons {
+    .auth-wrapper {
+        display: flex;
+        transition: 0.3s;
+
+        .login-btn{
         display: flex;
         background: #ffffff0b;
         color: #e1e0e0;
@@ -177,9 +191,44 @@
         border-radius: 28px;
         transition: 0.3s;
 
+        &:focus {
+          background: #222;
+          color: #909090;
+        }
+
         &:hover {
           background: #222;
           color: #909090;
+        }
+        }
+
+        #logoutSection{
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          #userNameDisplay{
+            display: flex;
+          }
+          #logoutButton{
+            display: flex;
+            background: #ffffff0b;
+            color: #e1e0e0;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 28px;
+            transition: 0.3s;
+
+            &:focus {
+              background: #222;
+              color: #909090;
+            }
+
+            &:hover {
+              background: #222;
+              color: #909090;
+            }
+          }
         }
   
         .dropdown-login{
@@ -188,14 +237,76 @@
           top: 4rem;
           border: 2px solid #7bc1bc;
           background-color: #fff;
-          min-width: 15em;
+          min-width: 18em;
+          min-height: 20em;
           box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
           z-index: -1;
           box-shadow: 2px 2px 5px hsl(0, 0%, 0%, 0.8);
           transform: translateY(-10px);
           pointer-events: none;
+          padding: 20px;
           opacity: 0;
           transition: 350ms ease-out;
+
+          .login-wrapper{
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+          width: 100%;
+
+          h3 {
+            font-size: 1.2rem;
+            color: #333;
+        }
+            .login-username{
+            width: 80%;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            transition: border-color 0.3s ease;
+
+            &:focus {
+                border-color: #3498db;
+                outline: none;
+            }
+            }
+
+            .login-password{
+              width: 80%;
+              padding: 0.75rem;
+              border: 1px solid #ccc;
+              border-radius: 5px;
+              font-size: 1rem;
+              margin-bottom: 1rem;
+              transition: border-color 0.3s ease;
+  
+              &:focus {
+                  border-color: #3498db;
+                  outline: none;
+              }
+            }
+          }
+          .login-acc{
+          padding: 0.5rem 1rem;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          font-size: 1rem;
+          transition: background-color 0.3s ease;
+          background-color: #333;
+          color: #ffffff;
+          margin-top: 0.5rem;
+          margin-bottom: 1rem;
+
+          &:hover {
+            background-color: #2980b9;
+        } 
+      }
+        
       }
       .show{
         z-index: 1;
@@ -206,24 +317,112 @@
     }
   }
   
+  .overlay {
+    opacity: 0;
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: -100;
+    transition: 350ms ease-out;
+}
+
+  .overlay.active{
+    opacity: 1;
+    z-index: 1000;
+  }
+
   .main {
     padding-top: 2rem;
     padding-bottom: 2rem;
   
     .intro {
-      text-align: center;
       margin-bottom: 2rem;
-      padding-left: 2rem;
-      padding-right: 2rem;
+      padding-left: 7%;
+      padding-right: 7%;
   
       .title {
+        text-align:center;
         font-size: 2rem;
         margin-bottom: 1rem;
       }
+        .description {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          margin-bottom: 1rem;
+          font-size: 1rem;
+        }
+      }
+
+      .registerContainer{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        width: 100%;
+
+        .spaceRegister{
+          min-height: 0.5rem;
+          min-width: 90%;
+          max-width: 90%;
+          background-color: #333;
+          margin-bottom: 2rem;
+          border-radius: 28px;
+        }
+        
+      .register-input-wrapper{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        width: 35rem;
+
+        .register-heading-wrapper{
+          display: flex;
+          align-items: left;
+          width: 80%;
+        }
+
+        .register-user-input{
+          width: 80%;
+          padding: 0.75rem;
+          border: 1px solid #ccc;
+          border-radius: 20px;
+          font-size: 1rem;
+          margin-bottom: 1rem;
+          transition: border-color 0.3s ease;
+
+          &:focus {
+              border-color: #3498db;
+              outline: none;
+          }
+          }
+        }
+        #registerNewUser{
+          padding: 0.5rem 1rem;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          font-size: 1rem;
+          transition: background-color 0.3s ease;
+          background-color: #333;
+          color: #ffffff;
   
-      .description {
+          &:hover {
+              background-color: #2980b9;
+          }
+        }
+      }
+
+      .button-container-intro {
+        display: flex;
+        justify-content: flex-start;
+        width: 80%;
         margin-bottom: 1rem;
-        font-size: 1rem;
       }
   
       .discord-btn {
@@ -237,7 +436,6 @@
   
         &:hover {
           background: #4752c4;
-        }
       }
     }
 
@@ -249,18 +447,41 @@
       margin-bottom: 2rem;
       border-radius: 28px;
       margin-left: 5%;
-
     }
   
     .news {
       margin-bottom: 2rem;
-      padding-left: 2rem;
-      padding-right: 2rem;
+      padding-left: 7%;
+      padding-right: 7%;
+
+      .news-section-heading {
+        display: flex;
+        align-items: center;
+        justify-content: left;
+        margin-bottom: 2em;
   
       .section-title {
         font-size: 1.5rem;
-        margin-bottom: 1rem;
+        font-weight:bold;
       }
+
+      #togglenewsForm {
+        display: block;
+        margin-left: 2rem;
+        padding: 1rem 1rem * 1.5;
+        background-color: #3498db;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s ease;
+    
+        &:hover {
+          background-color: #2980b9;
+        }
+      }
+    }
   
       .news-grid {
         display: grid;
@@ -280,9 +501,107 @@
   
           .news-heading {
             font-size: 1.25rem;
+            
+          }
+          .news-date{
+            font-size: 0.8rem;
             margin-bottom: 0.5rem;
           }
         }
+      }
+      .news-form {
+        opacity: 0;
+        display: block;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        min-height: 300px;
+        min-width: 300px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        z-index: -100;
+        transition: 350ms ease-out;
+
+        .news-form-wrapper{
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          width: 100%;
+
+          h3 {
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+          .news-form-heading{
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            transition: border-color 0.3s ease;
+
+            &:focus {
+                border-color: #3498db;
+                outline: none;
+            }
+          }
+          .news-form-content{
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            transition: border-color 0.3s ease;
+
+            &:focus {
+                border-color: #3498db;
+                outline: none;
+            }
+          }
+        }
+
+        #publish-news, #cancel-news {
+          padding: 0.5rem 1rem;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          font-size: 1rem;
+          transition: background-color 0.3s ease;
+      }
+
+      #publish-news {
+        background-color: #333;
+        color: #ffffff;
+
+        &:hover {
+            background-color: #2980b9;
+        }
+    }
+
+    #cancel-news {
+        background-color: #333;
+        color: #ffffff;
+
+        &:hover {
+            background-color: #c0392b;
+        }
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1rem;
+    }
+
+    }
+      .news-form.active {
+        opacity: 1;
+        z-index: 1001;
       }
     }
 
@@ -343,8 +662,8 @@
   
     .staff {
       margin-bottom: 2rem;
-      padding-left: 2rem;
-      padding-right: 2rem;
+      padding-left: 7%;
+      padding-right: 7%;
   
       .section-title {
         font-size: 1.5rem;
@@ -367,8 +686,8 @@
     }
   
     .comments {
-      padding-left: 2rem;
-      padding-right: 2rem;
+      padding-left: 7%;
+      padding-right: 7%;
       .section-title {
         font-size: 1.5rem;
         margin-bottom: 1rem;

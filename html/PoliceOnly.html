@@ -8,26 +8,25 @@
   <script src="/scripts/Script.js" defer></script>
 </head>
 <body>
+
   <header class="header">
     <div class="nav-toggle">
-      <img src="images/Menu.png" alt="Menu Icon" class="menu-icon" width="50" height="50" nav-toggle>
+      <img src="/images/Menu.png" alt="Menu Icon" class="menu-icon" width="50" height="50" nav-toggle>
     </div>
     <nav class="nav">
-      <a href="index.html" class="nav-btn">Home</a>
+      <a href="/index.html" class="nav-btn">Home</a>
       <div class="nav-btn dropdown-toggle">Factions</div>
       <div class="dropdown-content">
-        <a href="html/PoliceDepartment.html">Police Department</a>
-        <a href="html/Mechanics.html">Mechanics</a>
-        <a href="html/EMS.html">Medical Department</a>
+        <a href="PoliceDepartment.html">Police Department</a>
+        <a href="Mechanics.html">Mechanics</a>
+        <a href="EMS.html">Medical Department</a>
       </div>
-      <a href="html/Shop.html" class="nav-btn">Shop</a>
-      <div class="nav-btn">Contact</div>
+      <a href="Shop.html" class="nav-btn">Shop</a>
     </nav>
     <div class="title">SUMMERCITY WEBSITE</div>
-    <div class="auth-buttons">
-      <div class="login-btn">Login</div>
-    </div>
   </header>
+
+  <div class="overlay"></div>
 
   <main class="main">
     <section class="intro">
@@ -44,81 +43,15 @@
     <div class="space"></div>
 
     <section class="news">
-      <h2 class="section-title">News Section</h2>
-      <div class="news-grid">
-        <article class="news-item">
-          <h3 class="news-heading">Heading</h3>
-          <p class="news-content">News content goes here.</p>
-        </article>
-        <article class="news-item">
-          <h3 class="news-heading">Heading</h3>
-          <p class="news-content">News content goes here.</p>
-        </article>
-        <article class="news-item">
-          <h3 class="news-heading">Heading</h3>
-          <p class="news-content">News content goes here.</p>
-        </article>
-        <article class="news-item">
-          <h3 class="news-heading">Heading</h3>
-          <p class="news-content">News content goes here.</p>
-        </article>
-        <article class="news-item">
-          <h3 class="news-heading">Heading</h3>
-          <p class="news-content">News content goes here.</p>
-        </article>
-        <article class="news-item">
-          <h3 class="news-heading">Heading</h3>
-          <p class="news-content">News content goes here.</p>
-        </article>
-        <article class="news-item">
-          <h3 class="news-heading">Heading</h3>
-          <p class="news-content">News content goes here.</p>
-        </article>
-        <article class="news-item">
-          <h3 class="news-heading">Heading</h3>
-          <p class="news-content">News content goes here.</p>
-        </article>
-        <article class="news-item">
-          <h3 class="news-heading">Heading</h3>
-          <p class="news-content">News content goes here.</p>
-        </article>
-      </div>
-    </section>
-
-    <div class="space"></div>
-
-    <section class="staff">
-      <h2 class="section-title">Staff Members</h2>
-      <ul class="staff-list">
-        <li>Staff Discord Name and Rank</li>
-        <li>Staff Discord Name and Rank</li>
-        <li>Staff Discord Name and Rank</li>
-        <li>Staff Discord Name and Rank</li>
-      </ul>
-      <h3 class="sub-title">Faction Leaders:</h3>
-      <ul class="factions">
-        <li>Police Department - Discord Name</li>
-        <li>EMS - Discord Name</li>
-        <li>Mechanics - Discord Name</li>
-      </ul>
-    </section>
-
-    <div class="space"></div>
-
-    <section class="comments">
-      <h2 class="section-title">Comment Section</h2>
-      <textarea class="comment-box" placeholder="Write a comment here"></textarea>
-      <button class="publish-btn">Publish</button>
-      <div class="comment-list">
-        <div class="comment">
-          <p><strong>Username</strong>, Date Published</p>
-          <p>Comment content goes here.</p>
+      <h2 class="section-title">Police Announcements</h2>
+        <div class="news-grid" announcements-police-container>
+          <template announcements-police-template>
+              <article class="news-item">
+                <h3 class="news-heading" announcements-police-heading></h3>
+                <p class="news-content" announcements-police-description></p>
+              </article>
+          </template> 
         </div>
-        <div class="comment">
-          <p><strong>Username</strong>, Date Published</p>
-          <p>Comment content goes here.</p>
-        </div>
-      </div>
     </section>
   </main>
 

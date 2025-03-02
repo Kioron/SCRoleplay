@@ -22,13 +22,30 @@
         <a href="EMS.html">Medical Department</a>
       </div>
       <a href="Shop.html" class="nav-btn">Shop</a>
-      <div class="nav-btn">Contact</div>
+      <a href="EMSOnly.html" class="nav-btn">EMS HQ</a>
     </nav>
     <div class="title">SUMMERCITY WEBSITE</div>
-    <div class="auth-buttons">
-      <div class="login-btn">Login</div>
+    <div class="auth-wrapper">
+      <button class="login-btn">Login</button>
+      <!-- Login form dropdown -->
+      <div class="dropdown-login">
+        <form id="loginForm">
+        <div class="login-wrapper">
+          <input class="login-username" id="loginUserName" type="text" placeholder ="Your Name" required>
+        </div>
+        <div class="login-wrapper">
+          <input class="login-password" id="loginPassword" type="password" placeholder ="Enter password" required>
+        </div>
+        <button type="submit">Login</button>
+        </form>
+        <div class="register-btn">
+          <a href="html/RegistrationPage.html">No account? Register here!</a>
+        </div>
+      </div>
     </div>
   </header>
+
+  <div class="overlay"></div>
 
   <main class="main">
     <section class="intro">
@@ -45,11 +62,22 @@
     <div class="space"></div>
 
     <section class="news">
-      <h2 class="section-title">News Section</h2>
+      <div class="news-section-heading">
+        <h2 class="section-title">News Section</h2>
+        <button id="togglenewsForm">Publish news</button>
+      </div>
+      <div class="news-form" id="newsForm">
+        <form id="newsEMSForm">
+          <input class="news-heading" id="newsEMSHeading" type="text" placeholder="News Heading" required>
+          <input class="news-content" id="newsEMSContent" type="text" placeholder="News Content" required>
+          <button id="publish-news">Publish news</button>
+      </form>
+      </div>
       <div class="news-grid" news-ems-grid>
         <template news-ems-template>
           <article class="news-item">
             <h3 class="news-heading" news-ems-heading></h3>
+            <p class="news-date" news-ems-date></p>
             <p class="news-content" news-ems-description></p>
           </article>
         </template>
