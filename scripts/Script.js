@@ -521,26 +521,6 @@ if (token && userName) {
   userNameDisplay.textContent = '';
 }
 
-if (PoliceHQLink) {
-  PoliceHQLink.addEventListener('click', async (event) => {
-    event.preventDefault();
-  
-    const response = await fetch('/restricted/PoliceOnly.html', {
-    method: 'GET',
-    headers: {
-        'Authorization': `Bearer ${token}`
-    }
-  });
-
-  if (response.ok) {
-    const html = await response.text();
-      document.documentElement.innerHTML = html;
-    } else {
-      alert('Access denied');
-    }
-  });
-  }
-
   //restrictedaccess-Police
   if (PoliceHQLink) {
     PoliceHQLink.addEventListener('click', async (event) => {
