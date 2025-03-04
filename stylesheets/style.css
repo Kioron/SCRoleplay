@@ -194,7 +194,6 @@ body {
   display: flex;
 }
 .header .auth-wrapper #logoutSection #logoutButton {
-  display: flex;
   background: rgba(255, 255, 255, 0.0431372549);
   color: #e1e0e0;
   border: none;
@@ -422,8 +421,11 @@ body {
   font-size: 1.5rem;
   font-weight: bold;
 }
-.main .news .news-section-heading #togglenewsForm {
-  display: block;
+.main .news .news-section-heading #togglenewsForm,
+.main .news .news-section-heading #togglenewsFormP,
+.main .news .news-section-heading #togglenewsFormE,
+.main .news .news-section-heading #togglenewsFormM {
+  display: none;
   margin-left: 2rem;
   padding: 1rem 1.5rem;
   background-color: #3498db;
@@ -434,7 +436,10 @@ body {
   font-size: 1rem;
   transition: background-color 0.3s ease;
 }
-.main .news .news-section-heading #togglenewsForm:hover {
+.main .news .news-section-heading #togglenewsForm:hover,
+.main .news .news-section-heading #togglenewsFormP:hover,
+.main .news .news-section-heading #togglenewsFormE:hover,
+.main .news .news-section-heading #togglenewsFormM:hover {
   background-color: #2980b9;
 }
 .main .news .news-grid {

@@ -22,26 +22,32 @@
         <a href="EMS.html">Medical Department</a>
       </div>
       <a href="Shop.html" class="nav-btn">Shop</a>
-      <a href="PoliceOnly.html" class="nav-btn">Police HQ</a>
+      <a href="PoliceOnly.html" class="nav-btn" style="display: none;">Police HQ</a>
     </nav>
     <div class="title">SUMMERCITY WEBSITE</div>
     <div class="auth-wrapper">
-      <button class="login-btn">Login</button>
+      <button class="login-btn" id="login-button">Login</button>
       <!-- Login form dropdown -->
       <div class="dropdown-login">
         <form id="loginForm">
         <div class="login-wrapper">
+          <h3>Enter your user name</h3>
           <input class="login-username" id="loginUserName" type="text" placeholder ="Your Name" required>
         </div>
         <div class="login-wrapper">
+          <h3>Enter your password</h3>
           <input class="login-password" id="loginPassword" type="password" placeholder ="Enter password" required>
         </div>
-        <button type="submit">Login</button>
+        <button class="login-acc" type="submit">Login</button>
         </form>
         <div class="register-btn">
           <a href="html/RegistrationPage.html">No account? Register here!</a>
         </div>
       </div>
+      <div id="logoutSection">
+        <span id="userNameDisplay"></span>
+        <button id="logoutButton">Logout</button>
+    </div>
     </div>
   </header>
 
@@ -64,13 +70,22 @@
     <section class="news">
       <div class="news-section-heading">
         <h2 class="section-title">News Section</h2>
-        <button id="togglenewsForm">Publish news</button>
+        <button id="togglenewsFormP">Publish news</button>
       </div>
       <div class="news-form" id="newsForm">
         <form id="newsPoliceForm">
-          <input class="news-heading" id="newspoliceHeading" type="text" placeholder="News Heading" required>
-          <input class="news-content" id="newspoliceContent" type="text" placeholder="News Content" required>
+          <div class="news-form-wrapper">
+            <h3>Add news title</h3>
+            <input class="news-form-heading" id="newspoliceHeading" type="text" placeholder="News Heading" required>
+          </div>
+          <div class="news-form-wrapper">
+            <h3>Add news content</h3>
+            <input class="news-form-content" id="newspoliceContent" type="text" placeholder="News Content" required>
+          </div>
+          <div class="button-container">
           <button id="publish-news">Publish news</button>
+          <button id="cancel-news">Cancel</button>
+        </div>
       </form>
       </div>
       <div class="news-grid" news-police-grid>

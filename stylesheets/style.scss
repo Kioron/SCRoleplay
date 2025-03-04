@@ -210,7 +210,6 @@
             display: flex;
           }
           #logoutButton{
-            display: flex;
             background: #ffffff0b;
             color: #e1e0e0;
             border: none;
@@ -465,8 +464,11 @@
         font-weight:bold;
       }
 
-      #togglenewsForm {
-        display: block;
+      #togglenewsForm,
+      #togglenewsFormP,
+      #togglenewsFormE,
+      #togglenewsFormM {
+        display: none;
         margin-left: 2rem;
         padding: 1rem 1rem * 1.5;
         background-color: #3498db;

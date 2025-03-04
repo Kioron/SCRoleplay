@@ -25,22 +25,28 @@
     </nav>
     <div class="title">SUMMERCITY WEBSITE</div>
     <div class="auth-wrapper">
-      <button class="login-btn">Login</button>
+      <button class="login-btn" id="login-button">Login</button>
       <!-- Login form dropdown -->
       <div class="dropdown-login">
         <form id="loginForm">
         <div class="login-wrapper">
+          <h3>Enter your user name</h3>
           <input class="login-username" id="loginUserName" type="text" placeholder ="Your Name" required>
         </div>
         <div class="login-wrapper">
+          <h3>Enter your password</h3>
           <input class="login-password" id="loginPassword" type="password" placeholder ="Enter password" required>
         </div>
-        <button type="submit">Login</button>
+        <button class="login-acc" type="submit">Login</button>
         </form>
         <div class="register-btn">
           <a href="html/RegistrationPage.html">No account? Register here!</a>
         </div>
       </div>
+      <div id="logoutSection">
+        <span id="userNameDisplay"></span>
+        <button id="logoutButton">Logout</button>
+    </div>
     </div>
   </header>
 

@@ -5,19 +5,25 @@ const dropdownToggle = document.querySelector('.dropdown-toggle');
 const dropdownContent = document.querySelector('.dropdown-content');
 //login-dropdown
 const dropdownLogin = document.querySelector('.dropdown-login');
-const loginToggle = document.querySelector('.auth-wrapper');
+const loginButton = document.getElementById('login-button');
 //news-form
 const togglenewsForm = document.getElementById('togglenewsForm');
+const togglenewsFormP = document.getElementById('togglenewsFormP');
+const togglenewsFormE = document.getElementById('togglenewsFormE');
+const togglenewsFormM = document.getElementById('togglenewsFormM');
 const newsForm = document.getElementById('newsForm');
 const overlay = document.querySelector('.overlay');
 const cancelNewsButton = document.getElementById('cancel-news');
 //register-loginForms
 const registerForm = document.getElementById('registerForm');
 const loginForm = document.getElementById('loginForm');
-const loginButton = document.getElementById('login-button');
 //userdetails-logout
 const logoutButton = document.getElementById('logoutButton');
 const userNameDisplay = document.getElementById('userNameDisplay');
+//hiddenaccess
+const PoliceHQLink = document.querySelector('a[href="PoliceOnly.html"]');
+const EMSHQLink = document.querySelector('a[href="EMSOnly.html"]');
+const MechanicsHQLink = document.querySelector('a[href="MechanicsOnly.html"]');
 //news
 const NewsMainGrid = document.querySelector("[news-main-grid]");
 const NewsMainTemplate = document.querySelector("[news-main-template]");
@@ -25,15 +31,15 @@ const NewsMainForm = document.getElementById('newsMainForm');
 
 const NewsPoliceGrid = document.querySelector("[news-police-grid]");
 const NewsPoliceTemplate = document.querySelector("[news-police-template]");
-const NewsPoliceForm = document.getElementById('newspoliceForm');
+const NewsPoliceForm = document.getElementById('newsPoliceForm');
 
 const NewsEMSGrid = document.querySelector("[news-ems-grid]");
 const NewsEMSTemplate = document.querySelector("[news-ems-template]");
-const NewsEMSForm = document.getElementById('newsemsForm');
+const NewsEMSForm = document.getElementById('newsEMSForm');
 
 const NewsMechanicsGrid = document.querySelector("[news-mechanics-grid]");
 const NewsMechanicsTemplate = document.querySelector("[news-mechanics-template]");
-const NewsMechanicsForm = document.getElementById('newsmechanicsForm');
+const NewsMechanicsForm = document.getElementById('newsMechanicsForm');
 //comments
 const CommentsMainContainer = document.querySelector("[comments-main-container]");
 const CommentsMainTemplate = document.querySelector("[comments-main-template]");
@@ -60,6 +66,11 @@ const AnnouncementsEMSTemplate = document.querySelector("[announcements-ems-temp
 const AnnouncementsMechanicsContainer = document.querySelector("[announcements-mechanics-container]");
 const AnnouncementsMechanicsTemplate = document.querySelector("[announcements-mechanics-template]");
 
+//loginglobal
+const token = localStorage.getItem('token');
+const userName = localStorage.getItem('userName');
+const role = localStorage.getItem('role');
+
 //dropdowns
 if (navToggle) {
     navToggle.addEventListener('click', () => {
@@ -74,8 +85,8 @@ if (dropdownToggle) {
     });
 }
 
-if (loginToggle) {
-    loginToggle.addEventListener('click', () => {
+if (loginButton) {
+    loginButton.addEventListener('click', () => {
         dropdownLogin.classList.toggle('show');
     });
 }   
@@ -91,6 +102,27 @@ if (togglenewsForm) {
         newsForm.classList.toggle('active');
         overlay.classList.toggle('active');
     });
+}
+
+if (togglenewsFormP) {
+  togglenewsFormP.addEventListener('click', () => {
+  newsForm.classList.toggle('active');
+  overlay.classList.toggle('active');
+});
+}
+
+if (togglenewsFormE) {
+  togglenewsFormE.addEventListener('click', () => {
+  newsForm.classList.toggle('active');
+  overlay.classList.toggle('active');
+});
+}
+
+if (togglenewsFormM) {
+  togglenewsFormM.addEventListener('click', () => {
+  newsForm.classList.toggle('active');
+  overlay.classList.toggle('active');
+});
 }
 
 if (overlay) {
@@ -113,6 +145,30 @@ if (newsForm) {
         newsForm.addEventListener('click', (event) => {
         event.stopPropagation();
     });
+}
+
+if (PoliceHQLink) {
+  if (role === 'Owner' || role === 'Police Chief' || role === 'Police') {
+    PoliceHQLink.style.display = 'block';
+  } else {
+    PoliceHQLink.style.display = 'none';
+  };
+}
+
+if (EMSHQLink) {
+  if (role === 'Owner' || role === 'EMS Chief' || role === 'EMS') {
+    EMSHQLink.style.display = 'block';
+  } else {
+    EMSHQLink.style.display = 'none';
+  };
+}
+
+if (MechanicsHQLink) {
+  if (role === 'Owner' || role === 'Mechanics Chief' || role === 'Mechanics') {
+    MechanicsHQLink.style.display = 'block';
+  } else {
+    MechanicsHQLink.style.display = 'none';
+  };
 }
 
 window.addEventListener('click', (event) => {
@@ -423,8 +479,6 @@ if (registerForm) {
 }
 
 //login
-const token = localStorage.getItem('token');
-const userName = localStorage.getItem('userName');
 
 if (token && userName) {
   loginForm.style.display = 'none';
@@ -432,20 +486,61 @@ if (token && userName) {
   logoutButton.style.display = 'block';
   userNameDisplay.textContent = "Current Account: " + userName;
 
-  fetch('https://scapi-nine.vercel.app/protected-route', {
-    method: 'GET',
-    headers: {
-        'Authorization': `Bearer ${token}`
-    }
-  })
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch(error => console.error('Error:', error));
+  if (togglenewsForm) {
+    if (role === 'Owner') {
+      togglenewsForm.style.display = 'block';
+  } else {
+      togglenewsForm.style.display = 'none';
+  };
+  };
+  
+  if (togglenewsFormP) {
+    if (role === 'Owner' || role === 'Police Chief') {
+      togglenewsFormP.style.display = 'block';
+    } else {
+      togglenewsFormP.style.display = 'none';
+    };
+  };
+  if (togglenewsFormE) {
+    if (role === 'Owner' || role === 'EMS Chief') {
+      togglenewsFormE.style.display = 'block';
+    } else {
+      togglenewsFormE.style.display = 'none';
+    };
+  };
+  if (togglenewsFormM) {
+    if (role === 'Owner' || role === 'Mechanics Chief') {
+      togglenewsFormM.style.display = 'block';
+    } else {
+      togglenewsFormM.style.display = 'none';
+    };
+  };
 } else {
   loginForm.style.display = 'block';
   logoutButton.style.display = 'none';
   userNameDisplay.textContent = '';
 }
+
+if (PoliceHQLink) {
+  PoliceHQLink.addEventListener('click', async (event) => {
+    event.preventDefault();
+  
+    const response = await fetch('/html/PoliceOnly.html', {
+    method: 'GET',
+    headers: {
+        'Authorization': `Bearer ${token}`
+    }
+  });
+  
+  if (response.ok) {
+    const html = await response.text();
+      document.documentElement.innerHTML = html;
+    } else {
+      alert('Access denied');
+    }
+  });
+}
+
 
 if (loginForm) {
     loginForm.addEventListener('submit', async (event) => {
@@ -469,7 +564,9 @@ if (loginForm) {
           try {
               const result = await response.json();
               localStorage.setItem('token', result.token);
-              localStorage.setItem('userName', userName);
+              const decodedToken = JSON.parse(atob(result.token.split('.')[1]));
+              localStorage.setItem('userName', decodedToken.username);
+              localStorage.setItem('role', decodedToken.role);
               alert('Login successful');
               location.reload();
           } catch (error) {
@@ -488,6 +585,7 @@ if (logoutButton) {
   logoutButton.addEventListener('click', () => {
       localStorage.removeItem('token');
       localStorage.removeItem('userName');
+      localStorage.removeItem('role');
       alert('Logged out successfully');
       location.reload();
   });
@@ -505,7 +603,8 @@ if (NewsMainForm) {
         const response = await fetch('https://scapi-nine.vercel.app/homenewstbl', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
                 Title: heading,
@@ -523,15 +622,87 @@ if (NewsMainForm) {
 }
 
 if (NewsPoliceForm) {
+    NewsPoliceForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
 
+      const heading = document.getElementById('newspoliceHeading').value;
+      const content = document.getElementById('newspoliceContent').value;
+
+      const response = await fetch('https://scapi-nine.vercel.app/policenewstbl', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          Title: heading,
+          Content: content
+        })
+      });
+
+      if(response.ok) {
+        alert('News created successfully');
+        location.reload();
+      } else {
+        alert('Error creating news');
+      }
+  });
 }
 
 if (NewsEMSForm) {
+  NewsEMSForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
 
+    const heading = document.getElementById('newsemsHeading').value;
+    const content = document.getElementById('newsemsContent').value;
+
+    const response = await fetch('https://scapi-nine.vercel.app/emsnewstbl', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        Title: heading,
+        Content: content
+      })
+    });
+
+    if(response.ok) {
+      alert('News created successfully');
+      location.reload();
+    } else {
+      alert('Error creating news');
+    }
+});
 }
 
 if (NewsMechanicsForm) {
+  NewsMechanicsForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
 
+    const heading = document.getElementById('newsmechanicsHeading').value;
+    const content = document.getElementById('newsmechanicsContent').value;
+
+    const response = await fetch('https://scapi-nine.vercel.app/mechanicsnewstbl', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        Title: heading,
+        Content: content
+      })
+    });
+
+    if(response.ok) {
+      alert('News created successfully');
+      location.reload();
+    } else {
+      alert('Error creating news');
+    }
+});
 }
 //end-of-news-input
 
