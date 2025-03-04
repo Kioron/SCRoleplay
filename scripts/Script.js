@@ -526,7 +526,7 @@ if (token && userName) {
     PoliceHQLink.addEventListener('click', async (event) => {
       event.preventDefault();
     
-      const response = await fetch('/restricted/PoliceOnly.html', {
+      const response = await fetch('https://scapi-nine.vercel.app/restricted/PoliceOnly.html', {
       method: 'GET',
       headers: {
           'Authorization': `Bearer ${token}`
@@ -547,7 +547,7 @@ if (EMSHQLink) {
   EMSHQLink.addEventListener('click', async (event) => {
     event.preventDefault();
   
-    const response = await fetch('/restricted/EMSOnly.html', {
+    const response = await fetch('https://scapi-nine.vercel.app/restricted/EMSOnly.html', {
     method: 'GET',
     headers: {
         'Authorization': `Bearer ${token}`
@@ -568,7 +568,7 @@ if (MechanicsHQLink) {
   MechanicsHQLink.addEventListener('click', async (event) => {
     event.preventDefault();
   
-    const response = await fetch('/restricted/MechanicsOnly.html', {
+    const response = await fetch('https://scapi-nine.vercel.app/restricted/MechanicsOnly.html', {
     method: 'GET',
     headers: {
         'Authorization': `Bearer ${token}`
