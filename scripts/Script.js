@@ -560,7 +560,7 @@ if (PoliceHQLink) {
       alert('Access denied');
     }
   });
-}
+  }
 
 //restrictedaccess-EMS
 if (EMSHQLink) {
