@@ -357,6 +357,31 @@
         }
       }
 
+      .pictures-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+
+        @media (min-width: 768px) {
+          grid-template-columns: repeat(3, 1fr);
+      }
+  
+        .picture-item {
+          background: #fff;
+          box-shadow:hsl(0, 0%, 0%, 0.2) 2px 2px 5px;
+          min-height: 10rem;
+          padding: 1rem;
+          border: 1px solid #ddd;
+          border-radius: 20px;
+
+          .picture-image{
+            box-shadow:hsl(0, 0%, 0%, 0.4) 2px 2px 5px;
+            margin-bottom: 0.5rem;
+            border-radius: 28px;
+          }
+        }
+      }
+
       .registerContainer{
         display: flex;
         flex-direction: column;
@@ -424,9 +449,10 @@
         margin-bottom: 1rem;
       }
   
-      .discord-btn {
+      .game-btn {
         background: #5865f2;
         color: #fff;
+        text-decoration: none;
         border: none;
         padding: 0.75rem 1.5rem;
         border-radius: 5px;

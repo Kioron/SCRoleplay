@@ -326,6 +326,29 @@ body {
   margin-bottom: 1rem;
   font-size: 1rem;
 }
+.main .pictures-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+@media (min-width: 768px) {
+  .main .pictures-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.main .pictures-grid .picture-item {
+  background: #fff;
+  box-shadow: hsla(0, 0%, 0%, 0.2) 2px 2px 5px;
+  min-height: 10rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+}
+.main .pictures-grid .picture-item .picture-image {
+  box-shadow: hsla(0, 0%, 0%, 0.4) 2px 2px 5px;
+  margin-bottom: 0.5rem;
+  border-radius: 28px;
+}
 .main .registerContainer {
   display: flex;
   flex-direction: column;
@@ -385,16 +408,17 @@ body {
   width: 80%;
   margin-bottom: 1rem;
 }
-.main .discord-btn {
+.main .game-btn {
   background: #5865f2;
   color: #fff;
+  text-decoration: none;
   border: none;
   padding: 0.75rem 1.5rem;
   border-radius: 5px;
   cursor: pointer;
   transition: 0.3s;
 }
-.main .discord-btn:hover {
+.main .game-btn:hover {
   background: #4752c4;
 }
 .main .space {
