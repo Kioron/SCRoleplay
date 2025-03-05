@@ -1,4 +1,5 @@
 //navigation
+console.log("Script.js loaded");
 const nav = document.querySelector('.nav');
 const navToggle = document.querySelector('.nav-toggle');
 const dropdownToggle = document.querySelector('.dropdown-toggle');
@@ -25,6 +26,7 @@ const PoliceHQLink = document.querySelector('a[href="PoliceOnly.html"]');
 const EMSHQLink = document.querySelector('a[href="EMSOnly.html"]');
 const MechanicsHQLink = document.querySelector('a[href="MechanicsOnly.html"]');
 //news
+const charLimit = 600;
 const NewsMainGrid = document.querySelector("[news-main-grid]");
 const NewsMainTemplate = document.querySelector("[news-main-template]");
 const NewsMainForm = document.getElementById('newsMainForm');
@@ -294,6 +296,7 @@ if (CommentsMainTemplate && CommentsMainContainer) {
     fetch('https://scapi-nine.vercel.app/homecommenttbl')
       .then((response) => response.json())
       .then((data) => {
+        data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
        commentsmainsearch = data.map(commentsmain => {
             const commentsmainlist = CommentsMainTemplate.content.cloneNode(true);
             const commentsmainElement = commentsmainlist.firstElementChild;
@@ -319,6 +322,7 @@ if (CommentsPoliceTemplate && CommentsPoliceContainer) {
     fetch('https://scapi-nine.vercel.app/policecommenttbl')
       .then((response) => response.json())
       .then((data) => {
+        data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
        commentspolicesearch = data.map(commentspolice => {
             const commentspolicelist = CommentsPoliceTemplate.content.cloneNode(true);
             const commentspoliceElement = commentspolicelist.firstElementChild;
@@ -344,6 +348,7 @@ if (CommentsEMSTemplate && CommentsEMSContainer) {
     fetch('https://scapi-nine.vercel.app/emscommenttbl')
       .then((response) => response.json())
       .then((data) => {
+        data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
        commentsemssearch = data.map(commentsems => {
             const commentsemslist = CommentsEMSTemplate.content.cloneNode(true);
             const commentsemsElement = commentsemslist.firstElementChild;
@@ -369,6 +374,7 @@ if (CommentsMechanicsTemplate && CommentsMechanicsContainer) {
     fetch('https://scapi-nine.vercel.app/mechanicscommenttbl')
       .then((response) => response.json())
       .then((data) => {
+        data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
        commentsmechanicssearch = data.map(commentsmechanics => {
             const commentsmechanicslist = CommentsMechanicsTemplate.content.cloneNode(true);
             const commentsmechanicsElement = commentsmechanicslist.firstElementChild;
@@ -651,7 +657,13 @@ if (NewsMainForm) {
         event.preventDefault();
     
         const heading = document.getElementById('newsmainHeading').value;
-        const content = document.getElementById('newsmainContent').value;
+        const content = document.getElementById('newsmainContent').value.trim();
+        const charCount = content.length;
+
+            if (charCount > charLimit) {
+                alert(`Content exceeds the character limit of ${charLimit} characters.`);
+                return;
+            }
     
         const response = await fetch('https://scapi-nine.vercel.app/homenewstbl', {
             method: 'POST',
