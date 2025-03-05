@@ -220,7 +220,7 @@ app.post('/policeannouncementtbl', async (req, res) => {
     }
 });
 
-app.get('/restricted/PoliceOnly.html', verifyToken, verifyRole(['Owner', 'Police Chief', 'Police']), (req, res) => {
+app.get('/restricted/PoliceOnly.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'restricted', 'PoliceOnly.html'));
 });
 //ems-get-post
