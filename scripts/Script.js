@@ -1,5 +1,4 @@
 //navigation
-console.log("Script.js loaded");
 const nav = document.querySelector('.nav');
 const navToggle = document.querySelector('.nav-toggle');
 const dropdownToggle = document.querySelector('.dropdown-toggle');

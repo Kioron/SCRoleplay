@@ -489,6 +489,8 @@ body {
   padding: 1rem;
   border: 1px solid #ddd;
   border-radius: 5px;
+  overflow: hidden;
+  word-wrap: break-word;
 }
 .main .news .news-grid .news-item .news-heading {
   font-size: 1.25rem;
@@ -496,6 +498,10 @@ body {
 .main .news .news-grid .news-item .news-date {
   font-size: 0.8rem;
   margin-bottom: 0.5rem;
+}
+.main .news .news-grid .news-item .news-content {
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 .main .news .news-form {
   opacity: 0;
@@ -625,6 +631,7 @@ body {
   border-radius: 28px;
   align-self: flex-end;
   transition: 0.3s;
+  margin-top: auto;
 }
 .main .shop .shop-grid .shop-item .buy-button:hover {
   background: #0056b3;
@@ -679,6 +686,7 @@ body {
   margin-bottom: 1rem;
   cursor: pointer;
   transition: 0.3s;
+  border-radius: 5px;
 }
 .main .comments .publish-btn:hover {
   background: #0056b3;
@@ -692,6 +700,10 @@ body {
 }
 .main .comments .comment-list .comment p {
   margin-bottom: 0.5rem;
+}
+.main .comments .comment-list .comment .comment-content {
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 .footer {

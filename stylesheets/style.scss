@@ -533,6 +533,8 @@
           padding: 1rem;
           border: 1px solid #ddd;
           border-radius: 5px;
+          overflow: hidden;
+          word-wrap: break-word;
   
           .news-heading {
             font-size: 1.25rem;
@@ -542,6 +544,11 @@
             font-size: 0.8rem;
             margin-bottom: 0.5rem;
           }
+          .news-content {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+          }
+          
         }
       }
       .news-form {
@@ -686,6 +693,7 @@
             border-radius: 28px;
             align-self: flex-end;
             transition: 0.3s;
+            margin-top: auto;
     
             &:hover {
               background: #0056b3;
@@ -747,6 +755,7 @@
         margin-bottom: 1rem;
         cursor: pointer;
         transition: 0.3s;
+        border-radius: 5px;
   
         &:hover {
           background: #0056b3;
@@ -762,6 +771,10 @@
   
         p {
           margin-bottom: 0.5rem;
+        }
+        .comment-content{
+          white-space: pre-wrap;
+          word-wrap: break-word;
         }
       }
     }

@@ -131,8 +131,10 @@
 
     <section class="comments">
       <h2 class="section-title">Comment Section</h2>
-      <textarea class="comment-box" placeholder="Write a comment here"></textarea>
+      <form id="commentsMechanicsForm">
+      <input class="comment-box" id="comment-mechanics-input" placeholder="Write a comment here"></input>
       <button class="publish-btn">Publish</button>
+      </form>
       <div class="comment-list" comments-mechanics-container>
         <template comments-mechanics-template>
           <div class="comment">
