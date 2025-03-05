@@ -4,7 +4,13 @@
   box-sizing: border-box;
 }
 
+html, body {
+  height: 100%;
+}
+
 body {
+  display: flex;
+  flex-direction: column;
   font-family: Arial, sans-serif;
   line-height: 1.6;
   background-color: #f9f9f9;
@@ -306,6 +312,7 @@ body {
 }
 
 .main {
+  flex: 1;
   padding-top: 2rem;
   padding-bottom: 2rem;
 }

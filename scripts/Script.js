@@ -43,18 +43,20 @@ const NewsMechanicsForm = document.getElementById('newsMechanicsForm');
 //comments
 const CommentsMainContainer = document.querySelector("[comments-main-container]");
 const CommentsMainTemplate = document.querySelector("[comments-main-template]");
+const CommentsMainForm = document.getElementById('commentsMainForm');
 
 const CommentsPoliceContainer = document.querySelector("[comments-police-container]");
 const CommentsPoliceTemplate = document.querySelector("[comments-police-template]");
+const CommentsPoliceForm = document.getElementById('commentsPoliceForm');
 
 
 const CommentsEMSContainer = document.querySelector("[comments-ems-container]");
 const CommentsEMSTemplate = document.querySelector("[comments-ems-template]");
-
+const CommentsEMSForm = document.getElementById('commentsEMSForm');
 
 const CommentsMechanicsContainer = document.querySelector("[comments-mechanics-container]");
 const CommentsMechanicsTemplate = document.querySelector("[comments-mechanics-template]");
-
+const CommentsMechanicsForm = document.getElementById('commentsMechanicsForm');
 //announcements
 const AnnouncementsPoliceContainer = document.querySelector("[announcements-police-container]");
 const AnnouncementsPoliceTemplate = document.querySelector("[announcements-police-template]");
@@ -296,9 +298,11 @@ if (CommentsMainTemplate && CommentsMainContainer) {
             const commentsmainlist = CommentsMainTemplate.content.cloneNode(true);
             const commentsmainElement = commentsmainlist.firstElementChild;
             const heading = commentsmainElement.querySelector("[comments-main-username]");
+            const date = commentsmainElement.querySelector("[comments-main-date]");
             const description = commentsmainElement.querySelector("[comments-main-description]");
             if (heading && description) {
                 heading.textContent = commentsmain.UserName;
+                date.textContent = new Date(commentsmain.created_at).toISOString().split('T')[0];
                 description.textContent = commentsmain.Content;
                 CommentsMainContainer.append(commentsmainElement);
                 return { heading: commentsmain.UserName, description: commentsmain.Content, element: commentsmainElement };
@@ -319,9 +323,11 @@ if (CommentsPoliceTemplate && CommentsPoliceContainer) {
             const commentspolicelist = CommentsPoliceTemplate.content.cloneNode(true);
             const commentspoliceElement = commentspolicelist.firstElementChild;
             const heading = commentspoliceElement.querySelector("[comments-police-username]");
+            const date = commentspoliceElement.querySelector("[comments-police-date]");
             const description = commentspoliceElement.querySelector("[comments-police-description]");
             if (heading && description) {
                 heading.textContent = commentspolice.UserName;
+                date.textContent = new Date(commentspolice.created_at).toISOString().split('T')[0];
                 description.textContent = commentspolice.Content;
                 CommentsPoliceContainer.append(commentspoliceElement);
                 return { heading: commentspolice.UserName, description: commentspolice.Content, element: commentspoliceElement };
@@ -342,9 +348,11 @@ if (CommentsEMSTemplate && CommentsEMSContainer) {
             const commentsemslist = CommentsEMSTemplate.content.cloneNode(true);
             const commentsemsElement = commentsemslist.firstElementChild;
             const heading = commentsemsElement.querySelector("[comments-ems-username]");
+            const date = commentsemsElement.querySelector("[comments-ems-date]");
             const description = commentsemsElement.querySelector("[comments-ems-description]");
             if (heading && description) {
                 heading.textContent = commentsems.UserName;
+                date.textContent = new Date(commentsems.created_at).toISOString().split('T')[0];
                 description.textContent = commentsems.Content;
                 CommentsEMSContainer.append(commentsemsElement);
                 return { heading: commentsems.UserName, description: commentsems.Content, element: commentsemsElement };
@@ -365,9 +373,11 @@ if (CommentsMechanicsTemplate && CommentsMechanicsContainer) {
             const commentsmechanicslist = CommentsMechanicsTemplate.content.cloneNode(true);
             const commentsmechanicsElement = commentsmechanicslist.firstElementChild;
             const heading = commentsmechanicsElement.querySelector("[comments-mechanics-username]");
+            const date = commentsmechanicsElement.querySelector("[comments-mechanics-date]");
             const description = commentsmechanicsElement.querySelector("[comments-mechanics-description]");
             if (heading && description) {
                 heading.textContent = commentsmechanics.UserName;
+                date.textContent = new Date(commentsmechanics.created_at).toISOString().split('T')[0];
                 description.textContent = commentsmechanics.Content;
                 CommentsMechanicsContainer.append(commentsmechanicsElement);
                 return { heading: commentsmechanics.UserName, description: commentsmechanics.Content, element: commentsmechanicsElement };
@@ -750,31 +760,113 @@ if (NewsMechanicsForm) {
 //end-of-news-input
 
 //comments-input
-// if (newscommentsForm) {
-//     newscommentsForm.addEventListener('submit', async (event) => {
-//         event.preventDefault();
+if (CommentsMainForm) {
+    CommentsMainForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const content = document.getElementById('comment-main-input').value;
     
-//         const userName = document.getElementById('newscommentsUserName').value;
-//         const content = document.getElementById('newscommentsContent').value;
+        const response = await fetch('https://scapi-nine.vercel.app/homecommenttbl', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                UserName: userName,
+                Content: content
+            })
+        });
     
-//         const response = await fetch('https://scapi-nine.vercel.app/homecommenttbl', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify({
-//                 UserName: userName,
-//                 Content: content
-//             })
-//         });
-    
-//         if (response.ok) {
-//             alert('Comment created successfully');
-//         } else {
-//             alert('Error creating comment');
-//         }
-//     });
-// }
+        if (response.ok) {
+            alert('Comment created successfully');
+            location.reload();
+        } else {
+            alert('Error creating comment');
+        }
+    });
+}
+
+if (CommentsPoliceForm) {
+  CommentsPoliceForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const content = document.getElementById('comment-police-input').value;
+  
+      const response = await fetch('https://scapi-nine.vercel.app/policecommenttbl', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+              UserName: userName,
+              Content: content
+          })
+      });
+  
+      if (response.ok) {
+          alert('Comment created successfully');
+          location.reload();
+      } else {
+          alert('Error creating comment');
+      }
+  });
+}
+
+if (CommentsEMSForm) {
+  CommentsEMSForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const content = document.getElementById('comment-ems-input').value;
+  
+      const response = await fetch('https://scapi-nine.vercel.app/emscommenttbl', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+              UserName: userName,
+              Content: content
+          })
+      });
+  
+      if (response.ok) {
+          alert('Comment created successfully');
+          location.reload();
+      } else {
+          alert('Error creating comment');
+      }
+  });
+}
+
+if (CommentsMechanicsForm) {
+  CommentsMechanicsForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const content = document.getElementById('comment-mechanics-input').value;
+  
+      const response = await fetch('https://scapi-nine.vercel.app/Mechanicscommenttbl', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+              UserName: userName,
+              Content: content
+          })
+      });
+  
+      if (response.ok) {
+          alert('Comment created successfully');
+          location.reload();
+      } else {
+          alert('Error creating comment');
+      }
+  });
+}
 //end-of-comments-input
 
 //announcements-input

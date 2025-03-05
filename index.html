@@ -151,7 +151,7 @@
       <ul class="factions">
         <li>Police Department - Harry57</li>
         <li>EMS - Bery</li>
-        <li>Mechanics - CoffeeLover</li>
+        <li>Mechanics - Dani93</li>
       </ul>
     </section>
 
@@ -159,12 +159,14 @@
 
     <section class="comments">
       <h2 class="section-title">Comment Section</h2>
-      <textarea class="comment-box" placeholder="Write a comment here"></textarea>
-      <button class="publish-btn">Publish</button>
+      <form id="commentsMainForm">
+      <input class="comment-box" id="comment-main-input" placeholder="Write a comment here"></input>
+      <button class="publish-btn" type="submit">Publish</button>
+      </form>
       <div class="comment-list" comments-main-container>
         <template comments-main-template>
           <div class="comment">
-            <p comments-main-username><strong></strong></p> 
+            <p comments-main-username></p> 
             <p comments-main-date></p>
             <p comments-main-description></p>
           </div>
