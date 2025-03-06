@@ -14,6 +14,10 @@ const togglenewsFormM = document.getElementById('togglenewsFormM');
 const newsForm = document.getElementById('newsForm');
 const overlay = document.querySelector('.overlay');
 const cancelNewsButton = document.getElementById('cancel-news');
+//announcement-form
+const toggleannouncementFormP = document.getElementById('toggleannouncementFormP');
+const toggleannouncementFormE = document.getElementById('toggleannouncementFormE');
+const toggleannouncementFormM = document.getElementById('toggleannouncementFormM');
 //register-loginForms
 const registerForm = document.getElementById('registerForm');
 const loginForm = document.getElementById('loginForm');
@@ -50,7 +54,6 @@ const CommentsPoliceContainer = document.querySelector("[comments-police-contain
 const CommentsPoliceTemplate = document.querySelector("[comments-police-template]");
 const CommentsPoliceForm = document.getElementById('commentsPoliceForm');
 
-
 const CommentsEMSContainer = document.querySelector("[comments-ems-container]");
 const CommentsEMSTemplate = document.querySelector("[comments-ems-template]");
 const CommentsEMSForm = document.getElementById('commentsEMSForm');
@@ -61,14 +64,15 @@ const CommentsMechanicsForm = document.getElementById('commentsMechanicsForm');
 //announcements
 const AnnouncementsPoliceContainer = document.querySelector("[announcements-police-container]");
 const AnnouncementsPoliceTemplate = document.querySelector("[announcements-police-template]");
-
+const AnnouncementsPoliceForm = document.getElementById('announcementsPoliceForm');
 
 const AnnouncementsEMSContainer = document.querySelector("[announcements-ems-container]");
 const AnnouncementsEMSTemplate = document.querySelector("[announcements-ems-template]");
+const AnnouncementsEMSForm = document.getElementById('announcementsEMSForm');
 
 const AnnouncementsMechanicsContainer = document.querySelector("[announcements-mechanics-container]");
 const AnnouncementsMechanicsTemplate = document.querySelector("[announcements-mechanics-template]");
-
+const AnnouncementsMechanicsForm = document.getElementById('announcementsMechanicsForm');
 
 //loginglobal
 const token = localStorage.getItem('token');
@@ -153,6 +157,27 @@ if (togglenewsFormE) {
 
 if (togglenewsFormM) {
   togglenewsFormM.addEventListener('click', () => {
+  newsForm.classList.toggle('active');
+  overlay.classList.toggle('active');
+});
+}
+
+if (toggleannouncementFormP) {
+  toggleannouncementFormP.addEventListener('click', () => {
+  newsForm.classList.toggle('active');
+  overlay.classList.toggle('active');
+});
+}
+
+if (toggleannouncementFormE) {
+  toggleannouncementFormE.addEventListener('click', () => {
+  newsForm.classList.toggle('active');
+  overlay.classList.toggle('active');
+});
+}
+
+if (toggleannouncementFormM) {
+  toggleannouncementFormM.addEventListener('click', () => {
   newsForm.classList.toggle('active');
   overlay.classList.toggle('active');
 });
@@ -546,6 +571,7 @@ if (token && userName) {
       togglenewsFormP.style.display = 'none';
     };
   };
+
   if (togglenewsFormE) {
     if (role === 'Owner' || role === 'EMS Chief') {
       togglenewsFormE.style.display = 'block';
@@ -553,11 +579,36 @@ if (token && userName) {
       togglenewsFormE.style.display = 'none';
     };
   };
+
   if (togglenewsFormM) {
     if (role === 'Owner' || role === 'Mechanics Chief') {
       togglenewsFormM.style.display = 'block';
     } else {
       togglenewsFormM.style.display = 'none';
+    };
+  };
+
+  if (toggleannouncementFormP) {
+    if (role === 'Owner' || role === 'Police Chief') {
+      toggleannouncementFormP.style.display = 'block';
+    } else {
+      toggleannouncementFormP.style.display = 'none';
+    };
+  };
+
+  if (toggleannouncementFormE) {
+    if (role === 'Owner' || role === 'EMS Chief') {
+      toggleannouncementFormP.style.display = 'block';
+    } else {
+      toggleannouncementFormP.style.display = 'none';
+    };
+  };
+
+  if (toggleannouncementFormM) {
+    if (role === 'Owner' || role === 'Mechanics Chief') {
+      toggleannouncementFormP.style.display = 'block';
+    } else {
+      toggleannouncementFormP.style.display = 'none';
     };
   };
 } else {
@@ -848,5 +899,87 @@ if (CommentsMechanicsForm) {
 //end-of-comments-input
 
 //announcements-input
+if (AnnouncementsPoliceForm) {
+  AnnouncementsPoliceForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
 
+    const heading = document.getElementById('announcementpoliceHeading').value;
+    const content = document.getElementById('announcementpoliceContent').value;
+
+    const response = await fetch('https://scapi-nine.vercel.app/policeannouncementtbl', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        Title: heading,
+        Content: content
+      })
+    });
+
+    if(response.ok) {
+      alert('Announcement created successfully');
+      location.reload();
+    } else {
+      alert('Error creating announcement');
+    }
+});
+}
+
+if (AnnouncementsEMSForm) {
+  AnnouncementsEMSForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const heading = document.getElementById('announcementemsHeading').value;
+    const content = document.getElementById('announcementemsContent').value;
+
+    const response = await fetch('https://scapi-nine.vercel.app/emsannouncementtbl', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        Title: heading,
+        Content: content
+      })
+    });
+
+    if(response.ok) {
+      alert('Announcement created successfully');
+      location.reload();
+    } else {
+      alert('Error creating announcement');
+    }
+});
+}
+
+if (AnnouncementsMechanicsForm) {
+  AnnouncementsMechanicsForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const heading = document.getElementById('announcementmechanicsHeading').value;
+    const content = document.getElementById('announcementmechanicsContent').value;
+
+    const response = await fetch('https://scapi-nine.vercel.app/mechanicsannouncementtbl', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        Title: heading,
+        Content: content
+      })
+    });
+
+    if(response.ok) {
+      alert('Announcement created successfully');
+      location.reload();
+    } else {
+      alert('Error creating announcement');
+    }
+});
+}
 //end-of-announcements-input

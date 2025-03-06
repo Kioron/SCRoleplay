@@ -455,7 +455,9 @@ body {
 .main .news .news-section-heading #togglenewsForm,
 .main .news .news-section-heading #togglenewsFormP,
 .main .news .news-section-heading #togglenewsFormE,
-.main .news .news-section-heading #togglenewsFormM {
+.main .news .news-section-heading #togglenewsFormM,
+.main .news .news-section-heading #toggleannouncementFormP,
+.main .news .news-section-heading #toggleannouncementFormE #toggleannouncementFormM {
   display: none;
   margin-left: 2rem;
   padding: 1rem 1.5rem;
@@ -470,7 +472,9 @@ body {
 .main .news .news-section-heading #togglenewsForm:hover,
 .main .news .news-section-heading #togglenewsFormP:hover,
 .main .news .news-section-heading #togglenewsFormE:hover,
-.main .news .news-section-heading #togglenewsFormM:hover {
+.main .news .news-section-heading #togglenewsFormM:hover,
+.main .news .news-section-heading #toggleannouncementFormP:hover,
+.main .news .news-section-heading #toggleannouncementFormE #toggleannouncementFormM:hover {
   background-color: #2980b9;
 }
 .main .news .news-grid {
