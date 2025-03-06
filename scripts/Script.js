@@ -69,10 +69,40 @@ const AnnouncementsEMSTemplate = document.querySelector("[announcements-ems-temp
 const AnnouncementsMechanicsContainer = document.querySelector("[announcements-mechanics-container]");
 const AnnouncementsMechanicsTemplate = document.querySelector("[announcements-mechanics-template]");
 
+
 //loginglobal
 const token = localStorage.getItem('token');
 const userName = localStorage.getItem('userName');
 const role = localStorage.getItem('role');
+
+//restriction-for-faction-subpages
+function getCurrentPath() {
+  return window.location.pathname;
+}
+const currentPath = getCurrentPath();
+if (currentPath === '/html/PoliceOnly.html'){
+  if (!token || (role !== 'Owner' && role !== 'Police Chief' && role !== 'Police')) {
+    window.location.href = "/index.html"; 
+  }  
+}
+
+if (currentPath === '/html/EMSOnly.html') {
+  if (!token || (role !== 'Owner' && role !== 'EMS Chief' && role !== 'EMS')) {
+    window.location.href = "/index.html"; 
+  }  
+}
+
+if (currentPath === '/html/MechanicsOnly.html') {
+  if (!token || (role !== 'Owner' && role !== 'Mechanics Chief' && role !== 'Mechanics')) {
+    window.location.href = "/index.html"; 
+  }  
+}
+
+if (currentPath === '/html/RegistrationPage.html') {
+  if (token) {
+    window.location.href = "/index.html";
+  }
+}
 
 //dropdowns
 if (navToggle) {
@@ -534,69 +564,6 @@ if (token && userName) {
   loginForm.style.display = 'block';
   logoutButton.style.display = 'none';
   userNameDisplay.textContent = '';
-}
-
-  //restrictedaccess-Police
-  if (PoliceHQLink) {
-    PoliceHQLink.addEventListener('click', async (event) => {
-      event.preventDefault();
-    
-      const response = await fetch('https://scapi-nine.vercel.app/restricted/PoliceOnly.html', {
-      method: 'GET',
-      headers: {
-          'Authorization': `Bearer ${token}`
-      }
-    });
-  
-  if (response.ok) {
-    const html = await response.text();
-      document.documentElement.innerHTML = html;
-    } else {
-      alert('Access denied');
-    }
-  });
-  }
-
-//restrictedaccess-EMS
-if (EMSHQLink) {
-  EMSHQLink.addEventListener('click', async (event) => {
-    event.preventDefault();
-  
-    const response = await fetch('https://scapi-nine.vercel.app/restricted/EMSOnly.html', {
-    method: 'GET',
-    headers: {
-        'Authorization': `Bearer ${token}`
-    }
-  });
-
-if (response.ok) {
-  const html = await response.text();
-    document.documentElement.innerHTML = html;
-  } else {
-    alert('Access denied');
-  }
-});
-}
-
-//restrictedaccess-Mechanics
-if (MechanicsHQLink) {
-  MechanicsHQLink.addEventListener('click', async (event) => {
-    event.preventDefault();
-  
-    const response = await fetch('https://scapi-nine.vercel.app/restricted/MechanicsOnly.html', {
-    method: 'GET',
-    headers: {
-        'Authorization': `Bearer ${token}`
-    }
-  });
-
-if (response.ok) {
-  const html = await response.text();
-    document.documentElement.innerHTML = html;
-  } else {
-    alert('Access denied');
-  }
-});
 }
 
 
