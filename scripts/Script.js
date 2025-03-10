@@ -49,18 +49,22 @@ const NewsMechanicsForm = document.getElementById('newsMechanicsForm');
 const CommentsMainContainer = document.querySelector("[comments-main-container]");
 const CommentsMainTemplate = document.querySelector("[comments-main-template]");
 const CommentsMainForm = document.getElementById('commentsMainForm');
+const CommentsMainEdit = document.getElementById('commentMainEdit');
 
 const CommentsPoliceContainer = document.querySelector("[comments-police-container]");
 const CommentsPoliceTemplate = document.querySelector("[comments-police-template]");
 const CommentsPoliceForm = document.getElementById('commentsPoliceForm');
+const CommentsPoliceEdit = document.getElementById('commentPoliceEdit');
 
 const CommentsEMSContainer = document.querySelector("[comments-ems-container]");
 const CommentsEMSTemplate = document.querySelector("[comments-ems-template]");
 const CommentsEMSForm = document.getElementById('commentsEMSForm');
+const CommentsEMSEdit = document.getElementById('commentEMSEdit');
 
 const CommentsMechanicsContainer = document.querySelector("[comments-mechanics-container]");
 const CommentsMechanicsTemplate = document.querySelector("[comments-mechanics-template]");
 const CommentsMechanicsForm = document.getElementById('commentsMechanicsForm');
+const CommentsMechanicsEdit = document.getElementById('commentMechanicsEdit');
 //announcements
 const AnnouncementsPoliceContainer = document.querySelector("[announcements-police-container]");
 const AnnouncementsPoliceTemplate = document.querySelector("[announcements-police-template]");
@@ -73,7 +77,8 @@ const AnnouncementsEMSForm = document.getElementById('announcementsEMSForm');
 const AnnouncementsMechanicsContainer = document.querySelector("[announcements-mechanics-container]");
 const AnnouncementsMechanicsTemplate = document.querySelector("[announcements-mechanics-template]");
 const AnnouncementsMechanicsForm = document.getElementById('announcementsMechanicsForm');
-
+//edit-delete
+const ToggleMoreCommentOptions = document.querySelectorAll("[more-options-icon]")
 //loginglobal
 const token = localStorage.getItem('token');
 const userName = localStorage.getItem('userName');
@@ -84,22 +89,22 @@ function getCurrentPath() {
   return window.location.pathname;
 }
 const currentPath = getCurrentPath();
-if (currentPath === '/html/PoliceOnly.html'){
+if (currentPath === '/html/PoliceOnly.html') {
   if (!token || (role !== 'Owner' && role !== 'Police Chief' && role !== 'Police')) {
-    window.location.href = "/index.html"; 
-  }  
+    window.location.href = "/index.html";
+  }
 }
 
 if (currentPath === '/html/EMSOnly.html') {
   if (!token || (role !== 'Owner' && role !== 'EMS Chief' && role !== 'EMS')) {
-    window.location.href = "/index.html"; 
-  }  
+    window.location.href = "/index.html";
+  }
 }
 
 if (currentPath === '/html/MechanicsOnly.html') {
   if (!token || (role !== 'Owner' && role !== 'Mechanics Chief' && role !== 'Mechanics')) {
-    window.location.href = "/index.html"; 
-  }  
+    window.location.href = "/index.html";
+  }
 }
 
 if (currentPath === '/html/RegistrationPage.html') {
@@ -110,84 +115,105 @@ if (currentPath === '/html/RegistrationPage.html') {
 
 //dropdowns
 if (navToggle) {
-    navToggle.addEventListener('click', () => {
-        nav.classList.toggle('aria-expanded');
-        navToggle.blur();
-    });
+  navToggle.addEventListener('click', () => {
+    nav.classList.toggle('aria-expanded');
+    navToggle.blur();
+  });
 }
 
 if (dropdownToggle) {
-    dropdownToggle.addEventListener('click', () => {
-        dropdownContent.classList.toggle('show');
-    });
+  dropdownToggle.addEventListener('click', () => {
+    dropdownContent.classList.toggle('show');
+  });
 }
 
 if (loginButton) {
-    loginButton.addEventListener('click', () => {
-        dropdownLogin.classList.toggle('show');
-    });
-}   
+  loginButton.addEventListener('click', () => {
+    dropdownLogin.classList.toggle('show');
+  });
+}
 
 if (dropdownLogin) {
-    dropdownLogin.addEventListener('click', (event) => {
-        event.stopPropagation();
-    });
+  dropdownLogin.addEventListener('click', (event) => {
+    event.stopPropagation();
+  });
 }
 
 if (togglenewsForm) {
-        togglenewsForm.addEventListener('click', () => {
-        newsForm.classList.toggle('active');
-        overlay.classList.toggle('active');
-    });
+  togglenewsForm.addEventListener('click', () => {
+    newsForm.classList.toggle('active');
+    overlay.classList.toggle('active');
+  });
 }
 
 if (togglenewsFormP) {
   togglenewsFormP.addEventListener('click', () => {
-  newsForm.classList.toggle('active');
-  overlay.classList.toggle('active');
-});
+    newsForm.classList.toggle('active');
+    overlay.classList.toggle('active');
+  });
 }
 
 if (togglenewsFormE) {
   togglenewsFormE.addEventListener('click', () => {
-  newsForm.classList.toggle('active');
-  overlay.classList.toggle('active');
-});
+    newsForm.classList.toggle('active');
+    overlay.classList.toggle('active');
+  });
 }
 
 if (togglenewsFormM) {
   togglenewsFormM.addEventListener('click', () => {
-  newsForm.classList.toggle('active');
-  overlay.classList.toggle('active');
-});
+    newsForm.classList.toggle('active');
+    overlay.classList.toggle('active');
+  });
 }
 
 if (toggleannouncementFormP) {
   toggleannouncementFormP.addEventListener('click', () => {
-  newsForm.classList.toggle('active');
-  overlay.classList.toggle('active');
-});
+    newsForm.classList.toggle('active');
+    overlay.classList.toggle('active');
+  });
 }
 
 if (toggleannouncementFormE) {
   toggleannouncementFormE.addEventListener('click', () => {
-  newsForm.classList.toggle('active');
-  overlay.classList.toggle('active');
-});
+    newsForm.classList.toggle('active');
+    overlay.classList.toggle('active');
+  });
 }
 
 if (toggleannouncementFormM) {
   toggleannouncementFormM.addEventListener('click', () => {
-  newsForm.classList.toggle('active');
-  overlay.classList.toggle('active');
-});
+    newsForm.classList.toggle('active');
+    overlay.classList.toggle('active');
+  });
+}
+
+if (ToggleMoreCommentOptions) {
+  ToggleMoreCommentOptions.forEach(icon => {
+    icon.addEventListener('click', event => {
+      console.log("click");
+      event.stopPropagation();
+      const dropdown = event.target.nextElementSibling;
+      dropdown.classList.toggle('show');
+    });
+  });
+
+  window.addEventListener('click', event => {
+    if (!event.target.matches(ToggleMoreCommentOptions)) {
+      document.querySelectorAll('.comment-options-dropdown').forEach(dropdown => {
+        if (dropdown.classList.contains('show')) {
+          dropdown.classList.remove('show');
+        }    
+      });
+    }
+  });
 }
 
 if (overlay) {
-        overlay.addEventListener('click', () => {
-        newsForm.classList.remove('active');
-        overlay.classList.remove('active');
-    });
+  overlay.addEventListener('click', () => {
+    newsForm.classList.remove('active');
+    overlay.classList.remove('active');
+  });
 }
 
 if (cancelNewsButton) {
@@ -200,9 +226,9 @@ if (cancelNewsButton) {
 
 
 if (newsForm) {
-        newsForm.addEventListener('click', (event) => {
-        event.stopPropagation();
-    });
+  newsForm.addEventListener('click', (event) => {
+    event.stopPropagation();
+  });
 }
 
 if (PoliceHQLink) {
@@ -230,247 +256,254 @@ if (MechanicsHQLink) {
 }
 
 window.addEventListener('click', (event) => {
-    if (!event.target.matches('.dropdown-toggle')) {
-        if (dropdownContent.classList.contains('show')) {
-            dropdownContent.classList.remove('show');
-        }
+  if (!event.target.matches('.dropdown-toggle')) {
+    if (dropdownContent.classList.contains('show')) {
+      dropdownContent.classList.remove('show');
     }
-    if (!event.target.closest('.auth-wrapper') && !event.target.closest('.dropdown-login')) {
-        if (dropdownLogin.classList.contains('show')) {
-            dropdownLogin.classList.remove('show');
-        }
+  }
+  if (!event.target.closest('.auth-wrapper') && !event.target.closest('.dropdown-login')) {
+    if (dropdownLogin.classList.contains('show')) {
+      dropdownLogin.classList.remove('show');
     }
+  }
 });
 //end-of-dropdowns
 
 //news-main
 if (NewsMainTemplate && NewsMainGrid) {
-fetch('https://scapi-nine.vercel.app/homenewstbl')
-  .then((response) => response.json())
-  .then((data) => {
-   newsmainsearch = data.map(newsmain => {
+  fetch('https://scapi-nine.vercel.app/homenewstbl')
+    .then((response) => response.json())
+    .then((data) => {
+      newsmainsearch = data.map(newsmain => {
         const newsmainlist = NewsMainTemplate.content.cloneNode(true);
         const newsmainElement = newsmainlist.firstElementChild;
         const heading = newsmainElement.querySelector("[news-main-heading]");
         const description = newsmainElement.querySelector("[news-main-description]");
         const date = newsmainElement.querySelector("[news-main-date]");
         if (heading && description) {
-            heading.textContent = newsmain.Title;
-            description.textContent = newsmain.Content;
-            date.textContent = "Date Published: " + new Date(newsmain.created_at).toISOString().split('T')[0];
-            NewsMainGrid.append(newsmainElement);
-            return { heading: newsmain.Title, description: newsmain.Content, date: newsmain.created_at, element: newsmainElement };
-          } else {
-            console.error('Error creating news:', newsmain);
-            return null;
-          }
-          });
-  })
-  .catch((error) => console.error('Error fetching quests:', error));
+          heading.textContent = newsmain.Title;
+          description.textContent = newsmain.Content;
+          date.textContent = "Date Published: " + new Date(newsmain.created_at).toISOString().split('T')[0];
+          NewsMainGrid.append(newsmainElement);
+          return { heading: newsmain.Title, description: newsmain.Content, date: newsmain.created_at, element: newsmainElement };
+        } else {
+          console.error('Error creating news:', newsmain);
+          return null;
+        }
+      });
+    })
+    .catch((error) => console.error('Error fetching quests:', error));
 }
 //news-police
 if (NewsPoliceTemplate && NewsPoliceGrid) {
-    fetch('https://scapi-nine.vercel.app/policenewstbl')
-      .then((response) => response.json())
-      .then((data) => {
-       newspolicesearch = data.map(newspolice => {
-            const newspolicelist = NewsPoliceTemplate.content.cloneNode(true);
-            const newspoliceElement = newspolicelist.firstElementChild;
-            const heading = newspoliceElement.querySelector("[news-police-heading]");
-            const description = newspoliceElement.querySelector("[news-police-description]");
-            const date = newspoliceElement.querySelector("[news-police-date]");
-            if (heading && description) {
-                heading.textContent = newspolice.Title;
-                description.textContent = newspolice.Content;
-                date.textContent = "Date Published: " + new Date(newspolice.created_at).toISOString().split('T')[0];
-                NewsPoliceGrid.append(newspoliceElement);
-                return { heading: newspolice.Title, description: newspolice.Content, date: newspolice.created_at, element: newspoliceElement };
-              } else {
-                console.error('Error creating news:', newspolice);
-                return null;
-              }
-              });
-      })
-      .catch((error) => console.error('Error fetching quests:', error));
-    }
+  fetch('https://scapi-nine.vercel.app/policenewstbl')
+    .then((response) => response.json())
+    .then((data) => {
+      newspolicesearch = data.map(newspolice => {
+        const newspolicelist = NewsPoliceTemplate.content.cloneNode(true);
+        const newspoliceElement = newspolicelist.firstElementChild;
+        const heading = newspoliceElement.querySelector("[news-police-heading]");
+        const description = newspoliceElement.querySelector("[news-police-description]");
+        const date = newspoliceElement.querySelector("[news-police-date]");
+        if (heading && description) {
+          heading.textContent = newspolice.Title;
+          description.textContent = newspolice.Content;
+          date.textContent = "Date Published: " + new Date(newspolice.created_at).toISOString().split('T')[0];
+          NewsPoliceGrid.append(newspoliceElement);
+          return { heading: newspolice.Title, description: newspolice.Content, date: newspolice.created_at, element: newspoliceElement };
+        } else {
+          console.error('Error creating news:', newspolice);
+          return null;
+        }
+      });
+    })
+    .catch((error) => console.error('Error fetching quests:', error));
+}
 //news-ems
 if (NewsEMSTemplate && NewsEMSGrid) {
-    fetch('https://scapi-nine.vercel.app/emsnewstbl')
-      .then((response) => response.json())
-      .then((data) => {
-       newsemssearch = data.map(newsems => {
-            const newsemslist = NewsEMSTemplate.content.cloneNode(true);
-            const newsemsElement = newsemslist.firstElementChild;
-            const heading = newsemsElement.querySelector("[news-ems-heading]");
-            const description = newsemsElement.querySelector("[news-ems-description]");
-            const date = newsemsElement.querySelector("[news-ems-date]");
-            if (heading && description) {
-                heading.textContent = newsems.Title;
-                description.textContent = newsems.Content;
-                date.textContent = "Date Published: " + new Date(newsems.created_at).toISOString().split('T')[0];
-                NewsEMSGrid.append(newsemsElement);
-                return { heading: newsems.Title, description: newsems.Content, date: newsems.created_at, element: newsemsElement };
-              } else {
-                console.error('Error creating news:', newsems);
-                return null;
-              }
-              });
-      })
-      .catch((error) => console.error('Error fetching quests:', error));
-    }
+  fetch('https://scapi-nine.vercel.app/emsnewstbl')
+    .then((response) => response.json())
+    .then((data) => {
+      newsemssearch = data.map(newsems => {
+        const newsemslist = NewsEMSTemplate.content.cloneNode(true);
+        const newsemsElement = newsemslist.firstElementChild;
+        const heading = newsemsElement.querySelector("[news-ems-heading]");
+        const description = newsemsElement.querySelector("[news-ems-description]");
+        const date = newsemsElement.querySelector("[news-ems-date]");
+        if (heading && description) {
+          heading.textContent = newsems.Title;
+          description.textContent = newsems.Content;
+          date.textContent = "Date Published: " + new Date(newsems.created_at).toISOString().split('T')[0];
+          NewsEMSGrid.append(newsemsElement);
+          return { heading: newsems.Title, description: newsems.Content, date: newsems.created_at, element: newsemsElement };
+        } else {
+          console.error('Error creating news:', newsems);
+          return null;
+        }
+      });
+    })
+    .catch((error) => console.error('Error fetching quests:', error));
+}
 //news-mechanics
 if (NewsMechanicsTemplate && NewsMechanicsGrid) {
-    fetch('https://scapi-nine.vercel.app/mechanicsnewstbl')
-      .then((response) => response.json())
-      .then((data) => {
-       newsmechanicssearch = data.map(newsmechanics => {
-            const newsmechanicslist = NewsMechanicsTemplate.content.cloneNode(true);
-            const newsmechanicsElement = newsmechanicslist.firstElementChild;
-            const heading = newsmechanicsElement.querySelector("[news-mechanics-heading]");
-            const description = newsmechanicsElement.querySelector("[news-mechanics-description]");
-            const date = newsmechanicsElement.querySelector("[news-mechanics-date]");
-            if (heading && description) {
-                heading.textContent = newsmechanics.Title;
-                description.textContent = newsmechanics.Content;
-                date.textContent = "Date Published: " + new Date(newsmechanics.created_at).toISOString().split('T')[0];
-                NewsMechanicsGrid.append(newsmechanicsElement);
-                return { heading: newsmechanics.Title, description: newsmechanics.Content, date: newsmechanics.created_at, element: newsmechanicsElement };
-              } else {
-                console.error('Error creating news:', newsmechanics);
-                return null;
-              }
-              });
-      })
-      .catch((error) => console.error('Error fetching quests:', error));
-    }
+  fetch('https://scapi-nine.vercel.app/mechanicsnewstbl')
+    .then((response) => response.json())
+    .then((data) => {
+      newsmechanicssearch = data.map(newsmechanics => {
+        const newsmechanicslist = NewsMechanicsTemplate.content.cloneNode(true);
+        const newsmechanicsElement = newsmechanicslist.firstElementChild;
+        const heading = newsmechanicsElement.querySelector("[news-mechanics-heading]");
+        const description = newsmechanicsElement.querySelector("[news-mechanics-description]");
+        const date = newsmechanicsElement.querySelector("[news-mechanics-date]");
+        if (heading && description) {
+          heading.textContent = newsmechanics.Title;
+          description.textContent = newsmechanics.Content;
+          date.textContent = "Date Published: " + new Date(newsmechanics.created_at).toISOString().split('T')[0];
+          NewsMechanicsGrid.append(newsmechanicsElement);
+          return { heading: newsmechanics.Title, description: newsmechanics.Content, date: newsmechanics.created_at, element: newsmechanicsElement };
+        } else {
+          console.error('Error creating news:', newsmechanics);
+          return null;
+        }
+      });
+    })
+    .catch((error) => console.error('Error fetching quests:', error));
+}
 
 
 //comments-main
 if (CommentsMainTemplate && CommentsMainContainer) {
-    fetch('https://scapi-nine.vercel.app/homecommenttbl')
-      .then((response) => response.json())
-      .then((data) => {
-        data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-       commentsmainsearch = data.map(commentsmain => {
-            const commentsmainlist = CommentsMainTemplate.content.cloneNode(true);
-            const commentsmainElement = commentsmainlist.firstElementChild;
-            const heading = commentsmainElement.querySelector("[comments-main-username]");
-            const date = commentsmainElement.querySelector("[comments-main-date]");
-            const description = commentsmainElement.querySelector("[comments-main-description]");
-            if (heading && description) {
-                heading.textContent = commentsmain.UserName;
-                date.textContent = new Date(commentsmain.created_at).toISOString().split('T')[0];
-                description.textContent = commentsmain.Content;
-                CommentsMainContainer.append(commentsmainElement);
-                return { heading: commentsmain.UserName, description: commentsmain.Content, element: commentsmainElement };
-              } else {
-                console.error('Error creating comments:', commentsmain);
-                return null;
-              }
-              });
-      })
-      .catch((error) => console.error('Error fetching comments:', error));
-    }
+  fetch('https://scapi-nine.vercel.app/homecommenttbl')
+    .then((response) => response.json())
+    .then((data) => {
+      data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      commentsmainsearch = data.map(commentsmain => {
+        const commentsmainlist = CommentsMainTemplate.content.cloneNode(true);
+        const commentsmainElement = commentsmainlist.firstElementChild;
+        commentsmainElement.setAttribute('data-comment-id', commentsmain.id);
+        const heading = commentsmainElement.querySelector("[comments-main-username]");
+        const date = commentsmainElement.querySelector("[comments-main-date]");
+        const description = commentsmainElement.querySelector("[comments-main-description]");
+        const options = commentsmainElement.querySelector(".togglecommentOptions");
+        if (heading && description) {
+          heading.textContent = commentsmain.UserName;
+          date.textContent = new Date(commentsmain.created_at).toISOString().split('T')[0];
+          description.textContent = commentsmain.Content;
+          if (commentsmain.UserName === userName) {
+            options.style.display = 'block';
+          } else {
+            options.style.display = 'none';
+          }
+          CommentsMainContainer.append(commentsmainElement);
+          return { heading: commentsmain.UserName, description: commentsmain.Content, element: commentsmainElement };
+        } else {
+          console.error('Error creating comments:', commentsmain);
+          return null;
+        }
+      });
+    })
+    .catch((error) => console.error('Error fetching comments:', error));
+}
 //comments-police
 if (CommentsPoliceTemplate && CommentsPoliceContainer) {
-    fetch('https://scapi-nine.vercel.app/policecommenttbl')
-      .then((response) => response.json())
-      .then((data) => {
-        data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-       commentspolicesearch = data.map(commentspolice => {
-            const commentspolicelist = CommentsPoliceTemplate.content.cloneNode(true);
-            const commentspoliceElement = commentspolicelist.firstElementChild;
-            const heading = commentspoliceElement.querySelector("[comments-police-username]");
-            const date = commentspoliceElement.querySelector("[comments-police-date]");
-            const description = commentspoliceElement.querySelector("[comments-police-description]");
-            if (heading && description) {
-                heading.textContent = commentspolice.UserName;
-                date.textContent = new Date(commentspolice.created_at).toISOString().split('T')[0];
-                description.textContent = commentspolice.Content;
-                CommentsPoliceContainer.append(commentspoliceElement);
-                return { heading: commentspolice.UserName, description: commentspolice.Content, element: commentspoliceElement };
-              } else {
-                console.error('Error creating comments:', commentspolice);
-                return null;
-              }
-              });
-      })
-      .catch((error) => console.error('Error fetching comments:', error));
-    }
+  fetch('https://scapi-nine.vercel.app/policecommenttbl')
+    .then((response) => response.json())
+    .then((data) => {
+      data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      commentspolicesearch = data.map(commentspolice => {
+        const commentspolicelist = CommentsPoliceTemplate.content.cloneNode(true);
+        const commentspoliceElement = commentspolicelist.firstElementChild;
+        const heading = commentspoliceElement.querySelector("[comments-police-username]");
+        const date = commentspoliceElement.querySelector("[comments-police-date]");
+        const description = commentspoliceElement.querySelector("[comments-police-description]");
+        if (heading && description) {
+          heading.textContent = commentspolice.UserName;
+          date.textContent = new Date(commentspolice.created_at).toISOString().split('T')[0];
+          description.textContent = commentspolice.Content;
+          CommentsPoliceContainer.append(commentspoliceElement);
+          return { heading: commentspolice.UserName, description: commentspolice.Content, element: commentspoliceElement };
+        } else {
+          console.error('Error creating comments:', commentspolice);
+          return null;
+        }
+      });
+    })
+    .catch((error) => console.error('Error fetching comments:', error));
+}
 //comments-ems
 if (CommentsEMSTemplate && CommentsEMSContainer) {
-    fetch('https://scapi-nine.vercel.app/emscommenttbl')
-      .then((response) => response.json())
-      .then((data) => {
-        data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-       commentsemssearch = data.map(commentsems => {
-            const commentsemslist = CommentsEMSTemplate.content.cloneNode(true);
-            const commentsemsElement = commentsemslist.firstElementChild;
-            const heading = commentsemsElement.querySelector("[comments-ems-username]");
-            const date = commentsemsElement.querySelector("[comments-ems-date]");
-            const description = commentsemsElement.querySelector("[comments-ems-description]");
-            if (heading && description) {
-                heading.textContent = commentsems.UserName;
-                date.textContent = new Date(commentsems.created_at).toISOString().split('T')[0];
-                description.textContent = commentsems.Content;
-                CommentsEMSContainer.append(commentsemsElement);
-                return { heading: commentsems.UserName, description: commentsems.Content, element: commentsemsElement };
-              } else {
-                console.error('Error creating comments:', commentsems);
-                return null;
-              }
-              });
-      })
-      .catch((error) => console.error('Error fetching comments:', error));
-    }
+  fetch('https://scapi-nine.vercel.app/emscommenttbl')
+    .then((response) => response.json())
+    .then((data) => {
+      data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      commentsemssearch = data.map(commentsems => {
+        const commentsemslist = CommentsEMSTemplate.content.cloneNode(true);
+        const commentsemsElement = commentsemslist.firstElementChild;
+        const heading = commentsemsElement.querySelector("[comments-ems-username]");
+        const date = commentsemsElement.querySelector("[comments-ems-date]");
+        const description = commentsemsElement.querySelector("[comments-ems-description]");
+        if (heading && description) {
+          heading.textContent = commentsems.UserName;
+          date.textContent = new Date(commentsems.created_at).toISOString().split('T')[0];
+          description.textContent = commentsems.Content;
+          CommentsEMSContainer.append(commentsemsElement);
+          return { heading: commentsems.UserName, description: commentsems.Content, element: commentsemsElement };
+        } else {
+          console.error('Error creating comments:', commentsems);
+          return null;
+        }
+      });
+    })
+    .catch((error) => console.error('Error fetching comments:', error));
+}
 //comments-mechanics
 if (CommentsMechanicsTemplate && CommentsMechanicsContainer) {
-    fetch('https://scapi-nine.vercel.app/mechanicscommenttbl')
-      .then((response) => response.json())
-      .then((data) => {
-        data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-       commentsmechanicssearch = data.map(commentsmechanics => {
-            const commentsmechanicslist = CommentsMechanicsTemplate.content.cloneNode(true);
-            const commentsmechanicsElement = commentsmechanicslist.firstElementChild;
-            const heading = commentsmechanicsElement.querySelector("[comments-mechanics-username]");
-            const date = commentsmechanicsElement.querySelector("[comments-mechanics-date]");
-            const description = commentsmechanicsElement.querySelector("[comments-mechanics-description]");
-            if (heading && description) {
-                heading.textContent = commentsmechanics.UserName;
-                date.textContent = new Date(commentsmechanics.created_at).toISOString().split('T')[0];
-                description.textContent = commentsmechanics.Content;
-                CommentsMechanicsContainer.append(commentsmechanicsElement);
-                return { heading: commentsmechanics.UserName, description: commentsmechanics.Content, element: commentsmechanicsElement };
-              } else {
-                console.error('Error creating comments:', commentsmechanics);
-                return null;
-              }
-              });
-      })
-      .catch((error) => console.error('Error fetching comments:', error));
-    }
+  fetch('https://scapi-nine.vercel.app/mechanicscommenttbl')
+    .then((response) => response.json())
+    .then((data) => {
+      data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      commentsmechanicssearch = data.map(commentsmechanics => {
+        const commentsmechanicslist = CommentsMechanicsTemplate.content.cloneNode(true);
+        const commentsmechanicsElement = commentsmechanicslist.firstElementChild;
+        const heading = commentsmechanicsElement.querySelector("[comments-mechanics-username]");
+        const date = commentsmechanicsElement.querySelector("[comments-mechanics-date]");
+        const description = commentsmechanicsElement.querySelector("[comments-mechanics-description]");
+        if (heading && description) {
+          heading.textContent = commentsmechanics.UserName;
+          date.textContent = new Date(commentsmechanics.created_at).toISOString().split('T')[0];
+          description.textContent = commentsmechanics.Content;
+          CommentsMechanicsContainer.append(commentsmechanicsElement);
+          return { heading: commentsmechanics.UserName, description: commentsmechanics.Content, element: commentsmechanicsElement };
+        } else {
+          console.error('Error creating comments:', commentsmechanics);
+          return null;
+        }
+      });
+    })
+    .catch((error) => console.error('Error fetching comments:', error));
+}
 
 //announcements-police
 if (AnnouncementsPoliceTemplate && AnnouncementsPoliceContainer) {
- fetch('https://scapi-nine.vercel.app/policeannouncementtbl')
-  .then ((response) => response.json())
-  .then ((data) => {
-    announcementspolicesearch = data.map(announcementspolice => {
+  fetch('https://scapi-nine.vercel.app/policeannouncementtbl')
+    .then((response) => response.json())
+    .then((data) => {
+      announcementspolicesearch = data.map(announcementspolice => {
         const announcementspolicelist = AnnouncementsPoliceTemplate.content.cloneNode(true);
         const announcementspoliceElement = announcementspolicelist.firstElementChild;
         const heading = announcementspoliceElement.querySelector("[announcements-police-heading]");
         const description = announcementspoliceElement.querySelector("[announcements-police-description]");
         if (heading && description) {
-            heading.textContent = announcementspolice.Title;
-            description.textContent = announcementspolice.Content;
-            AnnouncementsPoliceContainer.append(announcementspoliceElement);
-            return { heading: announcementspolice.Title, description: announcementspolice.Content, element: announcementspoliceElement };
-          } else {
-            console.error('Error creating announcements:', announcementspolice);
-            return null;
-          }
-          });
- })
+          heading.textContent = announcementspolice.Title;
+          description.textContent = announcementspolice.Content;
+          AnnouncementsPoliceContainer.append(announcementspoliceElement);
+          return { heading: announcementspolice.Title, description: announcementspolice.Content, element: announcementspoliceElement };
+        } else {
+          console.error('Error creating announcements:', announcementspolice);
+          return null;
+        }
+      });
+    })
 }
 
 //announcements-ems
@@ -479,20 +512,20 @@ if (AnnouncementsEMSTemplate && AnnouncementsEMSContainer) {
     .then((response) => response.json())
     .then((data) => {
       announcementsemssearch = data.map(announcementsems => {
-            const announcementsemslist = AnnouncementsEMSTemplate.content.cloneNode(true);
-            const announcementsemsElement = announcementsemslist.firstElementChild;
-            const heading = announcementsemsElement.querySelector("[announcements-ems-heading]");
-            const description = announcementsemsElement.querySelector("[announcements-ems-description]");
-            if (heading && description) {
-                heading.textContent = announcementsems.Title;
-                description.textContent = announcementsems.Content;
-                AnnouncementsEMSContainer.append(announcementsemsElement);
-                return { heading: announcementsems.Title, description: announcementsems.Content, element: announcementsemsElement };
-              } else {
-                console.error('Error creating announcements:', announcementsems);
-                return null;
-              }
-              });
+        const announcementsemslist = AnnouncementsEMSTemplate.content.cloneNode(true);
+        const announcementsemsElement = announcementsemslist.firstElementChild;
+        const heading = announcementsemsElement.querySelector("[announcements-ems-heading]");
+        const description = announcementsemsElement.querySelector("[announcements-ems-description]");
+        if (heading && description) {
+          heading.textContent = announcementsems.Title;
+          description.textContent = announcementsems.Content;
+          AnnouncementsEMSContainer.append(announcementsemsElement);
+          return { heading: announcementsems.Title, description: announcementsems.Content, element: announcementsemsElement };
+        } else {
+          console.error('Error creating announcements:', announcementsems);
+          return null;
+        }
+      });
     })
 }
 
@@ -502,50 +535,50 @@ if (AnnouncementsMechanicsTemplate && AnnouncementsMechanicsContainer) {
     .then((response) => response.json())
     .then((data) => {
       announcementsmechanicssearch = data.map(announcementsmechanics => {
-            const announcementsmechanicslist = AnnouncementsMechanicsTemplate.content.cloneNode(true);
-            const announcementsmechanicsElement = announcementsmechanicslist.firstElementChild;
-            const heading = announcementsmechanicsElement.querySelector("[announcements-mechanics-heading]");
-            const description = announcementsmechanicsElement.querySelector("[announcements-mechanics-description]");
-            if (heading && description) {
-                heading.textContent = announcementsmechanics.Title;
-                description.textContent = announcementsmechanics.Content;
-                AnnouncementsMechanicsContainer.append(announcementsmechanicsElement);
-                return { heading: announcementsmechanics.Title, description: announcementsmechanics.Content, element: announcementsmechanicsElement };
-              } else {
-                console.error('Error creating announcements:', announcementsmechanics);
-                return null;
-              }
-              });
+        const announcementsmechanicslist = AnnouncementsMechanicsTemplate.content.cloneNode(true);
+        const announcementsmechanicsElement = announcementsmechanicslist.firstElementChild;
+        const heading = announcementsmechanicsElement.querySelector("[announcements-mechanics-heading]");
+        const description = announcementsmechanicsElement.querySelector("[announcements-mechanics-description]");
+        if (heading && description) {
+          heading.textContent = announcementsmechanics.Title;
+          description.textContent = announcementsmechanics.Content;
+          AnnouncementsMechanicsContainer.append(announcementsmechanicsElement);
+          return { heading: announcementsmechanics.Title, description: announcementsmechanics.Content, element: announcementsmechanicsElement };
+        } else {
+          console.error('Error creating announcements:', announcementsmechanics);
+          return null;
+        }
+      });
     })
 }
 //registration
 if (registerForm) {
-    registerForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-    
-        const userName = document.getElementById('registerUserName').value;
-        const userEmail = document.getElementById('registerUserEmail').value;
-        const password = document.getElementById('registerPassword').value;
-    
-        const response = await fetch('https://scapi-nine.vercel.app/users', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                UserName: userName,
-                UserEmail: userEmail,
-                Password: password
-            })
-        });
-    
-        if (response.ok) {
-            alert('User registered successfully');
-            location.reload();
-        } else {
-            alert('Error registering user');
-        }
+  registerForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const userName = document.getElementById('registerUserName').value;
+    const userEmail = document.getElementById('registerUserEmail').value;
+    const password = document.getElementById('registerPassword').value;
+
+    const response = await fetch('https://scapi-nine.vercel.app/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        UserName: userName,
+        UserEmail: userEmail,
+        Password: password
+      })
     });
+
+    if (response.ok) {
+      alert('User registered successfully');
+      location.reload();
+    } else {
+      alert('Error registering user');
+    }
+  });
 }
 
 //login
@@ -559,11 +592,11 @@ if (token && userName) {
   if (togglenewsForm) {
     if (role === 'Owner') {
       togglenewsForm.style.display = 'block';
-  } else {
+    } else {
       togglenewsForm.style.display = 'none';
+    };
   };
-  };
-  
+
   if (togglenewsFormP) {
     if (role === 'Owner' || role === 'Police Chief') {
       togglenewsFormP.style.display = 'block';
@@ -619,115 +652,159 @@ if (token && userName) {
 
 
 if (loginForm) {
-    loginForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-    
-        const userName = document.getElementById('loginUserName').value;
-        const password = document.getElementById('loginPassword').value;
-    
-        const response = await fetch('https://scapi-nine.vercel.app/users/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                UserName: userName,
-                Password: password
-            })
-        });
-    
-        if (response.ok) {
-          try {
-              const result = await response.json();
-              localStorage.setItem('token', result.token);
-              const decodedToken = JSON.parse(atob(result.token.split('.')[1]));
-              localStorage.setItem('userName', decodedToken.username);
-              localStorage.setItem('role', decodedToken.role);
-              alert('Login successful');
-              location.reload();
-          } catch (error) {
-              console.error('Error parsing JSON:', error);
-              alert('Error logging in');
-          }
-      } else {
-          alert('Error logging in');
-      }
+  loginForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const userName = document.getElementById('loginUserName').value;
+    const password = document.getElementById('loginPassword').value;
+
+    const response = await fetch('https://scapi-nine.vercel.app/users/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        UserName: userName,
+        Password: password
+      })
     });
+
+    if (response.ok) {
+      try {
+        const result = await response.json();
+        localStorage.setItem('token', result.token);
+        const decodedToken = JSON.parse(atob(result.token.split('.')[1]));
+        localStorage.setItem('userName', decodedToken.username);
+        localStorage.setItem('role', decodedToken.role);
+        alert('Login successful');
+        location.reload();
+      } catch (error) {
+        console.error('Error parsing JSON:', error);
+        alert('Error logging in');
+      }
+    } else {
+      alert('Error logging in');
+    }
+  });
 }
 // //end-of-registration/login
 
 //logout
+function logout() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('userName');
+  localStorage.removeItem('role');
+  location.reload();
+}
+
+let activityTimeout;
+const activityEvents = ['mousemove', 'keydown', 'click', 'scroll'];
+
+function resetActivityTimeout() {
+  clearTimeout(activityTimeout);
+  activityTimeout = setTimeout(() => {
+    logout();
+  }, 60 * 60 * 1000);
+}
+
+function refreshToken() {
+  fetch('/users/refresh-token', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+      } else {
+        logout();
+      }
+    })
+    .catch(error => {
+      console.error('Error refreshing token:', error);
+      logout();
+    });
+}
+
+if (token && userName) {
+  activityEvents.forEach(event => {
+    window.addEventListener(event, () => {
+      resetActivityTimeout();
+    });
+  });
+  resetActivityTimeout();
+}
+
 if (logoutButton) {
   logoutButton.addEventListener('click', () => {
-      localStorage.removeItem('token');
-      localStorage.removeItem('userName');
-      localStorage.removeItem('role');
-      alert('Logged out successfully');
-      location.reload();
+    logout();
   });
 }
 //end-of-logout
 
 //news-input
 if (NewsMainForm) {
-    NewsMainForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-    
-        const heading = document.getElementById('newsmainHeading').value;
-        const content = document.getElementById('newsmainContent').value.trim();
-        const charCount = content.length;
+  NewsMainForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
 
-            if (charCount > charLimit) {
-                alert(`Content exceeds the character limit of ${charLimit} characters.`);
-                return;
-            }
-    
-        const response = await fetch('https://scapi-nine.vercel.app/homenewstbl', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                Title: heading,
-                Content: content
-            })
-        });
-    
-        if (response.ok) {
-            alert('News created successfully');
-            location.reload();
-        } else {
-            alert('Error creating news');
-        }
+    const heading = document.getElementById('newsmainHeading').value;
+    const content = document.getElementById('newsmainContent').value.trim();
+    const charCount = content.length;
+
+    if (charCount > charLimit) {
+      alert(`Content exceeds the character limit of ${charLimit} characters.`);
+      return;
+    }
+
+    const response = await fetch('https://scapi-nine.vercel.app/homenewstbl', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        Title: heading,
+        Content: content
+      })
     });
+
+    if (response.ok) {
+      alert('News created successfully');
+      location.reload();
+    } else {
+      alert('Error creating news');
+    }
+  });
 }
 
 if (NewsPoliceForm) {
-    NewsPoliceForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
+  NewsPoliceForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
 
-      const heading = document.getElementById('newspoliceHeading').value;
-      const content = document.getElementById('newspoliceContent').value;
+    const heading = document.getElementById('newspoliceHeading').value;
+    const content = document.getElementById('newspoliceContent').value;
 
-      const response = await fetch('https://scapi-nine.vercel.app/policenewstbl', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          Title: heading,
-          Content: content
-        })
-      });
+    const response = await fetch('https://scapi-nine.vercel.app/policenewstbl', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        Title: heading,
+        Content: content
+      })
+    });
 
-      if(response.ok) {
-        alert('News created successfully');
-        location.reload();
-      } else {
-        alert('Error creating news');
-      }
+    if (response.ok) {
+      alert('News created successfully');
+      location.reload();
+    } else {
+      alert('Error creating news');
+    }
   });
 }
 
@@ -750,13 +827,13 @@ if (NewsEMSForm) {
       })
     });
 
-    if(response.ok) {
+    if (response.ok) {
       alert('News created successfully');
       location.reload();
     } else {
       alert('Error creating news');
     }
-});
+  });
 }
 
 if (NewsMechanicsForm) {
@@ -778,122 +855,122 @@ if (NewsMechanicsForm) {
       })
     });
 
-    if(response.ok) {
+    if (response.ok) {
       alert('News created successfully');
       location.reload();
     } else {
       alert('Error creating news');
     }
-});
+  });
 }
 //end-of-news-input
 
 //comments-input
 if (CommentsMainForm) {
-    CommentsMainForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
+  CommentsMainForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
 
-        const content = document.getElementById('comment-main-input').value;
-    
-        const response = await fetch('https://scapi-nine.vercel.app/homecommenttbl', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                UserName: userName,
-                Content: content
-            })
-        });
-    
-        if (response.ok) {
-            alert('Comment created successfully');
-            location.reload();
-        } else {
-            alert('Error creating comment');
-        }
+    const content = document.getElementById('comment-main-input').value;
+
+    const response = await fetch('https://scapi-nine.vercel.app/homecommenttbl', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        UserName: userName,
+        Content: content
+      })
     });
+
+    if (response.ok) {
+      alert('Comment created successfully');
+      location.reload();
+    } else {
+      alert('Error creating comment');
+    }
+  });
 }
 
 if (CommentsPoliceForm) {
   CommentsPoliceForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
+    event.preventDefault();
 
-      const content = document.getElementById('comment-police-input').value;
-  
-      const response = await fetch('https://scapi-nine.vercel.app/policecommenttbl', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify({
-              UserName: userName,
-              Content: content
-          })
-      });
-  
-      if (response.ok) {
-          alert('Comment created successfully');
-          location.reload();
-      } else {
-          alert('Error creating comment');
-      }
+    const content = document.getElementById('comment-police-input').value;
+
+    const response = await fetch('https://scapi-nine.vercel.app/policecommenttbl', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        UserName: userName,
+        Content: content
+      })
+    });
+
+    if (response.ok) {
+      alert('Comment created successfully');
+      location.reload();
+    } else {
+      alert('Error creating comment');
+    }
   });
 }
 
 if (CommentsEMSForm) {
   CommentsEMSForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
+    event.preventDefault();
 
-      const content = document.getElementById('comment-ems-input').value;
-  
-      const response = await fetch('https://scapi-nine.vercel.app/emscommenttbl', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify({
-              UserName: userName,
-              Content: content
-          })
-      });
-  
-      if (response.ok) {
-          alert('Comment created successfully');
-          location.reload();
-      } else {
-          alert('Error creating comment');
-      }
+    const content = document.getElementById('comment-ems-input').value;
+
+    const response = await fetch('https://scapi-nine.vercel.app/emscommenttbl', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        UserName: userName,
+        Content: content
+      })
+    });
+
+    if (response.ok) {
+      alert('Comment created successfully');
+      location.reload();
+    } else {
+      alert('Error creating comment');
+    }
   });
 }
 
 if (CommentsMechanicsForm) {
   CommentsMechanicsForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
+    event.preventDefault();
 
-      const content = document.getElementById('comment-mechanics-input').value;
-  
-      const response = await fetch('https://scapi-nine.vercel.app/Mechanicscommenttbl', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify({
-              UserName: userName,
-              Content: content
-          })
-      });
-  
-      if (response.ok) {
-          alert('Comment created successfully');
-          location.reload();
-      } else {
-          alert('Error creating comment');
-      }
+    const content = document.getElementById('comment-mechanics-input').value;
+
+    const response = await fetch('https://scapi-nine.vercel.app/Mechanicscommenttbl', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        UserName: userName,
+        Content: content
+      })
+    });
+
+    if (response.ok) {
+      alert('Comment created successfully');
+      location.reload();
+    } else {
+      alert('Error creating comment');
+    }
   });
 }
 //end-of-comments-input
@@ -918,13 +995,13 @@ if (AnnouncementsPoliceForm) {
       })
     });
 
-    if(response.ok) {
+    if (response.ok) {
       alert('Announcement created successfully');
       location.reload();
     } else {
       alert('Error creating announcement');
     }
-});
+  });
 }
 
 if (AnnouncementsEMSForm) {
@@ -946,13 +1023,13 @@ if (AnnouncementsEMSForm) {
       })
     });
 
-    if(response.ok) {
+    if (response.ok) {
       alert('Announcement created successfully');
       location.reload();
     } else {
       alert('Error creating announcement');
     }
-});
+  });
 }
 
 if (AnnouncementsMechanicsForm) {
@@ -974,12 +1051,83 @@ if (AnnouncementsMechanicsForm) {
       })
     });
 
-    if(response.ok) {
+    if (response.ok) {
       alert('Announcement created successfully');
       location.reload();
     } else {
       alert('Error creating announcement');
     }
-});
+  });
 }
 //end-of-announcements-input
+
+//news-edit
+
+//end-of-news-edit
+
+//comments-edit
+document.querySelectorAll('.edit-comment').forEach(button => {
+  button.addEventListener('click', event => {
+    const commentElement = event.target.closest('.comment');
+    const commentId = commentElement.dataset.commentId;
+    const currentContent = commentElement.querySelector('.comment-content').textContent;
+    const editForm = document.getElementById('editcommentForm');
+    const editInput = document.getElementById('commentContent');
+    editInput.value = currentContent;
+    editForm.dataset.commentId = commentId;
+    editForm.classList.add('show');
+  });
+});
+
+document.querySelectorAll('.delete-comment').forEach(button => {
+  button.addEventListener('click', event => {
+    const commentElement = event.target.closest('.comment');
+    const commentId = commentElement.dataset.commentId;
+    if (confirm('Are you sure you want to delete this comment?')) {
+      fetch(`/comments/${commentId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+        .then(response => response.text())
+        .then(data => {
+          alert(data);
+          location.reload();
+        })
+        .catch(error => console.error('Error deleting comment:', error));
+    }
+  });
+});
+
+if (CommentsMainEdit) {
+  CommentsMainEdit.addEventListener('submit', event => {
+    event.preventDefault();
+    const commentId = event.target.dataset.commentId;
+    const newContent = document.getElementById('commentContent').value;
+    fetch(`/homecomments/${commentId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ Content: newContent })
+    })
+      .then(response => response.text())
+      .then(data => {
+        alert(data);
+        location.reload();
+      })
+      .catch(error => console.error('Error updating comment:', error));
+  });
+
+  document.getElementById('cancelEdit').addEventListener('click', () => {
+    document.getElementById('editcommentForm').classList.remove('show');
+  });
+}
+
+//end-of-comments-edit
+
+//announcements-edit
+
+//end-of-announcements-edit
