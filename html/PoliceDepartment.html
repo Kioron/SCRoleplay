@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,9 @@
   <link rel="stylesheet" href="/stylesheets/style.css">
   <script src="/scripts/Script.js" defer></script>
 </head>
+
 <body>
-  
+
   <header class="header">
     <div class="nav-toggle">
       <img src="/images/Menu.png" alt="Menu Icon" class="menu-icon" width="50" height="50" nav-toggle>
@@ -30,15 +32,15 @@
       <!-- Login form dropdown -->
       <div class="dropdown-login">
         <form id="loginForm">
-        <div class="login-wrapper">
-          <h3>Enter your user name</h3>
-          <input class="login-username" id="loginUserName" type="text" placeholder ="Your Name" required>
-        </div>
-        <div class="login-wrapper">
-          <h3>Enter your password</h3>
-          <input class="login-password" id="loginPassword" type="password" placeholder ="Enter password" required>
-        </div>
-        <button class="login-acc" type="submit">Login</button>
+          <div class="login-wrapper">
+            <h3>Enter your user name</h3>
+            <input class="login-username" id="loginUserName" type="text" placeholder="Your Name" required>
+          </div>
+          <div class="login-wrapper">
+            <h3>Enter your password</h3>
+            <input class="login-password" id="loginPassword" type="password" placeholder="Enter password" required>
+          </div>
+          <button class="login-acc" type="submit">Login</button>
         </form>
         <div class="register-btn">
           <a href="RegistrationPage.html">No account? Register here!</a>
@@ -47,7 +49,7 @@
       <div id="logoutSection">
         <span id="userNameDisplay"></span>
         <button id="logoutButton">Logout</button>
-    </div>
+      </div>
     </div>
   </header>
 
@@ -57,11 +59,13 @@
     <section class="intro">
       <h1 class="title">Police Department</h1>
       <p class="description">
-        The police department is the main law enforcement force in the city. 
-        The police officers are responsible for maintaining public order, preventing crime and protecting the citizens. 
-        The police department is divided into several units, such as patrol units, SPEED units, pilots, FBI and SWAT operators.
-        The police officers are equipped with the latest technology and weapons to ensure the safety of the city. 
-        If you are interested in joining the police department, you can apply on our website or contact the police leader on Discord. <br><br>
+        The police department is the main law enforcement force in the city.
+        The police officers are responsible for maintaining public order, preventing crime and protecting the citizens.
+        The police department is divided into several units, such as patrol units, SPEED units, pilots, FBI and SWAT
+        operators.
+        The police officers are equipped with the latest technology and weapons to ensure the safety of the city.
+        If you are interested in joining the police department, you can apply on our website or contact the police
+        leader on Discord. <br><br>
         Join us and help us keep the city safe! <br><br>
         Images from the police department:
       </p>
@@ -78,7 +82,7 @@
           <h3 class="picture-heading"></h3>
           <img class="picture-image" src="/images/PD_image3.png" alt="PD image" width="100%" height="100%">
         </article>
-    </div>
+      </div>
     </section>
 
     <div class="space"></div>
@@ -87,6 +91,11 @@
       <div class="news-section-heading">
         <h2 class="section-title">News Section</h2>
         <button id="togglenewsFormP">Publish news</button>
+      </div>
+      <div class="search-section">
+        <div class="search-wrapper">
+          <input class="search-input" type="search" placeholder="Search by news header" data-search>
+        </div>
       </div>
       <div class="news-form" id="newsForm">
         <form id="newsPoliceForm">
@@ -99,19 +108,47 @@
             <input class="news-form-content" id="newspoliceContent" type="text" placeholder="News Content" required>
           </div>
           <div class="button-container">
-          <button id="publish-news">Publish news</button>
-          <button id="cancel-news">Cancel</button>
-        </div>
-      </form>
+            <button id="publish-news">Publish news</button>
+            <button id="cancel-news">Cancel</button>
+          </div>
+        </form>
       </div>
       <div class="news-grid" news-police-grid>
         <template news-police-template>
-          <article class="news-item">
-            <h3 class="news-heading" news-police-heading></h3>
+          <article class="news-item" data-news-id>
+            <div class="news-header">
+              <h3 class="news-heading" news-police-heading></h3>
+              <div class="togglenewsOptions">
+                <img src="/images/MoreOptions.png" alt="More Options" class="more-options-icon-news" width="27"
+                  height="27">
+                <div class="news-options-dropdown">
+                  <div class="options-wrapper">
+                    <button class="toggleeditnewsForm">Edit</button>
+                    <button class="deleteNews">Delete</button>
+                  </div>
+                </div>
+              </div>
+            </div>
             <p class="news-date" news-police-date></p>
             <p class="news-content" news-police-description></p>
           </article>
         </template>
+      </div>
+      <div class="editnewsForm">
+        <form id="newsPoliceEdit">
+          <div class="news-edit-wrapper">
+            <h3>Edit title</h3>
+            <input class="news-form-edit-title" id="newsTitle" type="text" placeholder="News title" required>
+          </div>
+          <div class="news-edit-wrapper">
+            <h3>Edit comment</h3>
+            <input class="news-form-edit-content" id="newsContent" type="text" placeholder="News content" required>
+          </div>
+          <div class="button-container">
+            <button type="submit" id="updateNewsEdit">Update</button>
+            <button id="cancelNewsEdit">Cancel</button>
+          </div>
+        </form>
       </div>
     </section>
 
@@ -133,22 +170,47 @@
     <section class="comments">
       <h2 class="section-title">Comment Section</h2>
       <form id="commentsPoliceForm">
-      <input class="comment-box" id="comment-police-input" placeholder="Write a comment here"></input>
-      <button class="publish-btn">Publish</button>
+        <input class="comment-box" id="comment-police-input" placeholder="Write a comment here"></input>
+        <button class="publish-btn">Publish</button>
       </form>
       <div class="comment-list" comments-police-container>
         <template comments-police-template>
-          <div class="comment">
-            <p comments-police-username><strong></strong></p> 
-            <p comments-police-date></p>
-            <p comments-police-description></p>
+          <div class="comment" data-comment-id>
+            <div class="comment-header">
+              <p class="comment-username" comments-police-username></p>
+              <p class="comment-date" comments-police-date></p>
+              <div class="togglecommentOptions">
+                <img src="/images/MoreOptions.png" alt="More Options" class="more-options-icon" width="27" height="27">
+                <div class="comment-options-dropdown">
+                  <div class="options-wrapper">
+                    <button class="toggleeditcommentForm">Edit</button>
+                    <button class="deleteComment">Delete</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="comment-content" comments-police-description></p>
           </div>
         </template>
       </div>
+      <div class="editcommentForm">
+        <form id="commentPoliceEdit">
+          <div class="comment-edit-wrapper">
+            <h3>Edit comment</h3>
+            <input class="comment-form-content" id="commentContent" type="text" placeholder="Comment content" required>
+          </div>
+          <div class="button-container">
+            <button type="submit" id="updateEdit">Update</button>
+            <button id="cancelEdit">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </section>
   </main>
 
   <footer class="footer">
     <p>Footer/Contact Information</p>
   </footer>
 </body>
+
 </html>

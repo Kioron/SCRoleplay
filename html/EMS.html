@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,9 @@
   <link rel="stylesheet" href="/stylesheets/style.css">
   <script src="/scripts/Script.js" defer></script>
 </head>
+
 <body>
-  
+
   <header class="header">
     <div class="nav-toggle">
       <img src="/images/Menu.png" alt="Menu Icon" class="menu-icon" width="50" height="50" nav-toggle>
@@ -30,15 +32,15 @@
       <!-- Login form dropdown -->
       <div class="dropdown-login">
         <form id="loginForm">
-        <div class="login-wrapper">
-          <h3>Enter your user name</h3>
-          <input class="login-username" id="loginUserName" type="text" placeholder ="Your Name" required>
-        </div>
-        <div class="login-wrapper">
-          <h3>Enter your password</h3>
-          <input class="login-password" id="loginPassword" type="password" placeholder ="Enter password" required>
-        </div>
-        <button class="login-acc" type="submit">Login</button>
+          <div class="login-wrapper">
+            <h3>Enter your user name</h3>
+            <input class="login-username" id="loginUserName" type="text" placeholder="Your Name" required>
+          </div>
+          <div class="login-wrapper">
+            <h3>Enter your password</h3>
+            <input class="login-password" id="loginPassword" type="password" placeholder="Enter password" required>
+          </div>
+          <button class="login-acc" type="submit">Login</button>
         </form>
         <div class="register-btn">
           <a href="RegistrationPage.html">No account? Register here!</a>
@@ -47,7 +49,7 @@
       <div id="logoutSection">
         <span id="userNameDisplay"></span>
         <button id="logoutButton">Logout</button>
-    </div>
+      </div>
     </div>
   </header>
 
@@ -57,12 +59,12 @@
     <section class="intro">
       <h1 class="title">Emergency Medical Service</h1>
       <p class="description">
-        The Emergency Medical Service is the main medical service in the city. 
-        We provide medical care to all citizens and visitors of the city. 
-        Our main goal is to save lives and provide the best possible care to all patients. 
-        We are always looking for new members to join our team. 
-        If you are interested in helping others and making a difference in the city, 
-        then the EMS is the right place for you. 
+        The Emergency Medical Service is the main medical service in the city.
+        We provide medical care to all citizens and visitors of the city.
+        Our main goal is to save lives and provide the best possible care to all patients.
+        We are always looking for new members to join our team.
+        If you are interested in helping others and making a difference in the city,
+        then the EMS is the right place for you.
         Join us today and start your career in the medical field.
       </p>
       <div class="pictures-grid">
@@ -78,7 +80,7 @@
           <h3 class="picture-heading"></h3>
           <img class="picture-image" src="" alt="EMS image" width="100%" height="100%">
         </article>
-    </div>
+      </div>
     </section>
 
     <div class="space"></div>
@@ -87,6 +89,11 @@
       <div class="news-section-heading">
         <h2 class="section-title">News Section</h2>
         <button id="togglenewsFormE">Publish news</button>
+      </div>
+      <div class="search-section">
+        <div class="search-wrapper">
+          <input class="search-input" type="search" placeholder="Search by news header" data-search>
+        </div>
       </div>
       <div class="news-form" id="newsForm">
         <form id="newsEMSForm">
@@ -99,19 +106,47 @@
             <input class="news-form-content" id="newsemsContent" type="text" placeholder="News Content" required>
           </div>
           <div class="button-container">
-          <button id="publish-news">Publish news</button>
-          <button id="cancel-news">Cancel</button>
-        </div>
-      </form>
+            <button id="publish-news">Publish news</button>
+            <button id="cancel-news">Cancel</button>
+          </div>
+        </form>
       </div>
       <div class="news-grid" news-ems-grid>
         <template news-ems-template>
-          <article class="news-item">
-            <h3 class="news-heading" news-ems-heading></h3>
+          <article class="news-item" data-news-id>
+            <div class="news-header">
+              <h3 class="news-heading" news-ems-heading></h3>
+              <div class="togglenewsOptions">
+                <img src="/images/MoreOptions.png" alt="More Options" class="more-options-icon-news" width="27"
+                  height="27">
+                <div class="news-options-dropdown">
+                  <div class="options-wrapper">
+                    <button class="toggleeditnewsForm">Edit</button>
+                    <button class="deleteNews">Delete</button>
+                  </div>
+                </div>
+              </div>
+            </div>
             <p class="news-date" news-ems-date></p>
             <p class="news-content" news-ems-description></p>
           </article>
         </template>
+      </div>
+      <div class="editnewsForm">
+        <form id="newsEMSEdit">
+          <div class="news-edit-wrapper">
+            <h3>Edit title</h3>
+            <input class="news-form-edit-title" id="newsTitle" type="text" placeholder="News title" required>
+          </div>
+          <div class="news-edit-wrapper">
+            <h3>Edit comment</h3>
+            <input class="news-form-edit-content" id="newsContent" type="text" placeholder="News content" required>
+          </div>
+          <div class="button-container">
+            <button type="submit" id="updateNewsEdit">Update</button>
+            <button id="cancelNewsEdit">Cancel</button>
+          </div>
+        </form>
       </div>
     </section>
 
@@ -133,17 +168,41 @@
     <section class="comments">
       <h2 class="section-title">Comment Section</h2>
       <form id="commentsEMSForm">
-      <input class="comment-box" id="comment-ems-input" placeholder="Write a comment here"></input>
-      <button class="publish-btn">Publish</button>
+        <input class="comment-box" id="comment-ems-input" placeholder="Write a comment here"></input>
+        <button class="publish-btn">Publish</button>
       </form>
       <div class="comment-list" comments-ems-container>
         <template comments-ems-template>
-          <div class="comment">
-            <p comments-ems-username><strong></strong></p> 
-            <p comments-ems-date></p>
-            <p comments-ems-description></p>
+          <div class="comment" data-comment-id>
+            <div class="comment-header">
+              <p class="comment-username" comments-ems-username></p>
+              <p class="comment-date" comments-ems-date></p>
+              <div class="togglecommentOptions">
+                <img src="/images/MoreOptions.png" alt="More Options" class="more-options-icon" width="27" height="27">
+                <div class="comment-options-dropdown">
+                  <div class="options-wrapper">
+                    <button class="toggleeditcommentForm">Edit</button>
+                    <button class="deleteComment">Delete</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="comment-content" comments-ems-description></p>
           </div>
         </template>
+        <div class="editcommentForm">
+          <form id="commentEMSEdit">
+            <div class="comment-edit-wrapper">
+              <h3>Edit comment</h3>
+              <input class="comment-form-content" id="commentContent" type="text" placeholder="Comment content"
+                required>
+            </div>
+            <div class="button-container">
+              <button type="submit" id="updateEdit">Update</button>
+              <button id="cancelEdit">Cancel</button>
+            </div>
+          </form>
+        </div>
       </div>
     </section>
   </main>
@@ -152,4 +211,5 @@
     <p>Footer/Contact Information</p>
   </footer>
 </body>
+
 </html>

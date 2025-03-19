@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,9 @@
   <link rel="stylesheet" href="/stylesheets/style.css">
   <script src="/scripts/Script.js" defer></script>
 </head>
+
 <body>
-  
+
   <header class="header">
     <div class="nav-toggle">
       <img src="/images/Menu.png" alt="Menu Icon" class="menu-icon" width="50" height="50" nav-toggle>
@@ -29,15 +31,15 @@
       <!-- Login form dropdown -->
       <div class="dropdown-login">
         <form id="loginForm">
-        <div class="login-wrapper">
-          <h3>Enter your user name</h3>
-          <input class="login-username" id="loginUserName" type="text" placeholder ="Your Name" required>
-        </div>
-        <div class="login-wrapper">
-          <h3>Enter your password</h3>
-          <input class="login-password" id="loginPassword" type="password" placeholder ="Enter password" required>
-        </div>
-        <button class="login-acc" type="submit">Login</button>
+          <div class="login-wrapper">
+            <h3>Enter your user name</h3>
+            <input class="login-username" id="loginUserName" type="text" placeholder="Your Name" required>
+          </div>
+          <div class="login-wrapper">
+            <h3>Enter your password</h3>
+            <input class="login-password" id="loginPassword" type="password" placeholder="Enter password" required>
+          </div>
+          <button class="login-acc" type="submit">Login</button>
         </form>
         <div class="register-btn">
           <a href="html/RegistrationPage.html">No account? Register here!</a>
@@ -46,7 +48,7 @@
       <div id="logoutSection">
         <span id="userNameDisplay"></span>
         <button id="logoutButton">Logout</button>
-    </div>
+      </div>
   </header>
 
   <div class="overlay"></div>
@@ -65,34 +67,64 @@
 
     <section class="news">
       <div class="news-section-heading">
-        <h2 class="section-title">Police Announcements</h2>
+        <h2 class="section-title">EMS Announcements</h2>
         <button id="toggleannouncementFormE">Publish announcement</button>
       </div>
       <div class="news-form" id="newsForm">
         <form id="announcementsEMSForm">
           <div class="news-form-wrapper">
             <h3>Add announcement title</h3>
-            <input class="news-form-heading" id="announcementemsHeading" type="text" placeholder="Announcement Heading" required>
+            <input class="news-form-heading" id="announcementemsHeading" type="text" placeholder="Announcement Heading"
+              required>
           </div>
           <div class="news-form-wrapper">
             <h3>Add announcement content</h3>
-            <input class="news-form-content" id="announcementemsContent" type="text" placeholder="Announcement Content" required>
+            <input class="news-form-content" id="announcementemsContent" type="text" placeholder="Announcement Content"
+              required>
           </div>
           <div class="button-container">
-          <button id="publish-news">Publish announcement</button>
-          <button id="cancel-news">Cancel</button>
-        </div>
-      </form>
+            <button type="submit" id="publish-news">Publish</button>
+            <button id="cancel-news">Cancel</button>
+          </div>
+        </form>
       </div>
-        <div class="news-grid" announcements-ems-container>
-          <template announcements-ems-template>
-              <article class="news-item">
-                <h3 class="news-heading" announcements-ems-heading></h3>
-                <p class="news-date" announcements-ems-date></p>
-                <p class="news-content" announcements-ems-description></p>
-              </article>
-          </template>
-        </div>
+      <div class="news-grid" announcements-ems-container>
+        <template announcements-ems-template>
+          <article class="news-item" data-news-id>
+            <div class="news-header">
+              <h3 class="news-heading" announcements-ems-heading></h3>
+              <div class="toggleannouncementsOptions">
+                <img src="/images/MoreOptions.png" alt="More Options" class="more-options-icon-announcements" width="27"
+                  height="27">
+                <div class="news-options-dropdown">
+                  <div class="options-wrapper">
+                    <button type="submit" class="toggleeditnewsForm">Edit</button>
+                    <button class="deleteNews">Delete</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="news-date" announcements-ems-date></p>
+            <p class="news-content" announcements-ems-description></p>
+          </article>
+        </template>
+      </div>
+      <div class="editannouncementsForm">
+        <form id="announcementsEMSEdit">
+          <div class="news-edit-wrapper">
+            <h3>Edit title</h3>
+            <input class="news-form-edit-title" id="newsTitle" type="text" placeholder="News title" required>
+          </div>
+          <div class="news-edit-wrapper">
+            <h3>Edit comment</h3>
+            <input class="news-form-edit-content" id="newsContent" type="text" placeholder="News content" required>
+          </div>
+          <div class="button-container">
+            <button type="submit" id="updateNewsEdit">Update</button>
+            <button id="cancelNewsEdit">Cancel</button>
+          </div>
+        </form>
+      </div>
     </section>
   </main>
 
@@ -100,4 +132,5 @@
     <p>Footer/Contact Information</p>
   </footer>
 </body>
+
 </html>

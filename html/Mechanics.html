@@ -91,6 +91,11 @@
         <h2 class="section-title">News Section</h2>
         <button id="togglenewsFormM">Publish news</button>
       </div>
+      <div class="search-section">
+        <div class="search-wrapper">
+          <input class="search-input" type="search" placeholder="Search by news header" data-search>
+        </div>
+      </div>
       <div class="news-form" id="newsForm">
         <form id="newsMechanicsForm">
           <div class="news-form-wrapper">
@@ -109,12 +114,40 @@
       </div>
       <div class="news-grid" news-mechanics-grid>
         <template news-mechanics-template>
-          <article class="news-item">
-            <h3 class="news-heading" news-mechanics-heading></h3>
+          <article class="news-item" data-news-id>
+            <div class="news-header">
+              <h3 class="news-heading" news-mechanics-heading></h3>
+              <div class="togglenewsOptions">
+                <img src="/images/MoreOptions.png" alt="More Options" class="more-options-icon-news" width="27"
+                  height="27">
+                <div class="news-options-dropdown">
+                  <div class="options-wrapper">
+                    <button class="toggleeditnewsForm">Edit</button>
+                    <button class="deleteNews">Delete</button>
+                  </div>
+                </div>
+              </div>
+            </div>
             <p class="news-date" news-mechanics-date></p>
             <p class="news-content" news-mechanics-description></p>
           </article>
         </template>
+      </div>
+      <div class="editnewsForm">
+        <form id="newsMechanicsEdit">
+          <div class="news-edit-wrapper">
+            <h3>Edit title</h3>
+            <input class="news-form-edit-title" id="newsTitle" type="text" placeholder="News title" required>
+          </div>
+          <div class="news-edit-wrapper">
+            <h3>Edit comment</h3>
+            <input class="news-form-edit-content" id="newsContent" type="text" placeholder="News content" required>
+          </div>
+          <div class="button-container">
+            <button type="submit" id="updateNewsEdit">Update</button>
+            <button id="cancelNewsEdit">Cancel</button>
+          </div>
+        </form>
       </div>
     </section>
 
@@ -141,12 +174,35 @@
       </form>
       <div class="comment-list" comments-mechanics-container>
         <template comments-mechanics-template>
-          <div class="comment">
-            <p comments-mechanics-username><strong></strong></p>
-            <p comments-mechanics-date></p>
-            <p comments-mechanics-description></p>
+          <div class="comment" data-comment-id>
+            <div class="comment-header">
+              <p class="comment-username" comments-mechanics-username></p>
+              <p class="comment-date" comments-mechanics-date></p>
+              <div class="togglecommentOptions">
+                <img src="/images/MoreOptions.png" alt="More Options" class="more-options-icon" width="27" height="27">
+                <div class="comment-options-dropdown">
+                  <div class="options-wrapper">
+                    <button class="toggleeditcommentForm">Edit</button>
+                    <button class="deleteComment">Delete</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="comment-content" comments-mechanics-description></p>
           </div>
         </template>
+      </div>
+      <div class="editcommentForm">
+        <form id="commentMechanicsEdit">
+          <div class="comment-edit-wrapper">
+            <h3>Edit comment</h3>
+            <input class="comment-form-content" id="commentContent" type="text" placeholder="Comment content" required>
+          </div>
+          <div class="button-container">
+            <button type="submit" id="updateEdit">Update</button>
+            <button id="cancelEdit">Cancel</button>
+          </div>
+        </form>
       </div>
     </section>
   </main>

@@ -33,22 +33,29 @@ const charLimit = 600;
 const NewsMainGrid = document.querySelector("[news-main-grid]");
 const NewsMainTemplate = document.querySelector("[news-main-template]");
 const NewsMainForm = document.getElementById('newsMainForm');
+const NewsEditForm = document.querySelector('.editnewsForm');
+const NewsMainEdit = document.getElementById('newsMainEdit');
+const searchInput = document.querySelector("[data-search]");
 
 const NewsPoliceGrid = document.querySelector("[news-police-grid]");
 const NewsPoliceTemplate = document.querySelector("[news-police-template]");
 const NewsPoliceForm = document.getElementById('newsPoliceForm');
+const NewsPoliceEdit = document.getElementById('newsPoliceEdit');
 
 const NewsEMSGrid = document.querySelector("[news-ems-grid]");
 const NewsEMSTemplate = document.querySelector("[news-ems-template]");
 const NewsEMSForm = document.getElementById('newsEMSForm');
+const NewsEMSEdit = document.getElementById('newsEMSEdit');
 
 const NewsMechanicsGrid = document.querySelector("[news-mechanics-grid]");
 const NewsMechanicsTemplate = document.querySelector("[news-mechanics-template]");
 const NewsMechanicsForm = document.getElementById('newsMechanicsForm');
+const NewsMechanicsEdit = document.getElementById('newsMechanicsEdit');
 //comments
 const CommentsMainContainer = document.querySelector("[comments-main-container]");
 const CommentsMainTemplate = document.querySelector("[comments-main-template]");
 const CommentsMainForm = document.getElementById('commentsMainForm');
+const CommentsEditForm = document.querySelector('.editcommentForm');
 const CommentsMainEdit = document.getElementById('commentMainEdit');
 
 const CommentsPoliceContainer = document.querySelector("[comments-police-container]");
@@ -68,17 +75,22 @@ const CommentsMechanicsEdit = document.getElementById('commentMechanicsEdit');
 //announcements
 const AnnouncementsPoliceContainer = document.querySelector("[announcements-police-container]");
 const AnnouncementsPoliceTemplate = document.querySelector("[announcements-police-template]");
+const AnnouncementsEditForm = document.querySelector('.editannouncementsForm');
 const AnnouncementsPoliceForm = document.getElementById('announcementsPoliceForm');
+const AnnouncementsPoliceEdit = document.getElementById('announcementsPoliceEdit');
 
 const AnnouncementsEMSContainer = document.querySelector("[announcements-ems-container]");
 const AnnouncementsEMSTemplate = document.querySelector("[announcements-ems-template]");
 const AnnouncementsEMSForm = document.getElementById('announcementsEMSForm');
+const AnnouncementsEMSEdit = document.getElementById('announcementsEMSEdit');
 
 const AnnouncementsMechanicsContainer = document.querySelector("[announcements-mechanics-container]");
 const AnnouncementsMechanicsTemplate = document.querySelector("[announcements-mechanics-template]");
 const AnnouncementsMechanicsForm = document.getElementById('announcementsMechanicsForm');
+const AnnouncementsMechanicsEdit = document.getElementById('announcementsMechanicsEdit');
 //edit-delete
-const ToggleMoreCommentOptions = document.querySelectorAll("[more-options-icon]")
+const canceleditButton = document.getElementById('cancelEdit');
+const cancelEditBtn = document.getElementById('cancelNewsEdit');
 //loginglobal
 const token = localStorage.getItem('token');
 const userName = localStorage.getItem('userName');
@@ -188,31 +200,16 @@ if (toggleannouncementFormM) {
   });
 }
 
-if (ToggleMoreCommentOptions) {
-  ToggleMoreCommentOptions.forEach(icon => {
-    icon.addEventListener('click', event => {
-      console.log("click");
-      event.stopPropagation();
-      const dropdown = event.target.nextElementSibling;
-      dropdown.classList.toggle('show');
-    });
-  });
-
-  window.addEventListener('click', event => {
-    if (!event.target.matches(ToggleMoreCommentOptions)) {
-      document.querySelectorAll('.comment-options-dropdown').forEach(dropdown => {
-        if (dropdown.classList.contains('show')) {
-          dropdown.classList.remove('show');
-        }    
-      });
-    }
-  });
-}
-
 if (overlay) {
   overlay.addEventListener('click', () => {
     newsForm.classList.remove('active');
     overlay.classList.remove('active');
+    if(CommentsEditForm){
+      CommentsEditForm.classList.remove('active');
+    }
+    if(NewsEditForm){
+      NewsEditForm.classList.remove('active');
+    }
   });
 }
 
@@ -221,6 +218,30 @@ if (cancelNewsButton) {
     event.preventDefault();
     newsForm.classList.remove('active');
     overlay.classList.remove('active');
+  });
+}
+
+if (canceleditButton) {
+  canceleditButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    CommentsEditForm.classList.remove('active');
+    NewsEditForm.classList.remove('active');
+    overlay.classList.remove('active');
+  });
+}
+
+if (cancelEditBtn) {
+  cancelEditBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    if (AnnouncementsEditForm){
+      AnnouncementsEditForm.classList.remove('active');
+      overlay.classList.remove('active');
+    }
+    if (CommentsEditForm || NewsEditForm){
+      CommentsEditForm.classList.remove('active');
+    NewsEditForm.classList.remove('active');
+    overlay.classList.remove('active');
+    }
   });
 }
 
@@ -266,25 +287,107 @@ window.addEventListener('click', (event) => {
       dropdownLogin.classList.remove('show');
     }
   }
+  if (!event.target.matches('.comment-options-dropdown') && !event.target.matches('.options-wrapper')) {
+    document.querySelectorAll('.comment-options-dropdown').forEach(dropdown => {
+      if (dropdown.classList.contains('show')) {
+        dropdown.classList.remove('show');
+      }
+    });
+  }
+  if (!event.target.matches('.news-options-dropdown') && !event.target.matches('.options-wrapper')) {
+    document.querySelectorAll('.news-options-dropdown').forEach(dropdown => {
+      if (dropdown.classList.contains('show')) {
+        dropdown.classList.remove('show');
+      }
+    });
+  }
 });
 //end-of-dropdowns
+
+let currentPage = 1;
+const itemsPerPage = 6;
+
+let newsmainsearch = [];
+let newspolicesearch = [];
+let newsemssearch = [];
+let newsmechanicssearch = [];
 
 //news-main
 if (NewsMainTemplate && NewsMainGrid) {
   fetch('https://scapi-nine.vercel.app/homenewstbl')
     .then((response) => response.json())
     .then((data) => {
+      data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
       newsmainsearch = data.map(newsmain => {
         const newsmainlist = NewsMainTemplate.content.cloneNode(true);
         const newsmainElement = newsmainlist.firstElementChild;
+        newsmainElement.setAttribute('data-news-id', newsmain.id);
         const heading = newsmainElement.querySelector("[news-main-heading]");
         const description = newsmainElement.querySelector("[news-main-description]");
         const date = newsmainElement.querySelector("[news-main-date]");
+        const options = newsmainElement.querySelector(".togglenewsOptions");
         if (heading && description) {
           heading.textContent = newsmain.Title;
           description.textContent = newsmain.Content;
           date.textContent = "Date Published: " + new Date(newsmain.created_at).toISOString().split('T')[0];
+          if (role === 'Owner') {
+            options.style.display = 'block';
+          } else {
+            options.style.display = 'none';
+          }
           NewsMainGrid.append(newsmainElement);
+          const toggleMoreNewsOptions = newsmainElement.querySelectorAll('.more-options-icon-news');
+          toggleMoreNewsOptions.forEach(icon => {
+            icon.addEventListener('click', event => {
+              event.stopPropagation();
+              const dropdown = event.target.nextElementSibling;
+              if (dropdown) {
+                dropdown.classList.toggle('show');
+              } else {
+                console.log('Dropdown not found');
+              }
+            });
+          });
+
+          const editButtons = newsmainElement.querySelectorAll('.toggleeditnewsForm');
+          editButtons.forEach(button => {
+            button.addEventListener('click', event => {
+              const newsElement = event.target.closest('.news-item');
+              const newsId = newsElement.dataset.newsId;
+              const currentTitle = newsElement.querySelector('.news-heading').textContent;
+              const currentContent = newsElement.querySelector('.news-content').textContent;
+              const editInputTitle = document.getElementById('newsTitle');
+              const editInputContent = document.getElementById('newsContent');
+              editInputTitle.value = currentTitle;
+              editInputContent.value = currentContent;
+              NewsEditForm.dataset.newsId = newsId;
+              NewsEditForm.classList.add('active');
+              overlay.classList.add('active');
+            });
+          });
+
+          const deleteButtons = newsmainElement.querySelectorAll('.deleteNews');
+          deleteButtons.forEach(button => {
+            button.addEventListener('click', event => {
+              const newsElement = event.target.closest('.news-item');
+              const newsId = newsElement.dataset.newsId;
+              if (confirm('Are you sure you want to delete this news?')) {
+                fetch(`https://scapi-nine.vercel.app/homenews/${newsId}`, {
+                  method: 'DELETE',
+                  headers: {
+                    'Authorization': `Bearer ${token}`
+                  }
+                })
+                  .then(response => response.text())
+                  .then(data => {
+                    alert(data);
+                    location.reload();
+                  })
+                  .catch(error => console.error('Error deleting news:', error));
+              }
+            });
+          });
+
           return { heading: newsmain.Title, description: newsmain.Content, date: newsmain.created_at, element: newsmainElement };
         } else {
           console.error('Error creating news:', newsmain);
@@ -299,17 +402,77 @@ if (NewsPoliceTemplate && NewsPoliceGrid) {
   fetch('https://scapi-nine.vercel.app/policenewstbl')
     .then((response) => response.json())
     .then((data) => {
+      data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
       newspolicesearch = data.map(newspolice => {
         const newspolicelist = NewsPoliceTemplate.content.cloneNode(true);
         const newspoliceElement = newspolicelist.firstElementChild;
+        newspoliceElement.setAttribute('data-news-id', newspolice.id);
         const heading = newspoliceElement.querySelector("[news-police-heading]");
         const description = newspoliceElement.querySelector("[news-police-description]");
         const date = newspoliceElement.querySelector("[news-police-date]");
+        const options = newspoliceElement.querySelector(".togglenewsOptions");
         if (heading && description) {
           heading.textContent = newspolice.Title;
           description.textContent = newspolice.Content;
           date.textContent = "Date Published: " + new Date(newspolice.created_at).toISOString().split('T')[0];
+          if ((role === 'Owner') || (role === 'Police Chief')) {
+            options.style.display = 'block';
+          } else {
+            options.style.display = 'none';
+          }
           NewsPoliceGrid.append(newspoliceElement);
+          const toggleMoreNewsOptions = newspoliceElement.querySelectorAll('.more-options-icon-news');
+          toggleMoreNewsOptions.forEach(icon => {
+            icon.addEventListener('click', event => {
+              event.stopPropagation();
+              const dropdown = event.target.nextElementSibling;
+              if (dropdown) {
+                dropdown.classList.toggle('show');
+              } else {
+                console.log('Dropdown not found');
+              }
+            });
+          });
+
+          const editButtons = newspoliceElement.querySelectorAll('.toggleeditnewsForm');
+          editButtons.forEach(button => {
+            button.addEventListener('click', event => {
+              const newsElement = event.target.closest('.news-item');
+              const newsId = newsElement.dataset.newsId;
+              const currentTitle = newsElement.querySelector('.news-heading').textContent;
+              const currentContent = newsElement.querySelector('.news-content').textContent;
+              const editInputTitle = document.getElementById('newsTitle');
+              const editInputContent = document.getElementById('newsContent');
+              editInputTitle.value = currentTitle;
+              editInputContent.value = currentContent;
+              NewsEditForm.dataset.newsId = newsId;
+              NewsEditForm.classList.add('active');
+              overlay.classList.add('active');
+            });
+          });
+
+          const deleteButtons = newspoliceElement.querySelectorAll('.deleteNews');
+          deleteButtons.forEach(button => {
+            button.addEventListener('click', event => {
+              const newsElement = event.target.closest('.news-item');
+              const newsId = newsElement.dataset.newsId;
+              if (confirm('Are you sure you want to delete this news?')) {
+                fetch(`https://scapi-nine.vercel.app/policenews/${newsId}`, {
+                  method: 'DELETE',
+                  headers: {
+                    'Authorization': `Bearer ${token}`
+                  }
+                })
+                  .then(response => response.text())
+                  .then(data => {
+                    alert(data);
+                    location.reload();
+                  })
+                  .catch(error => console.error('Error deleting news:', error));
+              }
+            });
+          });
+
           return { heading: newspolice.Title, description: newspolice.Content, date: newspolice.created_at, element: newspoliceElement };
         } else {
           console.error('Error creating news:', newspolice);
@@ -324,17 +487,77 @@ if (NewsEMSTemplate && NewsEMSGrid) {
   fetch('https://scapi-nine.vercel.app/emsnewstbl')
     .then((response) => response.json())
     .then((data) => {
+      data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
       newsemssearch = data.map(newsems => {
         const newsemslist = NewsEMSTemplate.content.cloneNode(true);
         const newsemsElement = newsemslist.firstElementChild;
+        newsemsElement.setAttribute('data-news-id', newsems.id);
         const heading = newsemsElement.querySelector("[news-ems-heading]");
         const description = newsemsElement.querySelector("[news-ems-description]");
         const date = newsemsElement.querySelector("[news-ems-date]");
+        const options = newsemsElement.querySelector(".togglenewsOptions");
         if (heading && description) {
           heading.textContent = newsems.Title;
           description.textContent = newsems.Content;
           date.textContent = "Date Published: " + new Date(newsems.created_at).toISOString().split('T')[0];
+          if ((role === 'Owner') || (role === 'EMS Chief')) {
+            options.style.display = 'block';
+          } else {
+            options.style.display = 'none';
+          }
           NewsEMSGrid.append(newsemsElement);
+          const toggleMoreNewsOptions = newsemsElement.querySelectorAll('.more-options-icon-news');
+          toggleMoreNewsOptions.forEach(icon => {
+            icon.addEventListener('click', event => {
+              event.stopPropagation();
+              const dropdown = event.target.nextElementSibling;
+              if (dropdown) {
+                dropdown.classList.toggle('show');
+              } else {
+                console.log('Dropdown not found');
+              }
+            });
+          });
+
+          const editButtons = newsemsElement.querySelectorAll('.toggleeditnewsForm');
+          editButtons.forEach(button => {
+            button.addEventListener('click', event => {
+              const newsElement = event.target.closest('.news-item');
+              const newsId = newsElement.dataset.newsId;
+              const currentTitle = newsElement.querySelector('.news-heading').textContent;
+              const currentContent = newsElement.querySelector('.news-content').textContent;
+              const editInputTitle = document.getElementById('newsTitle');
+              const editInputContent = document.getElementById('newsContent');
+              editInputTitle.value = currentTitle;
+              editInputContent.value = currentContent;
+              NewsEditForm.dataset.newsId = newsId;
+              NewsEditForm.classList.add('active');
+              overlay.classList.add('active');
+            });
+          });
+
+          const deleteButtons = newsemsElement.querySelectorAll('.deleteNews');
+          deleteButtons.forEach(button => {
+            button.addEventListener('click', event => {
+              const newsElement = event.target.closest('.news-item');
+              const newsId = newsElement.dataset.newsId;
+              if (confirm('Are you sure you want to delete this news?')) {
+                fetch(`https://scapi-nine.vercel.app/emsnews/${newsId}`, {
+                  method: 'DELETE',
+                  headers: {
+                    'Authorization': `Bearer ${token}`
+                  }
+                })
+                  .then(response => response.text())
+                  .then(data => {
+                    alert(data);
+                    location.reload();
+                  })
+                  .catch(error => console.error('Error deleting news:', error));
+              }
+            });
+          });
+
           return { heading: newsems.Title, description: newsems.Content, date: newsems.created_at, element: newsemsElement };
         } else {
           console.error('Error creating news:', newsems);
@@ -349,17 +572,78 @@ if (NewsMechanicsTemplate && NewsMechanicsGrid) {
   fetch('https://scapi-nine.vercel.app/mechanicsnewstbl')
     .then((response) => response.json())
     .then((data) => {
+      data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
       newsmechanicssearch = data.map(newsmechanics => {
         const newsmechanicslist = NewsMechanicsTemplate.content.cloneNode(true);
         const newsmechanicsElement = newsmechanicslist.firstElementChild;
+        newsmechanicsElement.setAttribute('data-news-id', newsmechanics.id);
         const heading = newsmechanicsElement.querySelector("[news-mechanics-heading]");
         const description = newsmechanicsElement.querySelector("[news-mechanics-description]");
         const date = newsmechanicsElement.querySelector("[news-mechanics-date]");
+        const options = newsmechanicsElement.querySelector(".togglenewsOptions")
         if (heading && description) {
           heading.textContent = newsmechanics.Title;
           description.textContent = newsmechanics.Content;
           date.textContent = "Date Published: " + new Date(newsmechanics.created_at).toISOString().split('T')[0];
+          if ((role === 'Owner') || (role === 'Mechanics Chief')) {
+            options.style.display = 'block';
+          } else {
+            options.style.display = 'none';
+          }
           NewsMechanicsGrid.append(newsmechanicsElement);
+          const toggleMoreNewsOptions = newsmechanicsElement.querySelectorAll('.more-options-icon-news');
+          toggleMoreNewsOptions.forEach(icon => {
+            icon.addEventListener('click', event => {
+              event.stopPropagation();
+              const dropdown = event.target.nextElementSibling;
+              if (dropdown) {
+                dropdown.classList.toggle('show');
+              } else {
+                console.log('Dropdown not found');
+              }
+            });
+          });
+
+          const editButtons = newsmechanicsElement.querySelectorAll('.toggleeditnewsForm');
+          editButtons.forEach(button => {
+            button.addEventListener('click', event => {
+              const newsElement = event.target.closest('.news-item');
+              const newsId = newsElement.dataset.newsId;
+              const currentTitle = newsElement.querySelector('.news-heading').textContent;
+              const currentContent = newsElement.querySelector('.news-content').textContent;
+              const editInputTitle = document.getElementById('newsTitle');
+              const editInputContent = document.getElementById('newsContent');
+              editInputTitle.value = currentTitle;
+              editInputContent.value = currentContent;
+              NewsEditForm.dataset.newsId = newsId;
+              NewsEditForm.classList.add('active');
+              overlay.classList.add('active');
+            });
+          });
+
+          const deleteButtons = newsmechanicsElement.querySelectorAll('.deleteNews');
+          deleteButtons.forEach(button => {
+            button.addEventListener('click', event => {
+              const newsElement = event.target.closest('.news-item');
+              const newsId = newsElement.dataset.newsId;
+              if (confirm('Are you sure you want to delete this news?')) {
+                fetch(`https://scapi-nine.vercel.app/mechanicsnews/${newsId}`, {
+                  method: 'DELETE',
+                  headers: {
+                    'Authorization': `Bearer ${token}`
+                  }
+                })
+                  .then(response => response.text())
+                  .then(data => {
+                    alert(data);
+                    location.reload();
+                  })
+                  .catch(error => console.error('Error deleting news:', error));
+              }
+            });
+          });
+          
+
           return { heading: newsmechanics.Title, description: newsmechanics.Content, date: newsmechanics.created_at, element: newsmechanicsElement };
         } else {
           console.error('Error creating news:', newsmechanics);
@@ -395,7 +679,57 @@ if (CommentsMainTemplate && CommentsMainContainer) {
             options.style.display = 'none';
           }
           CommentsMainContainer.append(commentsmainElement);
+          const toggleMoreCommentOptions = commentsmainElement.querySelectorAll('.more-options-icon');
+          toggleMoreCommentOptions.forEach(icon => {
+            icon.addEventListener('click', event => {
+              event.stopPropagation();
+              const dropdown = event.target.nextElementSibling;
+              if (dropdown) {
+                dropdown.classList.toggle('show');
+              } else {
+                console.log('Dropdown not found');
+              }
+            });
+          });
+
+          const editButtons = commentsmainElement.querySelectorAll('.toggleeditcommentForm');
+          editButtons.forEach(button => {
+            button.addEventListener('click', event => {
+              const commentElement = event.target.closest('.comment');
+              const commentId = commentElement.dataset.commentId;
+              const currentContent = commentElement.querySelector('.comment-content').textContent;
+              const editInput = document.getElementById('commentContent');
+              editInput.value = currentContent;
+              CommentsEditForm.dataset.commentId = commentId;
+              CommentsEditForm.classList.add('active');
+              overlay.classList.add('active');
+            });
+          });
+
+          const deleteButtons = commentsmainElement.querySelectorAll('.deleteComment');
+          deleteButtons.forEach(button => {
+            button.addEventListener('click', event => {
+              const commentElement = event.target.closest('.comment');
+              const commentId = commentElement.dataset.commentId;
+              if (confirm('Are you sure you want to delete this comment?')) {
+                fetch(`https://scapi-nine.vercel.app/homecomments/${commentId}`, {
+                  method: 'DELETE',
+                  headers: {
+                    'Authorization': `Bearer ${token}`
+                  }
+                })
+                  .then(response => response.text())
+                  .then(data => {
+                    alert(data);
+                    location.reload();
+                  })
+                  .catch(error => console.error('Error deleting comment:', error));
+              }
+            });
+          });
+
           return { heading: commentsmain.UserName, description: commentsmain.Content, element: commentsmainElement };
+
         } else {
           console.error('Error creating comments:', commentsmain);
           return null;
@@ -413,15 +747,72 @@ if (CommentsPoliceTemplate && CommentsPoliceContainer) {
       commentspolicesearch = data.map(commentspolice => {
         const commentspolicelist = CommentsPoliceTemplate.content.cloneNode(true);
         const commentspoliceElement = commentspolicelist.firstElementChild;
+        commentspoliceElement.setAttribute('data-comment-id', commentspolice.id);
         const heading = commentspoliceElement.querySelector("[comments-police-username]");
         const date = commentspoliceElement.querySelector("[comments-police-date]");
         const description = commentspoliceElement.querySelector("[comments-police-description]");
+        const options = commentspoliceElement.querySelector(".togglecommentOptions");
         if (heading && description) {
           heading.textContent = commentspolice.UserName;
           date.textContent = new Date(commentspolice.created_at).toISOString().split('T')[0];
           description.textContent = commentspolice.Content;
+          if (commentspolice.UserName === userName) {
+            options.style.display = "block";
+          } else {
+            options.style.display = "none";
+          }
           CommentsPoliceContainer.append(commentspoliceElement);
+          const toggleMoreCommentOptions = commentspoliceElement.querySelectorAll('.more-options-icon');
+          toggleMoreCommentOptions.forEach(icon => {
+            icon.addEventListener('click', event => {
+              event.stopPropagation();
+              const dropdown = event.target.nextElementSibling;
+              if (dropdown) {
+                dropdown.classList.toggle('show');
+              } else {
+                console.log('Dropdown not found');
+              }
+            });
+          });
+
+          const editButtons = commentspoliceElement.querySelectorAll('.toggleeditcommentForm');
+          editButtons.forEach(button => {
+            button.addEventListener('click', event => {
+              const commentElement = event.target.closest('.comment');
+              const commentId = commentElement.dataset.commentId;
+              const currentContent = commentElement.querySelector('.comment-content').textContent;
+              const editInput = document.getElementById('commentContent');
+              editInput.value = currentContent;
+              CommentsEditForm.dataset.commentId = commentId;
+              CommentsEditForm.classList.add('active');
+              overlay.classList.add('active');
+            });
+          });
+
+          const deleteButtons = commentspoliceElement.querySelectorAll('.deleteComment');
+          deleteButtons.forEach(button => {
+            button.addEventListener('click', event => {
+              const commentElement = event.target.closest('.comment');
+              const commentId = commentElement.dataset.commentId;
+              if (confirm('Are you sure you want to delete this comment?')) {
+                fetch(`https://scapi-nine.vercel.app/policecomments/${commentId}`, {
+                  method: 'DELETE',
+                  headers: {
+                    'Authorization': `Bearer ${token}`
+                  }
+                })
+                  .then(response => response.text())
+                  .then(data => {
+                    alert(data);
+                    location.reload();
+                  })
+                  .catch(error => console.error('Error deleting comment:', error));
+              }
+            });
+          });
+
           return { heading: commentspolice.UserName, description: commentspolice.Content, element: commentspoliceElement };
+
         } else {
           console.error('Error creating comments:', commentspolice);
           return null;
@@ -439,15 +830,75 @@ if (CommentsEMSTemplate && CommentsEMSContainer) {
       commentsemssearch = data.map(commentsems => {
         const commentsemslist = CommentsEMSTemplate.content.cloneNode(true);
         const commentsemsElement = commentsemslist.firstElementChild;
+        commentsemsElement.setAttribute('data-comment-id', commentsems.id);
         const heading = commentsemsElement.querySelector("[comments-ems-username]");
         const date = commentsemsElement.querySelector("[comments-ems-date]");
         const description = commentsemsElement.querySelector("[comments-ems-description]");
+        const options = commentsemsElement.querySelector(".togglecommentOptions");
         if (heading && description) {
           heading.textContent = commentsems.UserName;
           date.textContent = new Date(commentsems.created_at).toISOString().split('T')[0];
           description.textContent = commentsems.Content;
+          if (commentsems.UserName === userName) {
+            options.style.display = "block";
+          } else {
+            options.style.display = "none";
+          }
           CommentsEMSContainer.append(commentsemsElement);
+          const toggleMoreCommentOptions = commentsemsElement.querySelectorAll('.more-options-icon');
+          toggleMoreCommentOptions.forEach(icon => {
+            icon.addEventListener('click', event => {
+              event.stopPropagation();
+              const dropdown = event.target.nextElementSibling;
+              if (dropdown) {
+                dropdown.classList.toggle('show');
+              } else {
+                console.log('Dropdown not found');
+              }
+            });
+          });
+
+          const editButtons = commentsemsElement.querySelectorAll('.toggleeditcommentForm');
+          editButtons.forEach(button => {
+            button.addEventListener('click', event => {
+              const commentElement = event.target.closest('.comment');
+              const commentId = commentElement.dataset.commentId;
+              const currentContent = commentElement.querySelector('.comment-content').textContent;
+              const editInput = document.getElementById('commentContent');
+              editInput.value = currentContent;
+              CommentsEditForm.dataset.commentId = commentId;
+              CommentsEditForm.classList.add('active');
+              overlay.classList.add('active');
+              console.log(commentId);
+            });
+          });
+
+          const deleteButtons = commentsemsElement.querySelectorAll('.deleteComment');
+          deleteButtons.forEach(button => {
+            button.addEventListener('click', event => {
+              const commentElement = event.target.closest('.comment');
+              const commentId = commentElement.dataset.commentId;
+              console.log(commentId);
+              if (confirm('Are you sure you want to delete this comment?')) {
+                console.log(commentId);
+                fetch(`https://scapi-nine.vercel.app/emscomments/${commentId}`, {
+                  method: 'DELETE',
+                  headers: {
+                    'Authorization': `Bearer ${token}`
+                  }
+                })
+                  .then(response => response.text())
+                  .then(data => {
+                    alert(data);
+                    location.reload();
+                  })
+                  .catch(error => console.error('Error deleting comment:', error));
+              }
+            });
+          });
+
           return { heading: commentsems.UserName, description: commentsems.Content, element: commentsemsElement };
+
         } else {
           console.error('Error creating comments:', commentsems);
           return null;
@@ -465,14 +916,70 @@ if (CommentsMechanicsTemplate && CommentsMechanicsContainer) {
       commentsmechanicssearch = data.map(commentsmechanics => {
         const commentsmechanicslist = CommentsMechanicsTemplate.content.cloneNode(true);
         const commentsmechanicsElement = commentsmechanicslist.firstElementChild;
+        commentsmechanicsElement.setAttribute('data-comment-id', commentsmechanics.id);
         const heading = commentsmechanicsElement.querySelector("[comments-mechanics-username]");
         const date = commentsmechanicsElement.querySelector("[comments-mechanics-date]");
         const description = commentsmechanicsElement.querySelector("[comments-mechanics-description]");
+        const options = commentsmechanicsElement.querySelector(".togglecommentOptions");
         if (heading && description) {
           heading.textContent = commentsmechanics.UserName;
           date.textContent = new Date(commentsmechanics.created_at).toISOString().split('T')[0];
           description.textContent = commentsmechanics.Content;
+          if (commentsmechanics.UserName === userName) {
+            options.style.display = "block";
+          } else {
+            options.style.display = "none";
+          }
           CommentsMechanicsContainer.append(commentsmechanicsElement);
+          const toggleMoreCommentOptions = commentsmechanicsElement.querySelectorAll('.more-options-icon');
+          toggleMoreCommentOptions.forEach(icon => {
+            icon.addEventListener('click', event => {
+              event.stopPropagation();
+              const dropdown = event.target.nextElementSibling;
+              if (dropdown) {
+                dropdown.classList.toggle('show');
+              } else {
+                console.log('Dropdown not found');
+              }
+            });
+          });
+
+          const editButtons = commentsmechanicsElement.querySelectorAll('.toggleeditcommentForm');
+          editButtons.forEach(button => {
+            button.addEventListener('click', event => {
+              const commentElement = event.target.closest('.comment');
+              const commentId = commentElement.dataset.commentId;
+              const currentContent = commentElement.querySelector('.comment-content').textContent;
+              const editInput = document.getElementById('commentContent');
+              editInput.value = currentContent;
+              CommentsEditForm.dataset.commentId = commentId;
+              CommentsEditForm.classList.add('active');
+              overlay.classList.add('active');
+            });
+          });
+
+          const deleteButtons = commentsmechanicsElement.querySelectorAll('.deleteComment');
+          deleteButtons.forEach(button => {
+            button.addEventListener('click', event => {
+              const commentElement = event.target.closest('.comment');
+              const commentId = commentElement.dataset.commentId;
+              if (confirm('Are you sure you want to delete this comment?')) {
+                fetch(`https://scapi-nine.vercel.app/mechanicscomments/${commentId}`, {
+                  method: 'DELETE',
+                  headers: {
+                    'Authorization': `Bearer ${token}`
+                  }
+                })
+                  .then(response => response.text())
+                  .then(data => {
+                    alert(data);
+                    location.reload();
+                  })
+                  .catch(error => console.error('Error deleting comment:', error));
+              }
+            });
+          });
+
           return { heading: commentsmechanics.UserName, description: commentsmechanics.Content, element: commentsmechanicsElement };
         } else {
           console.error('Error creating comments:', commentsmechanics);
@@ -488,15 +995,77 @@ if (AnnouncementsPoliceTemplate && AnnouncementsPoliceContainer) {
   fetch('https://scapi-nine.vercel.app/policeannouncementtbl')
     .then((response) => response.json())
     .then((data) => {
+      data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
       announcementspolicesearch = data.map(announcementspolice => {
         const announcementspolicelist = AnnouncementsPoliceTemplate.content.cloneNode(true);
         const announcementspoliceElement = announcementspolicelist.firstElementChild;
+        announcementspoliceElement.setAttribute('data-news-id', announcementspolice.id);
         const heading = announcementspoliceElement.querySelector("[announcements-police-heading]");
         const description = announcementspoliceElement.querySelector("[announcements-police-description]");
+        const date = announcementspoliceElement.querySelector("[announcements-police-date]");
+        const options = announcementspoliceElement.querySelector(".toggleannouncementsOptions");
         if (heading && description) {
           heading.textContent = announcementspolice.Title;
           description.textContent = announcementspolice.Content;
+          date.textContent = "Date Published: " + new Date(announcementspolice.created_at).toISOString().split('T')[0];
+          if ((role === 'Owner') || (role === 'Police Chief')) {
+            options.style.display = 'block';
+          } else {
+            options.style.display = 'none';
+          }
           AnnouncementsPoliceContainer.append(announcementspoliceElement);
+          const toggleMoreAnnouncementsOptions = announcementspoliceElement.querySelectorAll('.more-options-icon-announcements');
+          toggleMoreAnnouncementsOptions.forEach(icon => {
+            icon.addEventListener('click', event => {
+              event.stopPropagation();
+              const dropdown = event.target.nextElementSibling;
+              if (dropdown) {
+                dropdown.classList.toggle('show');
+              } else {
+                console.log('Dropdown not found');
+              }
+            });
+          });
+
+          const editButtons = announcementspoliceElement.querySelectorAll('.toggleeditnewsForm');
+          editButtons.forEach(button => {
+            button.addEventListener('click', event => {
+              const newsElement = event.target.closest('.news-item');
+              const announcementId = newsElement.dataset.newsId;
+              const currentTitle = newsElement.querySelector('.news-heading').textContent;
+              const currentContent = newsElement.querySelector('.news-content').textContent;
+              const editInputTitle = document.getElementById('newsTitle');
+              const editInputContent = document.getElementById('newsContent');
+              editInputTitle.value = currentTitle;
+              editInputContent.value = currentContent;
+              AnnouncementsEditForm.dataset.newsId = announcementId;
+              AnnouncementsEditForm.classList.add('active');
+              overlay.classList.add('active');
+            });
+          });
+
+          const deleteButtons = announcementspoliceElement.querySelectorAll('.deleteNews');
+          deleteButtons.forEach(button => {
+            button.addEventListener('click', event => {
+              const announcementElement = event.target.closest('.news-item');
+              const announcementId = announcementElement.dataset.newsId;
+              if (confirm('Are you sure you want to delete this news?')) {
+                fetch(`https://scapi-nine.vercel.app/policeannouncements/${announcementId}`, {
+                  method: 'DELETE',
+                  headers: {
+                    'Authorization': `Bearer ${token}`
+                  }
+                })
+                  .then(response => response.text())
+                  .then(data => {
+                    alert(data);
+                    location.reload();
+                  })
+                  .catch(error => console.error('Error deleting announcement:', error));
+              }
+            });
+          });
+
           return { heading: announcementspolice.Title, description: announcementspolice.Content, element: announcementspoliceElement };
         } else {
           console.error('Error creating announcements:', announcementspolice);
@@ -511,15 +1080,75 @@ if (AnnouncementsEMSTemplate && AnnouncementsEMSContainer) {
   fetch('https://scapi-nine.vercel.app/emsannouncementtbl')
     .then((response) => response.json())
     .then((data) => {
+      data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
       announcementsemssearch = data.map(announcementsems => {
         const announcementsemslist = AnnouncementsEMSTemplate.content.cloneNode(true);
         const announcementsemsElement = announcementsemslist.firstElementChild;
+        announcementsemsElement.setAttribute('data-news-id', announcementsems.id);
         const heading = announcementsemsElement.querySelector("[announcements-ems-heading]");
         const description = announcementsemsElement.querySelector("[announcements-ems-description]");
+        const options = announcementsemsElement.querySelector(".toggleannouncementsOptions");
         if (heading && description) {
           heading.textContent = announcementsems.Title;
           description.textContent = announcementsems.Content;
+          if ((role === 'Owner') || (role === 'EMS Chief')) {
+            options.style.display = 'block';
+          } else {
+            options.style.display = 'none';
+          }
           AnnouncementsEMSContainer.append(announcementsemsElement);
+          const toggleMoreAnnouncementsOptions = announcementsemsElement.querySelectorAll('.more-options-icon-announcements');
+          toggleMoreAnnouncementsOptions.forEach(icon => {
+            icon.addEventListener('click', event => {
+              event.stopPropagation();
+              const dropdown = event.target.nextElementSibling;
+              if (dropdown) {
+                dropdown.classList.toggle('show');
+              } else {
+                console.log('Dropdown not found');
+              }
+            });
+          });
+
+          const editButtons = announcementsemsElement.querySelectorAll('.toggleeditnewsForm');
+          editButtons.forEach(button => {
+            button.addEventListener('click', event => {
+              const newsElement = event.target.closest('.news-item');
+              const announcementId = newsElement.dataset.newsId;
+              const currentTitle = newsElement.querySelector('.news-heading').textContent;
+              const currentContent = newsElement.querySelector('.news-content').textContent;
+              const editInputTitle = document.getElementById('newsTitle');
+              const editInputContent = document.getElementById('newsContent');
+              editInputTitle.value = currentTitle;
+              editInputContent.value = currentContent;
+              AnnouncementsEditForm.dataset.newsId = announcementId;
+              AnnouncementsEditForm.classList.add('active');
+              overlay.classList.add('active');
+            });
+          });
+
+          const deleteButtons = announcementsemsElement.querySelectorAll('.deleteNews');
+          deleteButtons.forEach(button => {
+            button.addEventListener('click', event => {
+              const announcementElement = event.target.closest('.news-item');
+              const announcementId = announcementElement.dataset.newsId;
+              if (confirm('Are you sure you want to delete this news?')) {
+                fetch(`https://scapi-nine.vercel.app/emsannouncements/${announcementId}`, {
+                  method: 'DELETE',
+                  headers: {
+                    'Authorization': `Bearer ${token}`
+                  }
+                })
+                  .then(response => response.text())
+                  .then(data => {
+                    alert(data);
+                    location.reload();
+                  })
+                  .catch(error => console.error('Error deleting announcement:', error));
+              }
+            });
+          });
+
           return { heading: announcementsems.Title, description: announcementsems.Content, element: announcementsemsElement };
         } else {
           console.error('Error creating announcements:', announcementsems);
@@ -534,15 +1163,75 @@ if (AnnouncementsMechanicsTemplate && AnnouncementsMechanicsContainer) {
   fetch('https://scapi-nine.vercel.app/mechanicsannouncementtbl')
     .then((response) => response.json())
     .then((data) => {
+      data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
       announcementsmechanicssearch = data.map(announcementsmechanics => {
         const announcementsmechanicslist = AnnouncementsMechanicsTemplate.content.cloneNode(true);
         const announcementsmechanicsElement = announcementsmechanicslist.firstElementChild;
+        announcementsmechanicsElement.setAttribute('data-news-id', announcementsmechanics.id);
         const heading = announcementsmechanicsElement.querySelector("[announcements-mechanics-heading]");
         const description = announcementsmechanicsElement.querySelector("[announcements-mechanics-description]");
+        const options = announcementsmechanicsElement.querySelector(".toggleannouncementsOptions");
         if (heading && description) {
           heading.textContent = announcementsmechanics.Title;
           description.textContent = announcementsmechanics.Content;
+          if ((role === 'Owner') || (role === 'Mechanics Chief')) {
+            options.style.display = 'block';
+          } else {
+            options.style.display = 'none';
+          }
           AnnouncementsMechanicsContainer.append(announcementsmechanicsElement);
+          const toggleMoreAnnouncementsOptions = announcementsmechanicsElement.querySelectorAll('.more-options-icon-announcements');
+          toggleMoreAnnouncementsOptions.forEach(icon => {
+            icon.addEventListener('click', event => {
+              event.stopPropagation();
+              const dropdown = event.target.nextElementSibling;
+              if (dropdown) {
+                dropdown.classList.toggle('show');
+              } else {
+                console.log('Dropdown not found');
+              }
+            });
+          });
+
+          const editButtons = announcementsmechanicsElement.querySelectorAll('.toggleeditnewsForm');
+          editButtons.forEach(button => {
+            button.addEventListener('click', event => {
+              const newsElement = event.target.closest('.news-item');
+              const announcementId = newsElement.dataset.newsId;
+              const currentTitle = newsElement.querySelector('.news-heading').textContent;
+              const currentContent = newsElement.querySelector('.news-content').textContent;
+              const editInputTitle = document.getElementById('newsTitle');
+              const editInputContent = document.getElementById('newsContent');
+              editInputTitle.value = currentTitle;
+              editInputContent.value = currentContent;
+              AnnouncementsEditForm.dataset.newsId = announcementId;
+              AnnouncementsEditForm.classList.add('active');
+              overlay.classList.add('active');
+            });
+          });
+
+          const deleteButtons = announcementsmechanicsElement.querySelectorAll('.deleteNews');
+          deleteButtons.forEach(button => {
+            button.addEventListener('click', event => {
+              const announcementElement = event.target.closest('.news-item');
+              const announcementId = announcementElement.dataset.newsId;
+              if (confirm('Are you sure you want to delete this news?')) {
+                fetch(`https://scapi-nine.vercel.app/mechanicsannouncements/${announcementId}`, {
+                  method: 'DELETE',
+                  headers: {
+                    'Authorization': `Bearer ${token}`
+                  }
+                })
+                  .then(response => response.text())
+                  .then(data => {
+                    alert(data);
+                    location.reload();
+                  })
+                  .catch(error => console.error('Error deleting announcement:', error));
+              }
+            });
+          });
+
           return { heading: announcementsmechanics.Title, description: announcementsmechanics.Content, element: announcementsmechanicsElement };
         } else {
           console.error('Error creating announcements:', announcementsmechanics);
@@ -631,17 +1320,17 @@ if (token && userName) {
 
   if (toggleannouncementFormE) {
     if (role === 'Owner' || role === 'EMS Chief') {
-      toggleannouncementFormP.style.display = 'block';
+      toggleannouncementFormE.style.display = 'block';
     } else {
-      toggleannouncementFormP.style.display = 'none';
+      toggleannouncementFormE.style.display = 'none';
     };
   };
 
   if (toggleannouncementFormM) {
     if (role === 'Owner' || role === 'Mechanics Chief') {
-      toggleannouncementFormP.style.display = 'block';
+      toggleannouncementFormM.style.display = 'block';
     } else {
-      toggleannouncementFormP.style.display = 'none';
+      toggleannouncementFormM.style.display = 'none';
     };
   };
 } else {
@@ -704,7 +1393,7 @@ function resetActivityTimeout() {
   clearTimeout(activityTimeout);
   activityTimeout = setTimeout(() => {
     logout();
-  }, 60 * 60 * 1000);
+  }, 15 * 60 * 1000);
 }
 
 function refreshToken() {
@@ -727,6 +1416,10 @@ function refreshToken() {
       console.error('Error refreshing token:', error);
       logout();
     });
+}
+
+if (!token && userName && userName.length !== 0) {
+  logout();
 }
 
 if (token && userName) {
@@ -785,7 +1478,13 @@ if (NewsPoliceForm) {
     event.preventDefault();
 
     const heading = document.getElementById('newspoliceHeading').value;
-    const content = document.getElementById('newspoliceContent').value;
+    const content = document.getElementById('newspoliceContent').value.trim();
+    const charCount = content.length;
+
+    if (charCount > charLimit) {
+      alert(`Content exceeds the character limit of ${charLimit} characters.`);
+      return;
+    }
 
     const response = await fetch('https://scapi-nine.vercel.app/policenewstbl', {
       method: 'POST',
@@ -813,7 +1512,13 @@ if (NewsEMSForm) {
     event.preventDefault();
 
     const heading = document.getElementById('newsemsHeading').value;
-    const content = document.getElementById('newsemsContent').value;
+    const content = document.getElementById('newsemsContent').value.trim();
+    const charCount = content.length;
+
+    if (charCount > charLimit) {
+      alert(`Content exceeds the character limit of ${charLimit} characters.`);
+      return;
+    }
 
     const response = await fetch('https://scapi-nine.vercel.app/emsnewstbl', {
       method: 'POST',
@@ -841,7 +1546,13 @@ if (NewsMechanicsForm) {
     event.preventDefault();
 
     const heading = document.getElementById('newsmechanicsHeading').value;
-    const content = document.getElementById('newsmechanicsContent').value;
+    const content = document.getElementById('newsmechanicsContent').value.trim();
+    const charCount = content.length;
+
+    if (charCount > charLimit) {
+      alert(`Content exceeds the character limit of ${charLimit} characters.`);
+      return;
+    }
 
     const response = await fetch('https://scapi-nine.vercel.app/mechanicsnewstbl', {
       method: 'POST',
@@ -870,7 +1581,13 @@ if (CommentsMainForm) {
   CommentsMainForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    const content = document.getElementById('comment-main-input').value;
+    const content = document.getElementById('comment-main-input').value.trim();
+    const charCount = content.length;
+
+    if (charCount > charLimit) {
+      alert(`Content exceeds the character limit of ${charLimit} characters.`);
+      return;
+    }
 
     const response = await fetch('https://scapi-nine.vercel.app/homecommenttbl', {
       method: 'POST',
@@ -897,7 +1614,13 @@ if (CommentsPoliceForm) {
   CommentsPoliceForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    const content = document.getElementById('comment-police-input').value;
+    const content = document.getElementById('comment-police-input').value.trim();
+    const charCount = content.length;
+
+    if (charCount > charLimit) {
+      alert(`Content exceeds the character limit of ${charLimit} characters.`);
+      return;
+    }
 
     const response = await fetch('https://scapi-nine.vercel.app/policecommenttbl', {
       method: 'POST',
@@ -924,7 +1647,13 @@ if (CommentsEMSForm) {
   CommentsEMSForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    const content = document.getElementById('comment-ems-input').value;
+    const content = document.getElementById('comment-ems-input').value.trim();
+    const charCount = content.length;
+
+    if (charCount > charLimit) {
+      alert(`Content exceeds the character limit of ${charLimit} characters.`);
+      return;
+    }
 
     const response = await fetch('https://scapi-nine.vercel.app/emscommenttbl', {
       method: 'POST',
@@ -951,7 +1680,13 @@ if (CommentsMechanicsForm) {
   CommentsMechanicsForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    const content = document.getElementById('comment-mechanics-input').value;
+    const content = document.getElementById('comment-mechanics-input').value.trim();
+    const charCount = content.length;
+
+    if (charCount > charLimit) {
+      alert(`Content exceeds the character limit of ${charLimit} characters.`);
+      return;
+    }
 
     const response = await fetch('https://scapi-nine.vercel.app/Mechanicscommenttbl', {
       method: 'POST',
@@ -981,7 +1716,13 @@ if (AnnouncementsPoliceForm) {
     event.preventDefault();
 
     const heading = document.getElementById('announcementpoliceHeading').value;
-    const content = document.getElementById('announcementpoliceContent').value;
+    const content = document.getElementById('announcementpoliceContent').value.trim();
+    const charCount = content.length;
+
+    if (charCount > charLimit) {
+      alert(`Content exceeds the character limit of ${charLimit} characters.`);
+      return;
+    }
 
     const response = await fetch('https://scapi-nine.vercel.app/policeannouncementtbl', {
       method: 'POST',
@@ -1009,7 +1750,13 @@ if (AnnouncementsEMSForm) {
     event.preventDefault();
 
     const heading = document.getElementById('announcementemsHeading').value;
-    const content = document.getElementById('announcementemsContent').value;
+    const content = document.getElementById('announcementemsContent').value.trim();
+    const charCount = content.length;
+
+    if (charCount > charLimit) {
+      alert(`Content exceeds the character limit of ${charLimit} characters.`);
+      return;
+    }
 
     const response = await fetch('https://scapi-nine.vercel.app/emsannouncementtbl', {
       method: 'POST',
@@ -1037,7 +1784,13 @@ if (AnnouncementsMechanicsForm) {
     event.preventDefault();
 
     const heading = document.getElementById('announcementmechanicsHeading').value;
-    const content = document.getElementById('announcementmechanicsContent').value;
+    const content = document.getElementById('announcementmechanicsContent').value.trim();
+    const charCount = content.length;
+
+    if (charCount > charLimit) {
+      alert(`Content exceeds the character limit of ${charLimit} characters.`);
+      return;
+    }
 
     const response = await fetch('https://scapi-nine.vercel.app/mechanicsannouncementtbl', {
       method: 'POST',
@@ -1061,51 +1814,194 @@ if (AnnouncementsMechanicsForm) {
 }
 //end-of-announcements-input
 
-//news-edit
+//searchbyHeadings
+const updateNewsVisibility = () => {
+  const searchValue = searchInput.value.toLowerCase();
 
+  if (NewsMainGrid){
+  newsmainsearch.forEach(news => {
+    const matchesSearch = news.heading.toLowerCase().includes(searchValue);
+
+    if (matchesSearch) {
+      news.element.classList.remove("hide");
+    } else {
+      news.element.classList.add("hide");
+    }
+  });
+}
+
+  if (NewsPoliceGrid){
+    newspolicesearch.forEach(news => {
+      const matchesSearch = news.heading.toLowerCase().includes(searchValue);
+  
+      if (matchesSearch) {
+        news.element.classList.remove("hide");
+      } else {
+        news.element.classList.add("hide");
+      }
+    });
+  }
+
+  if (NewsEMSGrid){
+    newsemssearch.forEach(news => {
+      const matchesSearch = news.heading.toLowerCase().includes(searchValue);
+  
+      if (matchesSearch) {
+        news.element.classList.remove("hide");
+      } else {
+        news.element.classList.add("hide");
+      }
+    });
+  }
+
+  if (NewsMechanicsGrid){
+    newsmechanicssearch.forEach(news => {
+      const matchesSearch = news.heading.toLowerCase().includes(searchValue);
+  
+      if (matchesSearch) {
+        news.element.classList.remove("hide");
+      } else {
+        news.element.classList.add("hide");
+      }
+    });
+  }
+};
+
+searchInput.addEventListener("input", e => {
+  updateNewsVisibility();
+});
+
+//news-edit
+if (NewsMainEdit) {
+  NewsMainEdit.addEventListener('submit', event => {
+    event.preventDefault();
+    const newsId = NewsEditForm.dataset.newsId
+    const newTitle = document.getElementById('newsTitle').value;
+    const newContent = document.getElementById('newsContent').value.trim();
+    const charCount = newContent.length;
+
+    if (charCount > charLimit) {
+      alert(`Content exceeds the character limit of ${charLimit} characters.`);
+      return;
+    }
+    fetch(`https://scapi-nine.vercel.app/homenews/${newsId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ Title: newTitle, Content: newContent })
+    })
+      .then(response => response.text())
+      .then(data => {
+        alert(data);
+        location.reload();
+      })
+      .catch(error => console.error('Error updating news:', error));
+  });
+}
+
+if (NewsPoliceEdit) {
+  NewsPoliceEdit.addEventListener('submit', event => {
+    event.preventDefault();
+    const newsId = NewsEditForm.dataset.newsId
+    const newTitle = document.getElementById('newsTitle').value;
+    const newContent = document.getElementById('newsContent').value.trim();
+    const charCount = newContent.length;
+
+    if (charCount > charLimit) {
+      alert(`Content exceeds the character limit of ${charLimit} characters.`);
+      return;
+    }
+    fetch(`https://scapi-nine.vercel.app/policenews/${newsId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ Title: newTitle, Content: newContent })
+    })
+      .then(response => response.text())
+      .then(data => {
+        alert(data);
+        location.reload();
+      })
+      .catch(error => console.error('Error updating news:', error));
+  });
+}
+
+if (NewsEMSEdit) {
+  NewsEMSEdit.addEventListener('submit', event => {
+    event.preventDefault();
+    const newsId = NewsEditForm.dataset.newsId
+    const newTitle = document.getElementById('newsTitle').value;
+    const newContent = document.getElementById('newsContent').value.trim();
+    const charCount = newContent.length;
+
+    if (charCount > charLimit) {
+      alert(`Content exceeds the character limit of ${charLimit} characters.`);
+      return;
+    }
+    fetch(`https://scapi-nine.vercel.app/emsnews/${newsId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ Title: newTitle, Content: newContent })
+    })
+      .then(response => response.text())
+      .then(data => {
+        alert(data);
+        location.reload();
+      })
+      .catch(error => console.error('Error updating news:', error));
+  });
+}
+
+if (NewsMechanicsEdit) {
+  NewsMechanicsEdit.addEventListener('submit', event => {
+    event.preventDefault();
+    const newsId = NewsEditForm.dataset.newsId
+    const newTitle = document.getElementById('newsTitle').value;
+    const newContent = document.getElementById('newsContent').value.trim();
+    const charCount = newContent.length;
+
+    if (charCount > charLimit) {
+      alert(`Content exceeds the character limit of ${charLimit} characters.`);
+      return;
+    }
+    fetch(`https://scapi-nine.vercel.app/mechanicsnews/${newsId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ Title: newTitle, Content: newContent })
+    })
+      .then(response => response.text())
+      .then(data => {
+        alert(data);
+        location.reload();
+      })
+      .catch(error => console.error('Error updating news:', error));
+  });
+}
 //end-of-news-edit
 
 //comments-edit
-document.querySelectorAll('.edit-comment').forEach(button => {
-  button.addEventListener('click', event => {
-    const commentElement = event.target.closest('.comment');
-    const commentId = commentElement.dataset.commentId;
-    const currentContent = commentElement.querySelector('.comment-content').textContent;
-    const editForm = document.getElementById('editcommentForm');
-    const editInput = document.getElementById('commentContent');
-    editInput.value = currentContent;
-    editForm.dataset.commentId = commentId;
-    editForm.classList.add('show');
-  });
-});
-
-document.querySelectorAll('.delete-comment').forEach(button => {
-  button.addEventListener('click', event => {
-    const commentElement = event.target.closest('.comment');
-    const commentId = commentElement.dataset.commentId;
-    if (confirm('Are you sure you want to delete this comment?')) {
-      fetch(`/comments/${commentId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
-        .then(response => response.text())
-        .then(data => {
-          alert(data);
-          location.reload();
-        })
-        .catch(error => console.error('Error deleting comment:', error));
-    }
-  });
-});
-
 if (CommentsMainEdit) {
   CommentsMainEdit.addEventListener('submit', event => {
     event.preventDefault();
-    const commentId = event.target.dataset.commentId;
-    const newContent = document.getElementById('commentContent').value;
-    fetch(`/homecomments/${commentId}`, {
+    const commentId = CommentsEditForm.dataset.commentId
+    const newContent = document.getElementById('commentContent').value.trim();
+    const charCount = newContent.length;
+
+    if (charCount > charLimit) {
+      alert(`Content exceeds the character limit of ${charLimit} characters.`);
+      return;
+    }
+    fetch(`https://scapi-nine.vercel.app/homecomments/${commentId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -1120,14 +2016,178 @@ if (CommentsMainEdit) {
       })
       .catch(error => console.error('Error updating comment:', error));
   });
+}
 
-  document.getElementById('cancelEdit').addEventListener('click', () => {
-    document.getElementById('editcommentForm').classList.remove('show');
+if (CommentsPoliceEdit) {
+  CommentsPoliceEdit.addEventListener('submit', event => {
+    event.preventDefault();
+    const commentId = CommentsEditForm.dataset.commentId
+    const newContent = document.getElementById('commentContent').value.trim();
+    const charCount = newContent.length;
+
+    if (charCount > charLimit) {
+      alert(`Content exceeds the character limit of ${charLimit} characters.`);
+      return;
+    }
+    fetch(`https://scapi-nine.vercel.app/policecomments/${commentId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ Content: newContent })
+    })
+      .then(response => response.text())
+      .then(data => {
+        alert(data);
+        location.reload();
+      })
+      .catch(error => console.error('Error updating comment:', error));
   });
 }
 
+if (CommentsEMSEdit) {
+  CommentsEMSEdit.addEventListener('submit', event => {
+    event.preventDefault();
+    const commentId = CommentsEditForm.dataset.commentId
+    const newContent = document.getElementById('commentContent').value.trim();
+    const charCount = newContent.length;
+
+    if (charCount > charLimit) {
+      alert(`Content exceeds the character limit of ${charLimit} characters.`);
+      return;
+    }
+    fetch(`https://scapi-nine.vercel.app/emscomments/${commentId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ Content: newContent })
+    })
+      .then(response => response.text())
+      .then(data => {
+        alert(data);
+        location.reload();
+      })
+      .catch(error => console.error('Error updating comment:', error));
+  });
+}
+
+if (CommentsMechanicsEdit) {
+  CommentsMechanicsEdit.addEventListener('submit', event => {
+    event.preventDefault();
+    const commentId = CommentsEditForm.dataset.commentId
+    const newContent = document.getElementById('commentContent').value.trim();
+    const charCount = newContent.length;
+
+    if (charCount > charLimit) {
+      alert(`Content exceeds the character limit of ${charLimit} characters.`);
+      return;
+    }
+    fetch(`https://scapi-nine.vercel.app/mechanicscomments/${commentId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ Content: newContent })
+    })
+      .then(response => response.text())
+      .then(data => {
+        alert(data);
+        location.reload();
+      })
+      .catch(error => console.error('Error updating comment:', error));
+  });
+}
 //end-of-comments-edit
 
 //announcements-edit
+if (AnnouncementsPoliceEdit) {
+  AnnouncementsPoliceEdit.addEventListener('submit', event => {
+    event.preventDefault();
+    const announcementId = AnnouncementsEditForm.dataset.newsId;
+    const newTitle = document.getElementById('newsTitle').value;
+    const newContent = document.getElementById('newsContent').value.trim();
+    const charCount = newContent.length;
 
+    if (charCount > charLimit) {
+      alert(`Content exceeds the character limit of ${charLimit} characters.`);
+      return;
+    }
+    fetch(`https://scapi-nine.vercel.app/policeannouncements/${announcementId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ Title: newTitle, Content: newContent })
+    })
+      .then(response => response.text())
+      .then(data => {
+        alert(data);
+        location.reload();
+      })
+      .catch(error => console.error('Error updating announcements:', error));
+  });
+}
+
+if (AnnouncementsEMSEdit) {
+  AnnouncementsEMSEdit.addEventListener('submit', event => {
+    event.preventDefault();
+    const announcementId = AnnouncementsEditForm.dataset.newsId;
+    const newTitle = document.getElementById('newsTitle').value;
+    const newContent = document.getElementById('newsContent').value.trim();
+    const charCount = newContent.length;
+
+    if (charCount > charLimit) {
+      alert(`Content exceeds the character limit of ${charLimit} characters.`);
+      return;
+    }
+    fetch(`https://scapi-nine.vercel.app/emsannouncements/${announcementId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ Title: newTitle, Content: newContent })
+    })
+      .then(response => response.text())
+      .then(data => {
+        alert(data);
+        location.reload();
+      })
+      .catch(error => console.error('Error updating news:', error));
+  });
+}
+
+if (AnnouncementsMechanicsEdit) {
+  AnnouncementsMechanicsEdit.addEventListener('submit', event => {
+    event.preventDefault();
+    const announcementId = AnnouncementsEditForm.dataset.newsId;
+    const newTitle = document.getElementById('newsTitle').value;
+    const newContent = document.getElementById('newsContent').value.trim();
+    const charCount = newContent.length;
+
+    if (charCount > charLimit) {
+      alert(`Content exceeds the character limit of ${charLimit} characters.`);
+      return;
+    }
+    fetch(`https://scapi-nine.vercel.app/mechanicsannouncements/${announcementId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ Title: newTitle, Content: newContent })
+    })
+      .then(response => response.text())
+      .then(data => {
+        alert(data);
+        location.reload();
+      })
+      .catch(error => console.error('Error updating announcements:', error));
+  });
+}
 //end-of-announcements-edit

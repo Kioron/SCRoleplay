@@ -516,7 +516,8 @@ body {
       #togglenewsFormE,
       #togglenewsFormM,
       #toggleannouncementFormP,
-      #toggleannouncementFormE #toggleannouncementFormM {
+      #toggleannouncementFormE,
+      #toggleannouncementFormM {
         display: none;
         margin-left: 2rem;
         padding: 1rem 1rem * 1.5;
@@ -530,6 +531,36 @@ body {
 
         &:hover {
           background-color: #2980b9;
+        }
+      }
+    }
+
+    .search-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 2rem 0;
+
+      .search-wrapper {
+        width: 80%;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 28px;
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+
+        input {
+          flex: 1;
+          border: none;
+          outline: none;
+          padding: 0.75rem;
+          font-size: 1rem;
+          color: #333;
+
+          &::placeholder {
+            color: #aaa;
+          }
         }
       }
     }
@@ -552,9 +583,39 @@ body {
         overflow: hidden;
         word-wrap: break-word;
 
-        .news-heading {
-          font-size: 1.25rem;
+        .news-header {
+          display: flex;
+          align-items: center;
+          position: relative;
 
+          .news-heading {
+            font-size: 1.25rem;
+          }
+
+          .togglenewsOptions,
+          .toggleannouncementsOptions {
+            position: absolute;
+            top: 0;
+            right: 0;
+
+            .more-options-icon-news {
+              cursor: pointer;
+              transition: 350ms ease-out;
+
+              &:hover {
+                background-color: #dfdfdf;
+              }
+            }
+
+            .more-options-icon-announcements {
+              cursor: pointer;
+              transition: 350ms ease-out;
+
+              &:hover {
+                background-color: #dfdfdf;
+              }
+            }
+          }
         }
 
         .news-date {
@@ -567,7 +628,158 @@ body {
           word-wrap: break-word;
         }
 
+        .news-options-dropdown {
+          position: absolute;
+          right: 0;
+          top: -50%;
+          border: 2px solid #6b8987;
+          background-color: #fff;
+          min-width: 4em;
+          min-height: 5em;
+          box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+          z-index: -1;
+          box-shadow: 2px 2px 5px hsl(0, 0%, 0%, 0.8);
+          transform: translateX(10px);
+          pointer-events: none;
+          padding: 15px;
+          opacity: 0;
+          transition: 350ms ease-out;
+
+          .options-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            width: 100%;
+
+            .toggleeditnewsForm,
+            .deleteNews {
+              padding: 0.5rem 1rem;
+              min-width: 4.5rem;
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+              font-size: 0.8rem;
+              transition: background-color 0.3s ease;
+            }
+
+            .toggleeditnewsForm {
+              background-color: #333;
+              color: #ffffff;
+
+              &:hover {
+                background-color: #2980b9;
+              }
+            }
+
+            .deleteNews {
+              background-color: #333;
+              color: #ffffff;
+
+              &:hover {
+                background-color: #c0392b;
+              }
+            }
+          }
+
+          &.show {
+            z-index: 1;
+            opacity: 1;
+            transform: translateX(-32px);
+            pointer-events: auto;
+          }
+        }
+
+        &.hide {
+          display: none;
+        }
       }
+    }
+
+    .editnewsForm,
+    .editannouncementsForm {
+      opacity: 0;
+      display: block;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      min-height: 300px;
+      min-width: 300px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      z-index: -100;
+      transition: 350ms ease-out;
+
+      .news-edit-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+
+        h3 {
+          font-size: 1.2rem;
+          color: #333;
+        }
+
+        .news-form-edit-title,
+        .news-form-edit-content {
+          width: 100%;
+          padding: 0.75rem;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          font-size: 1rem;
+          margin-bottom: 1rem;
+          transition: border-color 0.3s ease;
+
+          &:focus {
+            border-color: #3498db;
+            outline: none;
+          }
+        }
+      }
+
+      #updateNewsEdit,
+      #cancelNewsEdit {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s ease;
+      }
+
+      #updateNewsEdit {
+        background-color: #333;
+        color: #ffffff;
+
+        &:hover {
+          background-color: #2980b9;
+        }
+      }
+
+      #cancelNewsEdit {
+        background-color: #333;
+        color: #ffffff;
+
+        &:hover {
+          background-color: #c0392b;
+        }
+      }
+
+      .button-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1rem;
+      }
+    }
+
+    .editnewsForm.active,
+    .editannouncementsForm.active {
+      opacity: 1;
+      z-index: 1001;
     }
 
     .news-form {
@@ -666,6 +878,22 @@ body {
     .news-form.active {
       opacity: 1;
       z-index: 1001;
+    }
+
+    #showMore {
+      margin-top: 2em;
+      background: #5865f2;
+      color: #fff;
+      text-decoration: none;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+
+      &:hover {
+        background: #4752c4;
+      }
     }
   }
 
@@ -835,19 +1063,19 @@ body {
       }
 
       .comment-options-dropdown {
-        position:absolute;
+        position: absolute;
         right: 0;
-        bottom: 0%;
-        border: 2px solid #7bc1bc;
+        top: -50%;
+        border: 2px solid #6b8987;
         background-color: #fff;
-        min-width: 18em;
-        min-height: 20em;
+        min-width: 4em;
+        min-height: 5em;
         box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
         z-index: -1;
         box-shadow: 2px 2px 5px hsl(0, 0%, 0%, 0.8);
-        transform: translateY(-10px);
+        transform: translateX(10px);
         pointer-events: none;
-        padding: 20px;
+        padding: 15px;
         opacity: 0;
         transition: 350ms ease-out;
 
@@ -858,99 +1086,127 @@ body {
           justify-content: center;
           gap: 1rem;
           width: 100%;
-        }
 
-        .show {
-          z-index: 1;
-          opacity: 1;
-          transform: translateX(0px);
-          pointer-events: auto;
-        }
-      }
-
-      .editcommentForm {
-        opacity: 0;
-        display: block;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: white;
-        min-height: 300px;
-        min-width: 300px;
-        padding: 20px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        z-index: -100;
-        transition: 350ms ease-out;
-
-        .comment-edit-wrapper {
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-          width: 100%;
-
-          h3 {
-            font-size: 1.2rem;
-            color: #333;
+          .toggleeditcommentForm,
+          .deleteComment {
+            padding: 0.5rem 1rem;
+            min-width: 4.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background-color 0.3s ease;
           }
 
-          .comment-form-content {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            transition: border-color 0.3s ease;
+          .toggleeditcommentForm {
+            background-color: #333;
+            color: #ffffff;
 
-            &:focus {
-              border-color: #3498db;
-              outline: none;
+            &:hover {
+              background-color: #2980b9;
+            }
+          }
+
+          .deleteComment {
+            background-color: #333;
+            color: #ffffff;
+
+            &:hover {
+              background-color: #c0392b;
             }
           }
         }
 
-        #updateEdit,
-        #cancelEdit {
-          padding: 0.5rem 1rem;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-          font-size: 1rem;
-          transition: background-color 0.3s ease;
+        &.show {
+          z-index: 1;
+          opacity: 1;
+          transform: translateX(-32px);
+          pointer-events: auto;
         }
-
-        #updateEdit {
-          background-color: #333;
-          color: #ffffff;
-
-          &:hover {
-            background-color: #2980b9;
-          }
-        }
-
-        #cancelEdit {
-          background-color: #333;
-          color: #ffffff;
-
-          &:hover {
-            background-color: #c0392b;
-          }
-        }
-
-        .button-container {
-          display: flex;
-          justify-content: space-between;
-          margin-top: 1rem;
-        }
-
-      }
-
-      .editcommentForm.active {
-        opacity: 1;
-        z-index: 1001;
       }
     }
+  }
+
+  .editcommentForm {
+    opacity: 0;
+    display: block;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    min-height: 300px;
+    min-width: 300px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: -100;
+    transition: 350ms ease-out;
+
+    .comment-edit-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 100%;
+
+      h3 {
+        font-size: 1.2rem;
+        color: #333;
+      }
+
+      .comment-form-content {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        transition: border-color 0.3s ease;
+
+        &:focus {
+          border-color: #3498db;
+          outline: none;
+        }
+      }
+    }
+
+    #updateEdit,
+    #cancelEdit {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+
+    #updateEdit {
+      background-color: #333;
+      color: #ffffff;
+
+      &:hover {
+        background-color: #2980b9;
+      }
+    }
+
+    #cancelEdit {
+      background-color: #333;
+      color: #ffffff;
+
+      &:hover {
+        background-color: #c0392b;
+      }
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1rem;
+    }
+  }
+
+  .editcommentForm.active {
+    opacity: 1;
+    z-index: 1001;
   }
 }
 
