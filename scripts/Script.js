@@ -304,6 +304,16 @@ window.addEventListener('click', (event) => {
 });
 //end-of-dropdowns
 
+const buyButtons = document.querySelectorAll('.buy-button');
+
+// Add a click event listener to each button
+buyButtons.forEach(button => {
+  button.addEventListener('click', event => {
+    event.preventDefault(); // Prevent the default link behavior
+    alert('Work in progress'); // Display the message
+  });
+});
+
 let currentPage = 1;
 const itemsPerPage = 6;
 
