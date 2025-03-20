@@ -311,6 +311,9 @@ let newsmainsearch = [];
 let newspolicesearch = [];
 let newsemssearch = [];
 let newsmechanicssearch = [];
+let announcementspolicesearch = [];
+let announcementsemssearch = [];
+let announcementsmechanicssearch = [];
 
 //news-main
 if (NewsMainTemplate && NewsMainGrid) {
@@ -397,6 +400,7 @@ if (NewsMainTemplate && NewsMainGrid) {
     })
     .catch((error) => console.error('Error fetching quests:', error));
 }
+
 //news-police
 if (NewsPoliceTemplate && NewsPoliceGrid) {
   fetch('https://scapi-nine.vercel.app/policenewstbl')
@@ -1862,6 +1866,42 @@ const updateNewsVisibility = () => {
         news.element.classList.remove("hide");
       } else {
         news.element.classList.add("hide");
+      }
+    });
+  }
+
+  if (AnnouncementsPoliceContainer){
+    announcementspolicesearch.forEach(announcement => {
+      const matchesSearch = announcement.heading.toLowerCase().includes(searchValue);
+  
+      if (matchesSearch) {
+        announcement.element.classList.remove("hide");
+      } else {
+        announcement.element.classList.add("hide");
+      }
+    });
+  }
+
+  if (AnnouncementsEMSContainer){
+    announcementsemssearch.forEach(announcement => {
+      const matchesSearch = announcement.heading.toLowerCase().includes(searchValue);
+  
+      if (matchesSearch) {
+        announcement.element.classList.remove("hide");
+      } else {
+        announcement.element.classList.add("hide");
+      }
+    });
+  }
+
+  if (AnnouncementsMechanicsContainer){
+    announcementsmechanicssearch.forEach(announcement => {
+      const matchesSearch = announcement.heading.toLowerCase().includes(searchValue);
+  
+      if (matchesSearch) {
+        announcement.element.classList.remove("hide");
+      } else {
+        announcement.element.classList.add("hide");
       }
     });
   }
