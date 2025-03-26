@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,9 @@
   <link rel="stylesheet" href="/stylesheets/style.css">
   <script src="/scripts/Script.js" defer></script>
 </head>
+
 <body>
-  
+
   <header class="header">
     <div class="nav-toggle">
       <img src="/images/Menu.png" alt="Menu Icon" class="menu-icon" width="50" height="50" nav-toggle>
@@ -24,8 +26,26 @@
       <a href="Shop.html" class="nav-btn">Shop</a>
     </nav>
     <div class="title">SUMMERCITY WEBSITE</div>
-    <div class="auth-buttons">
-      <div class="login-btn">Login</div>
+    <div class="auth-wrapper">
+      <button class="login-btn" id="login-button">Login</button>
+      <!-- Login form dropdown -->
+      <div class="dropdown-login">
+        <form id="loginForm">
+          <div class="login-wrapper">
+            <h3>Enter your user name</h3>
+            <input class="login-username" id="loginUserName" type="text" placeholder="Your Name" required>
+          </div>
+          <div class="login-wrapper">
+            <h3>Enter your password</h3>
+            <input class="login-password" id="loginPassword" type="password" placeholder="Enter password" required>
+          </div>
+          <button class="login-acc" type="submit">Login</button>
+        </form>
+      </div>
+      <div id="logoutSection">
+        <span id="userNameDisplay"></span>
+        <button id="logoutButton">Logout</button>
+      </div>
     </div>
   </header>
 
@@ -38,31 +58,32 @@
           <div class="register-heading-wrapper">
             <h3>User Name</h3>
           </div>
-        <input class="register-user-input" type="text" id="registerUserName" placeholder="Username" required>
-      </div>
-      <div class="register-input-wrapper">
-        <div class="register-heading-wrapper">
-        <h3>Email Address</h3>
+          <input class="register-user-input" type="text" id="registerUserName" placeholder="Username" required>
         </div>
-        <input class="register-user-input" type="email" id="registerUserEmail" placeholder="Email" required>
-      </div>
-      <div class="register-input-wrapper">
-        <div class="register-heading-wrapper">
-        <h3>Password</h3>
+        <div class="register-input-wrapper">
+          <div class="register-heading-wrapper">
+            <h3>Email Address</h3>
+          </div>
+          <input class="register-user-input" type="email" id="registerUserEmail" placeholder="Email" required>
         </div>
-        <input class="register-user-input" type="password" id="registerPassword" placeholder="Password" required>
-      </div>
-      <div class="register-input-wrapper">
-      <div class="register-heading-wrapper">
-        <button id="registerNewUser" type="submit">Register</button>
+        <div class="register-input-wrapper">
+          <div class="register-heading-wrapper">
+            <h3>Password</h3>
+          </div>
+          <input class="register-user-input" type="password" id="registerPassword" placeholder="Password" required>
         </div>
-      </div>
+        <div class="register-input-wrapper">
+          <div class="register-heading-wrapper">
+            <button id="registerNewUser" type="submit">Register</button>
+          </div>
+        </div>
       </form>
     </div>
   </main>
-    
+
   <footer class="footer">
     <p>Email: Contact.SummerCityRP@gmail.com</p>
   </footer>
 </body>
+
 </html>
