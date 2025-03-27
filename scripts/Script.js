@@ -945,7 +945,6 @@ if (CommentsEMSTemplate && CommentsEMSContainer) {
               CommentsEditForm.dataset.commentId = commentId;
               CommentsEditForm.classList.add('active');
               overlay.classList.add('active');
-              console.log(commentId);
             });
           });
 
@@ -954,9 +953,7 @@ if (CommentsEMSTemplate && CommentsEMSContainer) {
             button.addEventListener('click', event => {
               const commentElement = event.target.closest('.comment');
               const commentId = commentElement.dataset.commentId;
-              console.log(commentId);
               if (confirm('Are you sure you want to delete this comment?')) {
-                console.log(commentId);
                 fetch(`https://scapi-nine.vercel.app/emscomments/${commentId}`, {
                   method: 'DELETE',
                   headers: {
@@ -2318,7 +2315,6 @@ if (role === 'Owner') {
 }
 
 function fetchUsers(endpoint) {
-  console.log(endpoint);
   fetch(endpoint, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
