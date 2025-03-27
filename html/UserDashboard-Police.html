@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home page RP server</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <script src="/scripts/Script.js" defer></script>
+</head>
+<body>
+  
+  <header class="header">
+    <div class="nav-toggle">
+      <img src="/images/Menu.png" alt="Menu Icon" class="menu-icon" width="50" height="50" nav-toggle>
+    </div>
+    <nav class="nav">
+      <a href="/index.html" class="nav-btn">Home</a>
+      <div class="nav-btn dropdown-toggle">Factions</div>
+      <div class="dropdown-content">
+        <a href="PoliceDepartment.html">Police Department</a>
+        <a href="Mechanics.html">Mechanics</a>
+        <a href="EMS.html">Medical Department</a>
+      </div>
+      <a href="" class="nav-btn">Shop</a>
+    </nav>
+    <div class="title">SUMMERCITY WEBSITE</div>
+    <div class="auth-wrapper">
+      <button class="login-btn" id="login-button">Login</button>
+      <!-- Login form dropdown -->
+      <div class="dropdown-login">
+        <form id="loginForm">
+        <div class="login-wrapper">
+          <h3>Enter your user name</h3>
+          <input class="login-username" id="loginUserName" type="text" placeholder ="Your Name" required>
+        </div>
+        <div class="login-wrapper">
+          <h3>Enter your password</h3>
+          <input class="login-password" id="loginPassword" type="password" placeholder ="Enter password" required>
+        </div>
+        <button class="login-acc" type="submit">Login</button>
+        </form>
+        <div class="register-btn">
+          <a href="RegistrationPage.html">No account? Register here!</a>
+        </div>
+      </div>
+      <div id="logoutSection">
+        <span id="userNameDisplay"></span>
+        <button id="logoutButton">Logout</button>
+    </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="intro">
+      <h1 class="title">Police Management Dashboard</h1>
+      <p class="description">
+        This is a page where you can manage all user accounts belonging to your faction or users who have no faction assigned. You can see the list of all users and their roles.
+      </p>
+    </section>
+
+    <div class="space"></div>
+
+    <section class="user-management">
+      <h2 class="section-title">User Management</h2>
+      <div class="search-section">
+        <div class="search-wrapper">
+          <input class="search-input" type="search" placeholder="Search by name" data-search-name>
+        </div>
+      </div>
+      <table class="user-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="userTableBody">
+        </tbody>
+      </table>
+    </section>
+    </main>
+    
+  <footer class="footer">
+    <p>Email: Contact.SummerCityRP@gmail.com</p>
+  </footer>
+</body>
+</html>

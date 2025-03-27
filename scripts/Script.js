@@ -28,6 +28,12 @@ const userNameDisplay = document.getElementById('userNameDisplay');
 const PoliceHQLink = document.querySelector('a[href="PoliceOnly.html"]');
 const EMSHQLink = document.querySelector('a[href="EMSOnly.html"]');
 const MechanicsHQLink = document.querySelector('a[href="MechanicsOnly.html"]');
+const UserManagement = document.querySelector('a[href="html/UserDashboard.html"]');
+const PoliceManagement = document.querySelector('a[href="html/UserDashboard-Police.html"]');
+const EMSManagement = document.querySelector('a[href="html/UserDashboard-EMS.html"]');
+const MechanicsManagement = document.querySelector('a[href="html/UserDashboard-Mechanics.html"]');
+const searchnameInput = document.querySelector('[data-search-name]');
+const userTableBody = document.getElementById('userTableBody');
 //news
 const charLimit = 600;
 const NewsMainGrid = document.querySelector("[news-main-grid]");
@@ -121,6 +127,30 @@ if (currentPath === '/html/MechanicsOnly.html') {
 
 if (currentPath === '/html/RegistrationPage.html') {
   if (token) {
+    window.location.href = "/index.html";
+  }
+}
+
+if (currentPath === '/html/UserDashboard.html') {
+  if (!token || role !== 'Owner') {
+    window.location.href = "/index.html";
+  }
+}
+
+if (currentPath === '/html/UserDashboard-Police.html') {
+  if (!token || role !== 'Police Chief') {
+    window.location.href = "/index.html";
+  }
+}
+
+if (currentPath === '/html/UserDashboard-EMS.html') {
+  if (!token || role !== 'EMS Chief') {
+    window.location.href = "/index.html";
+  }
+}
+
+if (currentPath === '/html/UserDashboard-Mechanics.html') {
+  if (!token || role !== 'Mechanics Chief') {
     window.location.href = "/index.html";
   }
 }
@@ -273,6 +303,38 @@ if (MechanicsHQLink) {
     MechanicsHQLink.style.display = 'block';
   } else {
     MechanicsHQLink.style.display = 'none';
+  };
+}
+
+if (UserManagement) {
+  if (role === 'Owner') {
+    UserManagement.style.display = 'block';
+  } else {
+    UserManagement.style.display = 'none';
+  };
+}
+
+if (PoliceManagement) {
+  if (role === 'Police Chief') {
+    PoliceManagement.style.display = 'block';
+  } else {
+    PoliceManagement.style.display = 'none';
+  };
+}
+
+if (EMSManagement) {
+  if (role === 'EMS Chief') {
+    EMSManagement.style.display = 'block';
+  } else {
+    EMSManagement.style.display = 'none';
+  };
+}
+
+if (MechanicsManagement) {
+  if (role === 'Mechanics Chief') {
+    MechanicsManagement.style.display = 'block';
+  } else {
+    MechanicsManagement.style.display = 'none';
   };
 }
 
@@ -1917,9 +1979,11 @@ const updateNewsVisibility = () => {
   }
 };
 
+if (searchInput) {
 searchInput.addEventListener("input", e => {
   updateNewsVisibility();
 });
+}
 
 //news-edit
 if (NewsMainEdit) {
@@ -2241,3 +2305,106 @@ if (AnnouncementsMechanicsEdit) {
   });
 }
 //end-of-announcements-edit
+
+//usersmanagement
+if (role === 'Owner') {
+  fetchUsers("https://scapi-nine.vercel.app/users/owner");
+} else if (role === 'Police Chief') {
+  fetchUsers("https://scapi-nine.vercel.app/users/police");
+} else if (role === 'EMS Chief') {
+  fetchUsers("https://scapi-nine.vercel.app/users/ems");
+} else if (role === 'Mechanics Chief') {
+  fetchUsers("https://scapi-nine.vercel.app/users/mechanics");
+}
+
+function fetchUsers(endpoint) {
+  console.log(endpoint);
+  fetch(endpoint, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  })
+    .then((response) => response.json())
+    .then((users) => {
+      const userTableBody = document.getElementById('userTableBody');
+      userTableBody.innerHTML = '';
+
+      users.forEach((user) => {
+        const row = document.createElement('tr');
+
+        row.innerHTML = `
+          <td>${user.id}</td>
+          <td>${user.username}</td>
+          <td>
+            <select class="role-dropdown" data-user-id="${user.id}">
+              <option value="Member" ${user.role === 'Member' ? 'selected' : ''}>Member</option>
+              <option value="Police" ${user.role === 'Police' ? 'selected' : ''}>Police</option>
+              <option value="EMS" ${user.role === 'EMS' ? 'selected' : ''}>EMS</option>
+              <option value="Mechanics" ${user.role === 'Mechanics' ? 'selected' : ''}>Mechanics</option>
+              <option value="Police Chief" ${user.role === 'Police Chief' ? 'selected' : ''}>Police Chief</option>
+              <option value="EMS Chief" ${user.role === 'EMS Chief' ? 'selected' : ''}>EMS Chief</option>
+              <option value="Mechanics Chief" ${user.role === 'Mechanics Chief' ? 'selected' : ''}>Mechanics Chief</option>
+              <option value="Owner" ${user.role === 'Owner' ? 'selected' : ''}>Owner</option>
+            </select>
+          </td>
+          <td>
+            <button class="update-role-btn" data-user-id="${user.id}">Update Role</button>
+          </td>
+        `;
+
+        userTableBody.appendChild(row);
+      });
+
+      addRoleUpdateListeners();
+    })
+    .catch((error) => console.error('Error fetching users:', error));
+}
+
+function addRoleUpdateListeners() {
+  const updateButtons = document.querySelectorAll('.update-role-btn');
+
+  updateButtons.forEach((button) => {
+    button.addEventListener('click', (event) => {
+      const userId = event.target.getAttribute('data-user-id');
+      const roleDropdown = document.querySelector(`.role-dropdown[data-user-id="${userId}"]`);
+      const newRole = roleDropdown.value;
+
+      fetch(`https://scapi-nine.vercel.app/users/${userId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({ role: newRole }),
+      })
+        .then((response) => {
+          if (response.ok) {
+            alert('User role updated successfully');
+            fetchUsers();
+          } else {
+            alert('Failed to update user role');
+          }
+        })
+        .catch((error) => console.error('Error updating user role:', error));
+    });
+  });
+}
+
+if (searchnameInput){
+  searchnameInput.addEventListener('input', (event) => {
+    const searchValue = event.target.value.toLowerCase();
+  
+    const rows = userTableBody.querySelectorAll('tr');
+    rows.forEach((row) => {
+      const usernameCell = row.querySelector('td:nth-child(2)');
+      if (usernameCell) {
+        const username = usernameCell.textContent.toLowerCase();
+        if (username.includes(searchValue)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      }
+    });
+  });
+}
