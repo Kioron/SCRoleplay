@@ -118,6 +118,27 @@ body {
       }
     }
 
+    .menu-icon {
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    @media (max-width: 768px) {
+      .menu-icon {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .menu-icon {
+        width: 30px;
+        height: 30px;
+      }
+    }
+
     .nav {
       opacity: 0;
       display: flex;
@@ -188,6 +209,9 @@ body {
     @media only screen and (max-width: 555px) {
       font-size: 1rem;
     }
+    @media only screen and (max-width: 375px) {
+      font-size: 0.8rem;
+    }
   }
 
   .auth-wrapper {
@@ -195,6 +219,7 @@ body {
     transition: 0.3s;
 
     .login-btn {
+      font-size: 1rem;
       display: flex;
       background: #ffffff0b;
       color: #e1e0e0;
@@ -215,6 +240,18 @@ body {
       }
     }
 
+    @media (max-width: 768px) {
+      .login-btn {
+        font-size: 0.9rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .login-btn {
+        font-size: 0.8rem;
+      }
+    }
+
     #logoutSection {
       display: flex;
       align-items: center;
@@ -222,6 +259,12 @@ body {
 
       #userNameDisplay {
         display: flex;
+      }
+
+      @media (max-width: 860px) {
+        #userNameDisplay {
+          display: none;
+        }
       }
 
       #logoutButton {

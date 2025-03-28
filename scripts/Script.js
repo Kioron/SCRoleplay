@@ -234,10 +234,10 @@ if (overlay) {
   overlay.addEventListener('click', () => {
     newsForm.classList.remove('active');
     overlay.classList.remove('active');
-    if(CommentsEditForm){
+    if (CommentsEditForm) {
       CommentsEditForm.classList.remove('active');
     }
-    if(NewsEditForm){
+    if (NewsEditForm) {
       NewsEditForm.classList.remove('active');
     }
   });
@@ -263,14 +263,14 @@ if (canceleditButton) {
 if (cancelEditBtn) {
   cancelEditBtn.addEventListener('click', (event) => {
     event.preventDefault();
-    if (AnnouncementsEditForm){
+    if (AnnouncementsEditForm) {
       AnnouncementsEditForm.classList.remove('active');
       overlay.classList.remove('active');
     }
-    if (CommentsEditForm || NewsEditForm){
+    if (CommentsEditForm || NewsEditForm) {
       CommentsEditForm.classList.remove('active');
-    NewsEditForm.classList.remove('active');
-    overlay.classList.remove('active');
+      NewsEditForm.classList.remove('active');
+      overlay.classList.remove('active');
     }
   });
 }
@@ -718,7 +718,7 @@ if (NewsMechanicsTemplate && NewsMechanicsGrid) {
               }
             });
           });
-          
+
 
           return { heading: newsmechanics.Title, description: newsmechanics.Content, date: newsmechanics.created_at, element: newsmechanicsElement };
         } else {
@@ -1891,22 +1891,22 @@ if (AnnouncementsMechanicsForm) {
 const updateNewsVisibility = () => {
   const searchValue = searchInput.value.toLowerCase();
 
-  if (NewsMainGrid){
-  newsmainsearch.forEach(news => {
-    const matchesSearch = news.heading.toLowerCase().includes(searchValue);
+  if (NewsMainGrid) {
+    newsmainsearch.forEach(news => {
+      const matchesSearch = news.heading.toLowerCase().includes(searchValue);
 
-    if (matchesSearch) {
-      news.element.classList.remove("hide");
-    } else {
-      news.element.classList.add("hide");
-    }
-  });
-}
+      if (matchesSearch) {
+        news.element.classList.remove("hide");
+      } else {
+        news.element.classList.add("hide");
+      }
+    });
+  }
 
-  if (NewsPoliceGrid){
+  if (NewsPoliceGrid) {
     newspolicesearch.forEach(news => {
       const matchesSearch = news.heading.toLowerCase().includes(searchValue);
-  
+
       if (matchesSearch) {
         news.element.classList.remove("hide");
       } else {
@@ -1915,10 +1915,10 @@ const updateNewsVisibility = () => {
     });
   }
 
-  if (NewsEMSGrid){
+  if (NewsEMSGrid) {
     newsemssearch.forEach(news => {
       const matchesSearch = news.heading.toLowerCase().includes(searchValue);
-  
+
       if (matchesSearch) {
         news.element.classList.remove("hide");
       } else {
@@ -1927,10 +1927,10 @@ const updateNewsVisibility = () => {
     });
   }
 
-  if (NewsMechanicsGrid){
+  if (NewsMechanicsGrid) {
     newsmechanicssearch.forEach(news => {
       const matchesSearch = news.heading.toLowerCase().includes(searchValue);
-  
+
       if (matchesSearch) {
         news.element.classList.remove("hide");
       } else {
@@ -1939,10 +1939,10 @@ const updateNewsVisibility = () => {
     });
   }
 
-  if (AnnouncementsPoliceContainer){
+  if (AnnouncementsPoliceContainer) {
     announcementspolicesearch.forEach(announcement => {
       const matchesSearch = announcement.heading.toLowerCase().includes(searchValue);
-  
+
       if (matchesSearch) {
         announcement.element.classList.remove("hide");
       } else {
@@ -1951,10 +1951,10 @@ const updateNewsVisibility = () => {
     });
   }
 
-  if (AnnouncementsEMSContainer){
+  if (AnnouncementsEMSContainer) {
     announcementsemssearch.forEach(announcement => {
       const matchesSearch = announcement.heading.toLowerCase().includes(searchValue);
-  
+
       if (matchesSearch) {
         announcement.element.classList.remove("hide");
       } else {
@@ -1963,10 +1963,10 @@ const updateNewsVisibility = () => {
     });
   }
 
-  if (AnnouncementsMechanicsContainer){
+  if (AnnouncementsMechanicsContainer) {
     announcementsmechanicssearch.forEach(announcement => {
       const matchesSearch = announcement.heading.toLowerCase().includes(searchValue);
-  
+
       if (matchesSearch) {
         announcement.element.classList.remove("hide");
       } else {
@@ -1977,9 +1977,9 @@ const updateNewsVisibility = () => {
 };
 
 if (searchInput) {
-searchInput.addEventListener("input", e => {
-  updateNewsVisibility();
-});
+  searchInput.addEventListener("input", e => {
+    updateNewsVisibility();
+  });
 }
 
 //news-edit
@@ -2303,32 +2303,39 @@ if (AnnouncementsMechanicsEdit) {
 }
 //end-of-announcements-edit
 
-//usersmanagement
-if (role === 'Owner') {
-  fetchUsers("https://scapi-nine.vercel.app/users/owner");
-} else if (role === 'Police Chief') {
-  fetchUsers("https://scapi-nine.vercel.app/users/police");
-} else if (role === 'EMS Chief') {
-  fetchUsers("https://scapi-nine.vercel.app/users/ems");
-} else if (role === 'Mechanics Chief') {
-  fetchUsers("https://scapi-nine.vercel.app/users/mechanics");
-}
+if (
+  currentPath === '/html/UserDashboard.html' ||
+  currentPath === '/html/UserDashboard-Police.html' ||
+  currentPath === '/html/UserDashboard-EMS.html' ||
+  currentPath === '/html/UserDashboard-Mechanics.html'
+) {
 
-function fetchUsers(endpoint) {
-  fetch(endpoint, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-  })
-    .then((response) => response.json())
-    .then((users) => {
-      const userTableBody = document.getElementById('userTableBody');
-      userTableBody.innerHTML = '';
+  //usersmanagement
+  if (role === 'Owner') {
+    fetchUsers("https://scapi-nine.vercel.app/users/owner");
+  } else if (role === 'Police Chief') {
+    fetchUsers("https://scapi-nine.vercel.app/users/police");
+  } else if (role === 'EMS Chief') {
+    fetchUsers("https://scapi-nine.vercel.app/users/ems");
+  } else if (role === 'Mechanics Chief') {
+    fetchUsers("https://scapi-nine.vercel.app/users/mechanics");
+  }
 
-      users.forEach((user) => {
-        const row = document.createElement('tr');
+  function fetchUsers(endpoint) {
+    fetch(endpoint, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((users) => {
+        const userTableBody = document.getElementById('userTableBody');
+        userTableBody.innerHTML = '';
 
-        row.innerHTML = `
+        users.forEach((user) => {
+          const row = document.createElement('tr');
+
+          row.innerHTML = `
           <td>${user.id}</td>
           <td>${user.username}</td>
           <td>
@@ -2348,59 +2355,61 @@ function fetchUsers(endpoint) {
           </td>
         `;
 
-        userTableBody.appendChild(row);
-      });
+          userTableBody.appendChild(row);
+        });
 
-      addRoleUpdateListeners();
-    })
-    .catch((error) => console.error('Error fetching users:', error));
-}
-
-function addRoleUpdateListeners() {
-  const updateButtons = document.querySelectorAll('.update-role-btn');
-
-  updateButtons.forEach((button) => {
-    button.addEventListener('click', (event) => {
-      const userId = event.target.getAttribute('data-user-id');
-      const roleDropdown = document.querySelector(`.role-dropdown[data-user-id="${userId}"]`);
-      const newRole = roleDropdown.value;
-
-      fetch(`https://scapi-nine.vercel.app/users/${userId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        body: JSON.stringify({ role: newRole }),
+        addRoleUpdateListeners();
       })
-        .then((response) => {
-          if (response.ok) {
-            alert('User role updated successfully');
-            fetchUsers();
-          } else {
-            alert('Failed to update user role');
-          }
-        })
-        .catch((error) => console.error('Error updating user role:', error));
-    });
-  });
-}
+      .catch((error) => console.error('Error fetching users:', error));
+  }
 
-if (searchnameInput){
-  searchnameInput.addEventListener('input', (event) => {
-    const searchValue = event.target.value.toLowerCase();
-  
-    const rows = userTableBody.querySelectorAll('tr');
-    rows.forEach((row) => {
-      const usernameCell = row.querySelector('td:nth-child(2)');
-      if (usernameCell) {
-        const username = usernameCell.textContent.toLowerCase();
-        if (username.includes(searchValue)) {
-          row.style.display = '';
-        } else {
-          row.style.display = 'none';
-        }
-      }
+  function addRoleUpdateListeners() {
+    const updateButtons = document.querySelectorAll('.update-role-btn');
+
+    updateButtons.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        const userId = event.target.getAttribute('data-user-id');
+        const roleDropdown = document.querySelector(`.role-dropdown[data-user-id="${userId}"]`);
+        const newRole = roleDropdown.value;
+
+        fetch(`https://scapi-nine.vercel.app/users/${userId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          body: JSON.stringify({ role: newRole }),
+        })
+          .then((response) => {
+            if (response.ok) {
+              alert('User role updated successfully');
+              fetchUsers();
+            } else {
+              alert('Failed to update user role');
+            }
+          })
+          .catch((error) => console.error('Error updating user role:', error));
+      });
     });
-  });
+  }
+
+  if (searchnameInput) {
+    searchnameInput.addEventListener('input', (event) => {
+      const searchValue = event.target.value.toLowerCase();
+
+      const rows = userTableBody.querySelectorAll('tr');
+      rows.forEach((row) => {
+        const usernameCell = row.querySelector('td:nth-child(2)');
+        if (usernameCell) {
+          const username = usernameCell.textContent.toLowerCase();
+          if (username.includes(searchValue)) {
+            row.style.display = '';
+          } else {
+            row.style.display = 'none';
+          }
+        }
+      });
+    });
+  }
 }
+//end-of-usersmanagement
