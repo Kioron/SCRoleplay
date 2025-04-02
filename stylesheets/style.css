@@ -172,6 +172,18 @@ body {
     transform: translateX(0px);
     pointer-events: auto;
   }
+}
+@media only screen and (max-width: 1250px) and (max-width: 770px) {
+  .header .nav {
+    top: 4em;
+  }
+}
+@media only screen and (max-width: 1250px) and (max-width: 480px) {
+  .header .nav {
+    top: 3.8em;
+  }
+}
+@media only screen and (max-width: 1250px) {
   .header .nav.aria-expanded {
     opacity: 1;
     pointer-events: all;
@@ -495,19 +507,25 @@ body {
   margin-bottom: 2rem;
   border-radius: 28px;
 }
-.main .registerContainer .register-input-wrapper {
+.main .registerContainer #registerForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.main .registerContainer #registerForm .register-input-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
   width: 35rem;
 }
-.main .registerContainer .register-input-wrapper .register-heading-wrapper {
+.main .registerContainer #registerForm .register-input-wrapper .register-heading-wrapper {
   display: flex;
   align-items: left;
   width: 80%;
 }
-.main .registerContainer .register-input-wrapper .register-user-input {
+.main .registerContainer #registerForm .register-input-wrapper .register-user-input {
   width: 80%;
   padding: 0.75rem;
   border: 1px solid #ccc;
@@ -516,9 +534,14 @@ body {
   margin-bottom: 1rem;
   transition: border-color 0.3s ease;
 }
-.main .registerContainer .register-input-wrapper .register-user-input:focus {
+.main .registerContainer #registerForm .register-input-wrapper .register-user-input:focus {
   border-color: #3498db;
   outline: none;
+}
+@media only screen and (max-width: 650px) {
+  .main .registerContainer #registerForm .register-input-wrapper {
+    width: 95%;
+  }
 }
 .main .registerContainer #registerNewUser {
   padding: 0.5rem 1rem;

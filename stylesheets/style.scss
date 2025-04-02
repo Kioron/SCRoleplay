@@ -191,6 +191,17 @@ body {
       }
     }
 
+    @media only screen and (max-width: 770px) {
+      .nav {
+        top: 4em;
+      }
+    }
+
+    @media only screen and (max-width: 480px) {
+      .nav {
+        top: 3.8em;
+      }
+    }
 
     .nav.aria-expanded {
       opacity: 1;
@@ -209,6 +220,7 @@ body {
     @media only screen and (max-width: 555px) {
       font-size: 1rem;
     }
+
     @media only screen and (max-width: 375px) {
       font-size: 0.8rem;
     }
@@ -245,7 +257,7 @@ body {
         font-size: 0.9rem;
       }
     }
-    
+
     @media (max-width: 480px) {
       .login-btn {
         font-size: 0.8rem;
@@ -563,31 +575,45 @@ body {
       border-radius: 28px;
     }
 
-    .register-input-wrapper {
+    #registerForm {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 1rem;
-      width: 35rem;
+      width: 100%;
 
-      .register-heading-wrapper {
+
+      .register-input-wrapper {
         display: flex;
-        align-items: left;
-        width: 80%;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        width: 35rem;
+
+        .register-heading-wrapper {
+          display: flex;
+          align-items: left;
+          width: 80%;
+        }
+
+        .register-user-input {
+          width: 80%;
+          padding: 0.75rem;
+          border: 1px solid #ccc;
+          border-radius: 20px;
+          font-size: 1rem;
+          margin-bottom: 1rem;
+          transition: border-color 0.3s ease;
+
+          &:focus {
+            border-color: #3498db;
+            outline: none;
+          }
+        }
       }
 
-      .register-user-input {
-        width: 80%;
-        padding: 0.75rem;
-        border: 1px solid #ccc;
-        border-radius: 20px;
-        font-size: 1rem;
-        margin-bottom: 1rem;
-        transition: border-color 0.3s ease;
-
-        &:focus {
-          border-color: #3498db;
-          outline: none;
+      @media only screen and (max-width: 650px) {
+        .register-input-wrapper {
+          width: 95%;
         }
       }
     }
